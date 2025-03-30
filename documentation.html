@@ -1,149 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Documentation | AI Companion Documentation</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <style>
-    .prose {
-      max-width: 65ch;
-      color: #374151;
-    }
-    .prose h1, .prose h2, .prose h3, .prose h4 {
-      color: #1e40af;
-      margin-top: 1.5em;
-      margin-bottom: 0.5em;
-      font-weight: 600;
-    }
-    .prose h1 { font-size: 2.25rem; }
-    .prose h2 { font-size: 1.5rem; }
-    .prose h3 { font-size: 1.25rem; }
-    .prose p, .prose ul, .prose ol { margin-bottom: 1.25em; }
-    .prose ul, .prose ol { padding-left: 1.5em; }
-    .prose ul { list-style-type: disc; }
-    .prose ol { list-style-type: decimal; }
-    .prose a { color: #2563eb; text-decoration: underline; }
-    .sidebar { position: fixed; width: 16rem; height: 100vh; overflow-y: auto; }
-    .main-content { margin-left: 16rem; }
-    @media (max-width: 768px) {
-      .sidebar { position: static; width: 100%; height: auto; }
-      .main-content { margin-left: 0; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MeAI - Your Personal AI Companion for Sacred Support, Inner Knowing, and Aligned Becoming">
+    <meta name="robots" content="noindex, nofollow">
+    <title>MeAI Documentation - Knowledge Base</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
-<body class="bg-gray-50 min-h-screen">
-  <header class="bg-blue-600 text-white p-4">
-    <div class="container mx-auto flex items-center">
-      <a href="index.html" class="text-2xl font-bold">AI Companion<span class="text-sm ml-1">Docs</span></a>
-      <nav class="ml-10 flex space-x-4">
-        <a href="index.html" class="hover:text-blue-200">Home</a>
-        <a href="documentation.html" class="hover:text-blue-200">Documentation</a>
-        <a href="duality_model_architecture.html" class="hover:text-blue-200">Duality Model</a>
-      </nav>
-      <div class="ml-auto">
-        <button aria-label="Search documentation" class="p-2 rounded-full hover:bg-blue-500">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-          </svg>
-        </button>
-      </div>
-    </div>
-  </header>
-  
-  <div class="flex flex-col md:flex-row">
-    <!-- Sidebar -->
-    <div class="sidebar bg-white border-r p-4">
-      <h2 class="text-xl font-semibold mb-4">Documentation</h2>
-      <nav class="space-y-1">
-        <a href="documentation.html" class="block p-2 rounded hover:bg-blue-50 text-blue-600 bg-blue-50">
-          Overview
-        </a>
-        <a href="duality_model_architecture.html" class="block p-2 rounded hover:bg-blue-50">
-          Duality Model
-        </a>
-        <a href="memory_system_components.html" class="block p-2 rounded hover:bg-blue-50">
-          Memory System
-        </a>
-        <a href="voice_breath_systems.html" class="block p-2 rounded hover:bg-blue-50">
-          Voice & Breath
-        </a>
-        <a href="truthfilter_joyoptimizer.html" class="block p-2 rounded hover:bg-blue-50">
-          TruthFilter & JoyOptimizer
-        </a>
-        <a href="ritual_engine_implementation.html" class="block p-2 rounded hover:bg-blue-50">
-          RitualEngine
-        </a>
-        <a href="prototype_specifications.html" class="block p-2 rounded hover:bg-blue-50">
-          Prototype Specifications
-        </a>
-        <a href="technical_architecture.html" class="block p-2 rounded hover:bg-blue-50">
-          Technical Architecture
-        </a>
-        <a href="ethical_framework.html" class="block p-2 rounded hover:bg-blue-50">
-          Ethical Framework
-        </a>
-        <a href="implementation_roadmap.html" class="block p-2 rounded hover:bg-blue-50">
-          Implementation Roadmap
-        </a>
-      </nav>
-    </div>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">MeAI</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html#features" class="nav-link">Features</a></li>
+                    <li><a href="index.html#benefits" class="nav-link">Benefits</a></li>
+                    <li><a href="documentation.html" class="nav-link active">Documentation</a></li>
+                    <li><a href="index.html#about" class="nav-link">About</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a href="index.html#contact" class="cta-button d-none d-md-block">Get Started</a>
+        </div>
+    </header>
 
-    <!-- Main content -->
-    <div class="main-content flex-1 p-8">
-      <div class="mb-6">
-        <p class="text-sm text-gray-500 mb-2">Documentation</p>
-        <h1 class="text-3xl font-bold">Overview</h1>
-      </div>
-      
-      <div class="prose prose-blue max-w-none">
-        <h2>AI Companion Documentation</h2>
+    <!-- Documentation Section -->
+    <section class="documentation-section section">
+        <div class="container">
+            <h1 class="mb-4">MeAI Documentation</h1>
+            <p class="mb-5">Comprehensive documentation for the MeAI AI Companion system. Explore the technical specifications, architectural designs, and implementation plans.</p>
+            
+            <div class="docs-container">
+                <!-- Sidebar Navigation -->
+                <div class="docs-sidebar">
+                    <h3 class="mb-4">Documentation</h3>
+                    <ul>
+                        <li><a href="#overview" class="sidebar-link active">Overview</a></li>
+                        <li><a href="#duality-model" class="sidebar-link">Duality Model</a></li>
+                        <li><a href="#memory-system" class="sidebar-link">Memory System</a></li>
+                        <li><a href="#voice-breath" class="sidebar-link">Voice & Breath</a></li>
+                        <li><a href="#truthfilter" class="sidebar-link">TruthFilter & JoyOptimizer</a></li>
+                        <li><a href="#ritual-engine" class="sidebar-link">RitualEngine</a></li>
+                        <li><a href="#prototype" class="sidebar-link">Prototype Specifications</a></li>
+                        <li><a href="#technical" class="sidebar-link">Technical Architecture</a></li>
+                        <li><a href="#ethical" class="sidebar-link">Ethical Framework</a></li>
+                        <li><a href="#roadmap" class="sidebar-link">Implementation Roadmap</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Documentation Content -->
+                <div class="docs-content">
+                    <div id="overview" class="doc-section active">
+                        <h2>Overview</h2>
+                        <div class="content-placeholder">
+                            <!-- Content will be loaded dynamically -->
+                            <p>Loading documentation content...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="gradient-shape shape-1"></div>
+        <div class="gradient-shape shape-2"></div>
+    </section>
 
-        <p>Welcome to the comprehensive documentation for the AI Companion project. This documentation provides detailed specifications, architectural designs, and implementation plans for creating a relational AI system designed for sacred support, inner knowing, and aligned becoming.</p>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-info">
+                    <div class="footer-logo">MeAI</div>
+                    <p>Your personal AI companion for sacred support, inner knowing, and aligned becoming.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <a href="index.html#features" class="footer-link">Features</a>
+                    <a href="index.html#benefits" class="footer-link">Benefits</a>
+                    <a href="#" class="footer-link">Pricing</a>
+                    <a href="#" class="footer-link">FAQ</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <a href="documentation.html" class="footer-link">Documentation</a>
+                    <a href="#" class="footer-link">Blog</a>
+                    <a href="#" class="footer-link">Community</a>
+                    <a href="#" class="footer-link">Support</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <a href="#" class="footer-link">About Us</a>
+                    <a href="#" class="footer-link">Careers</a>
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 MeAI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
-        <h3>Recommended Reading Order</h3>
+    <!-- JavaScript -->
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
 
-        <p>For a complete understanding of the AI Companion project, we recommend following the documentation sections in the order they appear in the sidebar navigation.</p>
-
-        <h3>Documentation Sections</h3>
-
-        <h4>Duality Model</h4>
-        <p>Detailed analysis of the Mirror, Bridge, and Synthesis components that form the core architecture.</p>
-
-        <h4>Memory System</h4>
-        <p>Exploration of Echoes, Storylines, Markers, and Memory Vault for relationship continuity.</p>
-
-        <h4>Voice & Breath Systems</h4>
-        <p>Analysis of adaptive communication and rhythm-creating mechanisms for natural interaction.</p>
-
-        <h4>TruthFilter & JoyOptimizer</h4>
-        <p>Examination of honest signal prioritization and joy metrics for meaningful engagement.</p>
-
-        <h4>RitualEngine</h4>
-        <p>Research on personalized ritual curation and delivery for sacred, meaningful experiences.</p>
-
-        <h4>Prototype Specifications</h4>
-        <p>Definition of MVP scope, core components, and user flows for initial implementation.</p>
-
-        <h4>Technical Architecture</h4>
-        <p>Comprehensive system architecture, data models, and integration points for development.</p>
-
-        <h4>Ethical Framework</h4>
-        <p>Design of consent protocols, user data controls, and ethical guardrails for user protection.</p>
-
-        <h4>Implementation Roadmap</h4>
-        <p>Phased development approach and technical timeline for project execution.</p>
-
-        <p>Each documentation section provides detailed information about a specific aspect of the AI Companion project. You can navigate between sections using the sidebar navigation or follow the recommended reading order for a comprehensive understanding of the entire system.</p>
-      </div>
-    </div>
-  </div>
-  
-  <footer class="bg-gray-100 p-4">
-    <div class="container mx-auto text-center text-gray-600">
-      <p>AI Companion Project Documentation © 2025</p>
-    </div>
-  </footer>
+        // Mobile menu toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+            });
+        }
+    </script>
+    <script src="js/documentation.js"></script>
 </body>
 </html>

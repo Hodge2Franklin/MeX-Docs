@@ -1,2 +1,0 @@
-# MeX-Docs
-MeAi Docs
