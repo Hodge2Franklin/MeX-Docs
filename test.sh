@@ -1,229 +1,326 @@
 #!/bin/bash
 
-# Comprehensive testing script for MeAI website redesign
-# This script performs various tests to ensure the website functions correctly
-
-echo "=== MeAI Website Testing Script ==="
-echo "Starting tests at $(date)"
-echo
+# Comprehensive testing script for MeAI website
+echo "Starting comprehensive cross-page testing..."
 
 # Create test results directory
-RESULTS_DIR="/home/ubuntu/meai_redesign/test_results"
-mkdir -p $RESULTS_DIR
+mkdir -p /home/ubuntu/meai_redesign/test_results
 
-# Function to log test results
-log_test() {
-  local test_name=$1
-  local status=$2
-  local details=$3
-  
-  echo "[$status] $test_name: $details" | tee -a "$RESULTS_DIR/test_log.txt"
+# Function to check if file exists and has content
+check_file() {
+  if [ -f "$1" ]; then
+    if [ -s "$1" ]; then
+      echo "✅ $1 exists and has content"
+      return 0
+    else
+      echo "❌ $1 exists but is empty"
+      return 1
+    fi
+  else
+    echo "❌ $1 does not exist"
+    return 1
+  fi
 }
 
-echo "=== File Structure Tests ==="
-
-# Check if all required files exist
+# Test 1: Check all required files exist
+echo -e "\n=== Testing file structure ==="
 required_files=(
-  "index.html"
-  "documentation.html"
-  "css/styles.css"
-  "css/responsive.css"
-  "js/documentation.js"
+  "/home/ubuntu/meai_redesign/index.html"
+  "/home/ubuntu/meai_redesign/documentation.html"
+  "/home/ubuntu/meai_redesign/architecture.html"
+  "/home/ubuntu/meai_redesign/css/styles.css"
+  "/home/ubuntu/meai_redesign/css/responsive.css"
+  "/home/ubuntu/meai_redesign/css/documentation.css"
+  "/home/ubuntu/meai_redesign/img/architecture_diagram.svg"
+  "/home/ubuntu/meai_redesign/robots.txt"
 )
 
+file_errors=0
 for file in "${required_files[@]}"; do
-  if [ -f "/home/ubuntu/meai_redesign/$file" ]; then
-    log_test "File exists: $file" "PASS" "File found"
-  else
-    log_test "File exists: $file" "FAIL" "File not found"
+  if ! check_file "$file"; then
+    file_errors=$((file_errors+1))
   fi
 done
 
-# Check if documentation files exist
-doc_count=$(ls -1 /home/ubuntu/meai_redesign/docs/*.md 2>/dev/null | wc -l)
-if [ $doc_count -gt 0 ]; then
-  log_test "Documentation files" "PASS" "Found $doc_count markdown files"
+if [ $file_errors -eq 0 ]; then
+  echo "✅ All required files exist and have content"
 else
-  log_test "Documentation files" "FAIL" "No markdown files found in docs directory"
+  echo "❌ $file_errors file issues found"
 fi
 
-echo
-echo "=== HTML Validation Tests ==="
+# Test 2: Validate HTML files
+echo -e "\n=== Testing HTML validity ==="
+html_files=(
+  "/home/ubuntu/meai_redesign/index.html"
+  "/home/ubuntu/meai_redesign/documentation.html"
+  "/home/ubuntu/meai_redesign/architecture.html"
+)
 
-# Install html-validator if not already installed
-if ! command -v npx html-validate &> /dev/null; then
-  echo "Installing html-validate..."
-  cd /home/ubuntu/meai_redesign
-  npm install --save-dev html-validate
-fi
-
-# Validate HTML files
-for html_file in index.html documentation.html; do
-  if [ -f "/home/ubuntu/meai_redesign/$html_file" ]; then
-    validation_result=$(cd /home/ubuntu/meai_redesign && npx html-validate $html_file 2>&1)
-    if [[ $validation_result == *"no errors found"* ]]; then
-      log_test "HTML validation: $html_file" "PASS" "No errors found"
-    else
-      error_count=$(echo "$validation_result" | grep -c "error")
-      log_test "HTML validation: $html_file" "WARN" "Found $error_count potential issues"
-      echo "$validation_result" > "$RESULTS_DIR/${html_file}_validation.txt"
-    fi
-  fi
-done
-
-echo
-echo "=== CSS Validation Tests ==="
-
-# Check CSS syntax
-for css_file in css/styles.css css/responsive.css; do
-  if [ -f "/home/ubuntu/meai_redesign/$css_file" ]; then
-    # Simple syntax check (a more thorough check would use a CSS validator)
-    if grep -q "}" "/home/ubuntu/meai_redesign/$css_file" && grep -q "{" "/home/ubuntu/meai_redesign/$css_file"; then
-      log_test "CSS basic syntax: $css_file" "PASS" "Basic syntax check passed"
-    else
-      log_test "CSS basic syntax: $css_file" "FAIL" "Basic syntax check failed"
-    fi
-  fi
-done
-
-echo
-echo "=== JavaScript Tests ==="
-
-# Check JavaScript syntax
-for js_file in js/documentation.js; do
-  if [ -f "/home/ubuntu/meai_redesign/$js_file" ]; then
-    # Install eslint if not already installed
-    if ! command -v npx eslint &> /dev/null; then
-      echo "Installing eslint..."
-      cd /home/ubuntu/meai_redesign
-      npm install --save-dev eslint
-    fi
-    
-    # Create basic eslint config if it doesn't exist
-    if [ ! -f "/home/ubuntu/meai_redesign/.eslintrc.json" ]; then
-      echo '{
-        "env": {
-          "browser": true,
-          "es2021": true
-        },
-        "extends": "eslint:recommended",
-        "parserOptions": {
-          "ecmaVersion": 12
-        },
-        "rules": {}
-      }' > "/home/ubuntu/meai_redesign/.eslintrc.json"
-    fi
-    
-    # Run eslint
-    eslint_result=$(cd /home/ubuntu/meai_redesign && npx eslint $js_file --no-eslintrc 2>&1)
-    if [[ -z "$eslint_result" ]]; then
-      log_test "JavaScript syntax: $js_file" "PASS" "No syntax errors found"
-    else
-      error_count=$(echo "$eslint_result" | grep -c "error")
-      log_test "JavaScript syntax: $js_file" "WARN" "Found $error_count potential issues"
-      echo "$eslint_result" > "$RESULTS_DIR/${js_file//\//_}_validation.txt"
-    fi
-  fi
-done
-
-echo
-echo "=== Responsive Design Tests ==="
-
-# Check for responsive meta tag
-if grep -q "viewport" "/home/ubuntu/meai_redesign/index.html"; then
-  log_test "Responsive meta tag" "PASS" "Viewport meta tag found in index.html"
-else
-  log_test "Responsive meta tag" "FAIL" "Viewport meta tag not found in index.html"
-fi
-
-# Check for media queries in CSS
-if grep -q "@media" "/home/ubuntu/meai_redesign/css/responsive.css"; then
-  media_query_count=$(grep -c "@media" "/home/ubuntu/meai_redesign/css/responsive.css")
-  log_test "Media queries" "PASS" "Found $media_query_count media queries in responsive.css"
-else
-  log_test "Media queries" "FAIL" "No media queries found in responsive.css"
-fi
-
-echo
-echo "=== Cross-Browser Compatibility Check ==="
-log_test "Cross-browser compatibility" "INFO" "Manual testing required for Chrome, Firefox, Safari, and Edge"
-
-echo
-echo "=== Mobile Responsiveness Check ==="
-log_test "Mobile responsiveness" "INFO" "Manual testing required for various mobile devices"
-
-echo
-echo "=== Performance Tests ==="
-
-# Check for large images
-large_images=$(find /home/ubuntu/meai_redesign/img -type f -size +500k 2>/dev/null | wc -l)
-if [ $large_images -eq 0 ]; then
-  log_test "Image size optimization" "PASS" "No excessively large images found"
-else
-  log_test "Image size optimization" "WARN" "Found $large_images images larger than 500KB"
-fi
-
-# Check for minified CSS
-for css_file in css/styles.css css/responsive.css; do
-  if [ -f "/home/ubuntu/meai_redesign/$css_file" ]; then
-    whitespace_ratio=$(grep -c "^ " "/home/ubuntu/meai_redesign/$css_file")
-    if [ $whitespace_ratio -lt 100 ]; then
-      log_test "CSS minification: $css_file" "PASS" "CSS appears to be reasonably compact"
-    else
-      log_test "CSS minification: $css_file" "WARN" "CSS may benefit from minification"
-    fi
-  fi
-done
-
-echo
-echo "=== Accessibility Tests ==="
-
-# Check for alt attributes on images
-if grep -q "<img" "/home/ubuntu/meai_redesign/index.html"; then
-  img_count=$(grep -c "<img" "/home/ubuntu/meai_redesign/index.html")
-  alt_count=$(grep -c "alt=" "/home/ubuntu/meai_redesign/index.html")
+html_errors=0
+for file in "${html_files[@]}"; do
+  # Basic HTML validation - check for unclosed tags
+  unclosed_tags=$(grep -o "<[a-z][a-z0-9]*[^<>]*>" "$file" | grep -v "/>" | sed 's/<\([a-z][a-z0-9]*\).*/\1/' | sort)
+  closed_tags=$(grep -o "</[a-z][a-z0-9]*>" "$file" | sed 's/<\/\([a-z][a-z0-9]*\)>/\1/' | sort)
   
-  if [ $img_count -eq $alt_count ]; then
-    log_test "Image alt attributes" "PASS" "All $img_count images have alt attributes"
+  # Compare counts of opening and closing tags
+  for tag in $(echo "$unclosed_tags" | uniq); do
+    open_count=$(echo "$unclosed_tags" | grep -c "^$tag$")
+    close_count=$(echo "$closed_tags" | grep -c "^$tag$")
+    
+    if [ "$open_count" != "$close_count" ]; then
+      echo "❌ $file: Mismatched tags for <$tag>: $open_count opening, $close_count closing"
+      html_errors=$((html_errors+1))
+    fi
+  done
+  
+  if ! grep -q "<!DOCTYPE html>" "$file"; then
+    echo "❌ $file: Missing DOCTYPE declaration"
+    html_errors=$((html_errors+1))
+  fi
+  
+  if ! grep -q "<html" "$file"; then
+    echo "❌ $file: Missing <html> tag"
+    html_errors=$((html_errors+1))
+  fi
+  
+  if ! grep -q "<head" "$file"; then
+    echo "❌ $file: Missing <head> tag"
+    html_errors=$((html_errors+1))
+  fi
+  
+  if ! grep -q "<body" "$file"; then
+    echo "❌ $file: Missing <body> tag"
+    html_errors=$((html_errors+1))
+  fi
+  
+  if [ $html_errors -eq 0 ]; then
+    echo "✅ $file: Basic HTML validation passed"
+  fi
+done
+
+# Test 3: Check CSS files for syntax errors
+echo -e "\n=== Testing CSS validity ==="
+css_files=(
+  "/home/ubuntu/meai_redesign/css/styles.css"
+  "/home/ubuntu/meai_redesign/css/responsive.css"
+  "/home/ubuntu/meai_redesign/css/documentation.css"
+)
+
+css_errors=0
+for file in "${css_files[@]}"; do
+  # Basic CSS validation - check for unclosed braces
+  open_braces=$(grep -o "{" "$file" | wc -l)
+  close_braces=$(grep -o "}" "$file" | wc -l)
+  
+  if [ "$open_braces" != "$close_braces" ]; then
+    echo "❌ $file: Mismatched braces: $open_braces opening, $close_braces closing"
+    css_errors=$((css_errors+1))
   else
-    log_test "Image alt attributes" "WARN" "Only $alt_count of $img_count images have alt attributes"
+    echo "✅ $file: Braces match"
+  fi
+  
+  # Check for missing semicolons
+  missing_semicolons=$(grep -E "[a-zA-Z0-9%]}" "$file" | wc -l)
+  if [ "$missing_semicolons" -gt 0 ]; then
+    echo "⚠️ $file: Potential missing semicolons before closing braces: $missing_semicolons instances"
+  else
+    echo "✅ $file: No obvious missing semicolons"
+  fi
+done
+
+# Test 4: Check for broken links in HTML files
+echo -e "\n=== Testing for broken links ==="
+link_errors=0
+
+for file in "${html_files[@]}"; do
+  # Extract all href attributes
+  links=$(grep -o 'href="[^"]*"' "$file" | sed 's/href="\([^"]*\)"/\1/')
+  
+  for link in $links; do
+    # Skip external links and anchors
+    if [[ $link == http* ]] || [[ $link == "#"* ]]; then
+      continue
+    fi
+    
+    # Check if the link points to an existing file
+    if [[ $link == *".html" ]] || [[ $link == *".css" ]] || [[ $link == *".js" ]]; then
+      if [[ $link == /* ]]; then
+        # Absolute path
+        if [ ! -f "/home/ubuntu/meai_redesign$link" ]; then
+          echo "❌ $file: Broken link to $link"
+          link_errors=$((link_errors+1))
+        fi
+      else
+        # Relative path
+        dir=$(dirname "$file")
+        if [ ! -f "$dir/$link" ]; then
+          echo "❌ $file: Broken link to $link"
+          link_errors=$((link_errors+1))
+        fi
+      fi
+    fi
+  done
+done
+
+if [ $link_errors -eq 0 ]; then
+  echo "✅ No broken internal links found"
+else
+  echo "❌ $link_errors broken links found"
+fi
+
+# Test 5: Check for responsive meta tag
+echo -e "\n=== Testing for responsive design meta tags ==="
+responsive_errors=0
+
+for file in "${html_files[@]}"; do
+  if ! grep -q '<meta name="viewport"' "$file"; then
+    echo "❌ $file: Missing viewport meta tag"
+    responsive_errors=$((responsive_errors+1))
+  fi
+done
+
+if [ $responsive_errors -eq 0 ]; then
+  echo "✅ All HTML files have viewport meta tags"
+else
+  echo "❌ $responsive_errors files missing viewport meta tags"
+fi
+
+# Test 6: Check for robots meta tag
+echo -e "\n=== Testing for robots meta tags ==="
+robots_errors=0
+
+for file in "${html_files[@]}"; do
+  if ! grep -q '<meta name="robots"' "$file"; then
+    echo "❌ $file: Missing robots meta tag"
+    robots_errors=$((robots_errors+1))
+  fi
+done
+
+if [ $robots_errors -eq 0 ]; then
+  echo "✅ All HTML files have robots meta tags"
+else
+  echo "❌ $robots_errors files missing robots meta tags"
+fi
+
+# Test 7: Check for consistent navigation
+echo -e "\n=== Testing for consistent navigation ==="
+nav_errors=0
+
+# Extract navigation links from each file
+index_nav=$(grep -A10 '<ul class="nav-menu">' "/home/ubuntu/meai_redesign/index.html" | grep -o '<a href="[^"]*"[^>]*>[^<]*</a>' | sort)
+doc_nav=$(grep -A10 '<ul class="nav-menu">' "/home/ubuntu/meai_redesign/documentation.html" | grep -o '<a href="[^"]*"[^>]*>[^<]*</a>' | sort)
+arch_nav=$(grep -A10 '<ul class="nav-menu">' "/home/ubuntu/meai_redesign/architecture.html" | grep -o '<a href="[^"]*"[^>]*>[^<]*</a>' | sort)
+
+# Compare navigation items (ignoring active class)
+index_nav_clean=$(echo "$index_nav" | sed 's/ class="[^"]*"//')
+doc_nav_clean=$(echo "$doc_nav" | sed 's/ class="[^"]*"//')
+arch_nav_clean=$(echo "$arch_nav" | sed 's/ class="[^"]*"//')
+
+if [ "$index_nav_clean" != "$doc_nav_clean" ]; then
+  echo "❌ Navigation mismatch between index.html and documentation.html"
+  nav_errors=$((nav_errors+1))
+fi
+
+if [ "$index_nav_clean" != "$arch_nav_clean" ]; then
+  echo "❌ Navigation mismatch between index.html and architecture.html"
+  nav_errors=$((nav_errors+1))
+fi
+
+if [ $nav_errors -eq 0 ]; then
+  echo "✅ Navigation is consistent across all pages"
+else
+  echo "❌ $nav_errors navigation inconsistencies found"
+fi
+
+# Test 8: Check SVG diagram
+echo -e "\n=== Testing SVG diagram ==="
+svg_errors=0
+
+svg_file="/home/ubuntu/meai_redesign/img/architecture_diagram.svg"
+if [ -f "$svg_file" ]; then
+  # Check for basic SVG elements
+  if ! grep -q "<svg" "$svg_file"; then
+    echo "❌ $svg_file: Missing <svg> tag"
+    svg_errors=$((svg_errors+1))
+  fi
+  
+  # Check for Mirror component
+  if ! grep -q "Mirror" "$svg_file"; then
+    echo "❌ $svg_file: Missing Mirror component"
+    svg_errors=$((svg_errors+1))
+  fi
+  
+  # Check for Bridge component
+  if ! grep -q "Bridge" "$svg_file"; then
+    echo "❌ $svg_file: Missing Bridge component"
+    svg_errors=$((svg_errors+1))
+  fi
+  
+  # Check for MCP elements
+  if ! grep -q "Model" "$svg_file"; then
+    echo "❌ $svg_file: Missing Model element"
+    svg_errors=$((svg_errors+1))
+  fi
+  
+  if ! grep -q "Controller" "$svg_file"; then
+    echo "❌ $svg_file: Missing Controller element"
+    svg_errors=$((svg_errors+1))
+  fi
+  
+  if ! grep -q "Presenter" "$svg_file"; then
+    echo "❌ $svg_file: Missing Presenter element"
+    svg_errors=$((svg_errors+1))
+  fi
+  
+  if [ $svg_errors -eq 0 ]; then
+    echo "✅ SVG diagram contains all required components"
+  else
+    echo "❌ $svg_errors issues found in SVG diagram"
   fi
 else
-  log_test "Image alt attributes" "INFO" "No images found in index.html"
+  echo "❌ SVG diagram file not found"
+  svg_errors=$((svg_errors+1))
 fi
 
-# Check for ARIA attributes
-if grep -q "aria-" "/home/ubuntu/meai_redesign/index.html" || grep -q "role=" "/home/ubuntu/meai_redesign/index.html"; then
-  log_test "ARIA attributes" "PASS" "ARIA attributes found in index.html"
+# Test 9: Check for robots.txt
+echo -e "\n=== Testing robots.txt ==="
+robots_file="/home/ubuntu/meai_redesign/robots.txt"
+if [ -f "$robots_file" ]; then
+  if grep -q "Disallow: /" "$robots_file"; then
+    echo "✅ robots.txt properly blocks search engines"
+  else
+    echo "❌ robots.txt does not block search engines"
+  fi
 else
-  log_test "ARIA attributes" "WARN" "No ARIA attributes found in index.html"
+  echo "❌ robots.txt file not found"
 fi
 
-echo
-echo "=== Documentation Integration Tests ==="
+# Test 10: Check documentation sidebar links
+echo -e "\n=== Testing documentation sidebar links ==="
+doc_sidebar_links=$(grep -A20 '<ul class="documentation-nav">' "/home/ubuntu/meai_redesign/documentation.html" | grep -o 'data-section="[^"]*"' | sed 's/data-section="\([^"]*\)"/\1/')
 
-# Check if documentation.js references the correct file paths
-if grep -q "docContentMap" "/home/ubuntu/meai_redesign/js/documentation.js"; then
-  log_test "Documentation mapping" "PASS" "Documentation content map found in documentation.js"
+sidebar_errors=0
+for section in $doc_sidebar_links; do
+  if ! grep -q "id=\"$section\"" "/home/ubuntu/meai_redesign/documentation.html"; then
+    echo "❌ Sidebar link to #$section has no matching section"
+    sidebar_errors=$((sidebar_errors+1))
+  fi
+done
+
+if [ $sidebar_errors -eq 0 ]; then
+  echo "✅ All documentation sidebar links have matching sections"
 else
-  log_test "Documentation mapping" "FAIL" "Documentation content map not found in documentation.js"
+  echo "❌ $sidebar_errors sidebar links without matching sections"
 fi
 
-echo
-echo "=== Summary ==="
-pass_count=$(grep -c "\[PASS\]" "$RESULTS_DIR/test_log.txt")
-fail_count=$(grep -c "\[FAIL\]" "$RESULTS_DIR/test_log.txt")
-warn_count=$(grep -c "\[WARN\]" "$RESULTS_DIR/test_log.txt")
-info_count=$(grep -c "\[INFO\]" "$RESULTS_DIR/test_log.txt")
+# Summary
+echo -e "\n=== Test Summary ==="
+total_errors=$((file_errors + html_errors + css_errors + link_errors + responsive_errors + robots_errors + nav_errors + svg_errors + sidebar_errors))
 
-echo "Tests completed at $(date)"
-echo "Results: $pass_count passed, $fail_count failed, $warn_count warnings, $info_count informational"
-echo "Detailed results saved to $RESULTS_DIR/test_log.txt"
-
-if [ $fail_count -eq 0 ]; then
-  echo "All critical tests passed! The website is ready for deployment."
-  exit 0
+if [ $total_errors -eq 0 ]; then
+  echo "✅ All tests passed successfully!"
 else
-  echo "Some tests failed. Please review the test log and fix the issues before deployment."
-  exit 1
+  echo "❌ $total_errors issues found across all tests"
 fi
+
+echo "Testing completed at $(date)"

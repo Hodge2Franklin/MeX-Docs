@@ -1,0 +1,57 @@
+Starting comprehensive cross-page testing...
+
+=== Testing file structure ===
+✅ /home/ubuntu/meai_redesign/index.html exists and has content
+✅ /home/ubuntu/meai_redesign/documentation.html exists and has content
+✅ /home/ubuntu/meai_redesign/architecture.html exists and has content
+✅ /home/ubuntu/meai_redesign/css/styles.css exists and has content
+✅ /home/ubuntu/meai_redesign/css/responsive.css exists and has content
+✅ /home/ubuntu/meai_redesign/css/documentation.css exists and has content
+✅ /home/ubuntu/meai_redesign/img/architecture_diagram.svg exists and has content
+❌ /home/ubuntu/meai_redesign/robots.txt does not exist
+❌ 1 file issues found
+
+=== Testing HTML validity ===
+❌ /home/ubuntu/meai_redesign/index.html: Mismatched tags for <link>: 4 opening, 0 closing
+❌ /home/ubuntu/meai_redesign/index.html: Mismatched tags for <meta>: 4 opening, 0 closing
+❌ /home/ubuntu/meai_redesign/documentation.html: Mismatched tags for <h>: 1 opening, 0 closing
+❌ /home/ubuntu/meai_redesign/documentation.html: Mismatched tags for <li>: 22 opening, 21 closing
+❌ /home/ubuntu/meai_redesign/documentation.html: Mismatched tags for <link>: 3 opening, 0 closing
+❌ /home/ubuntu/meai_redesign/documentation.html: Mismatched tags for <meta>: 3 opening, 0 closing
+❌ /home/ubuntu/meai_redesign/architecture.html: Mismatched tags for <link>: 3 opening, 0 closing
+❌ /home/ubuntu/meai_redesign/architecture.html: Mismatched tags for <meta>: 3 opening, 0 closing
+
+=== Testing CSS validity ===
+✅ /home/ubuntu/meai_redesign/css/styles.css: Braces match
+✅ /home/ubuntu/meai_redesign/css/styles.css: No obvious missing semicolons
+✅ /home/ubuntu/meai_redesign/css/responsive.css: Braces match
+✅ /home/ubuntu/meai_redesign/css/responsive.css: No obvious missing semicolons
+✅ /home/ubuntu/meai_redesign/css/documentation.css: Braces match
+✅ /home/ubuntu/meai_redesign/css/documentation.css: No obvious missing semicolons
+
+=== Testing for broken links ===
+✅ No broken internal links found
+
+=== Testing for responsive design meta tags ===
+✅ All HTML files have viewport meta tags
+
+=== Testing for robots meta tags ===
+✅ All HTML files have robots meta tags
+
+=== Testing for consistent navigation ===
+❌ Navigation mismatch between index.html and documentation.html
+❌ Navigation mismatch between index.html and architecture.html
+❌ 2 navigation inconsistencies found
+
+=== Testing SVG diagram ===
+✅ SVG diagram contains all required components
+
+=== Testing robots.txt ===
+❌ robots.txt file not found
+
+=== Testing documentation sidebar links ===
+✅ All documentation sidebar links have matching sections
+
+=== Test Summary ===
+❌ 11 issues found across all tests
+Testing completed at Sun Mar 30 14:13:36 EDT 2025

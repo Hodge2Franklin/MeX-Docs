@@ -7,85 +7,22 @@
     <title>MeAI - Duality Model Architecture</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <style>
-        .architecture-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-        
-        .architecture-image {
-            width: 100%;
-            height: auto;
-            margin: 2rem 0;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .architecture-description {
-            color: #fff;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-        }
-        
-        .architecture-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        
-        .feature-card {
-            background: linear-gradient(135deg, rgba(0, 153, 255, 0.1), rgba(102, 51, 255, 0.1));
-            padding: 1.5rem;
-            border-radius: 10px;
-            border-left: 3px solid #0099ff;
-        }
-        
-        .feature-card h3 {
-            color: #0099ff;
-            margin-top: 0;
-        }
-        
-        .feature-card.bridge {
-            background: linear-gradient(135deg, rgba(204, 51, 255, 0.1), rgba(255, 102, 153, 0.1));
-            border-left: 3px solid #cc33ff;
-        }
-        
-        .feature-card.bridge h3 {
-            color: #cc33ff;
-        }
-        
-        .feature-card.mcp {
-            background: linear-gradient(135deg, rgba(195, 233, 46, 0.1), rgba(163, 201, 34, 0.1));
-            border-left: 3px solid #c3e92e;
-        }
-        
-        .feature-card.mcp h3 {
-            color: #c3e92e;
-        }
-    </style>
+    <link rel="stylesheet" href="css/documentation.css">
 </head>
 <body>
     <header>
         <div class="container">
-            <div class="logo">
-                <a href="index.html">MeAI</a>
-            </div>
-            <nav class="nav-menu">
-                <ul>
-                    <li><a href="index.html#features">Features</a></li>
-                    <li><a href="index.html#benefits">Benefits</a></li>
-                    <li><a href="documentation.html">Documentation</a></li>
-                    <li><a href="index.html#about">About</a></li>
+            <a href="index.html" class="logo">MeAI</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html#features" class="nav-link">Features</a></li>
+                    <li><a href="index.html#benefits" class="nav-link">Benefits</a></li>
+                    <li><a href="documentation.html" class="nav-link">Documentation</a></li>
+                    <li><a href="architecture.html" class="nav-link active">Architecture</a></li>
+                    <li><a href="index.html#about" class="nav-link">About</a></li>
                 </ul>
             </nav>
-            <div class="cta-button">
-                <a href="index.html#get-started" class="button">Get Started</a>
-            </div>
+            <a href="index.html#contact" class="cta-button">Get Started</a>
             <div class="mobile-menu-toggle">
                 <span></span>
                 <span></span>
@@ -112,7 +49,9 @@
                         <p>Each component is implemented using the Model-Controller-Presenter (MCP) architecture pattern, which ensures separation of concerns, maintainability, and scalability of the system.</p>
                     </div>
                     
-                    <img src="img/architecture_diagram.svg" alt="MeAI Duality Model with MCP Architecture" class="architecture-image">
+                    <div id="architecture-diagram-container">
+                        <!-- New professional diagram will be inserted here -->
+                    </div>
                     
                     <div class="architecture-features">
                         <div class="feature-card">
@@ -170,6 +109,7 @@
                         <li><a href="index.html#features">Features</a></li>
                         <li><a href="index.html#benefits">Benefits</a></li>
                         <li><a href="documentation.html">Documentation</a></li>
+                        <li><a href="architecture.html">Architecture</a></li>
                         <li><a href="index.html#about">About</a></li>
                     </ul>
                 </div>
@@ -201,6 +141,21 @@
                 navMenu.classList.toggle('active');
             });
         }
+        
+        // Load the SVG diagram
+        document.addEventListener('DOMContentLoaded', function() {
+            const diagramContainer = document.getElementById('architecture-diagram-container');
+            
+            fetch('img/architecture_diagram.svg')
+                .then(response => response.text())
+                .then(svgContent => {
+                    diagramContainer.innerHTML = svgContent;
+                })
+                .catch(error => {
+                    console.error('Error loading architecture diagram:', error);
+                    diagramContainer.innerHTML = '<p>Error loading architecture diagram. Please try again later.</p>';
+                });
+        });
     </script>
 </body>
 </html>
