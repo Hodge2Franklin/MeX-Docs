@@ -1,57 +1,34 @@
-Starting comprehensive cross-page testing...
+Running documentation section tests...
+-------------------------------------
+Testing section file availability:
+--------------------------------
+✅ Section 'overview' file exists: overview.md
+✅ Section 'duality-model' file exists: duality_model_architecture.md
+✅ Section 'memory-system' file exists: memory_system_components.md
+✅ Section 'voice-breath' file exists: voice_breath_systems.md
+✅ Section 'truthfilter-joyoptimizer' file exists: truthfilter_joyoptimizer.md
+✅ Section 'ritual-engine' file exists: ritual_engine_implementation.md
+✅ Section 'prototype-specifications' file exists: prototype_specifications.md
+✅ Section 'technical-architecture' file exists: technical_architecture.md
+✅ Section 'ethical-framework' file exists: ethical_framework.md
+✅ Section 'implementation-roadmap' file exists: implementation_roadmap.md
 
-=== Testing file structure ===
-✅ /home/ubuntu/meai_redesign/index.html exists and has content
-✅ /home/ubuntu/meai_redesign/documentation.html exists and has content
-✅ /home/ubuntu/meai_redesign/architecture.html exists and has content
-✅ /home/ubuntu/meai_redesign/css/styles.css exists and has content
-✅ /home/ubuntu/meai_redesign/css/responsive.css exists and has content
-✅ /home/ubuntu/meai_redesign/css/documentation.css exists and has content
-✅ /home/ubuntu/meai_redesign/img/architecture_diagram.svg exists and has content
-❌ /home/ubuntu/meai_redesign/robots.txt does not exist
-❌ 1 file issues found
+Testing file mapping in documentation.js:
+---------------------------------------
+✅ documentation.js exists
+✅ memory-system mapping found in documentation.js
+✅ voice-breath mapping found in documentation.js
 
-=== Testing HTML validity ===
-❌ /home/ubuntu/meai_redesign/index.html: Mismatched tags for <link>: 4 opening, 0 closing
-❌ /home/ubuntu/meai_redesign/index.html: Mismatched tags for <meta>: 4 opening, 0 closing
-❌ /home/ubuntu/meai_redesign/documentation.html: Mismatched tags for <h>: 1 opening, 0 closing
-❌ /home/ubuntu/meai_redesign/documentation.html: Mismatched tags for <li>: 22 opening, 21 closing
-❌ /home/ubuntu/meai_redesign/documentation.html: Mismatched tags for <link>: 3 opening, 0 closing
-❌ /home/ubuntu/meai_redesign/documentation.html: Mismatched tags for <meta>: 3 opening, 0 closing
-❌ /home/ubuntu/meai_redesign/architecture.html: Mismatched tags for <link>: 3 opening, 0 closing
-❌ /home/ubuntu/meai_redesign/architecture.html: Mismatched tags for <meta>: 3 opening, 0 closing
+Testing HTML structure:
+---------------------
+✅ memory-system section link exists in HTML
+✅ voice-breath section link exists in HTML
+✅ memory-system section container exists in HTML
+✅ voice-breath section container exists in HTML
 
-=== Testing CSS validity ===
-✅ /home/ubuntu/meai_redesign/css/styles.css: Braces match
-✅ /home/ubuntu/meai_redesign/css/styles.css: No obvious missing semicolons
-✅ /home/ubuntu/meai_redesign/css/responsive.css: Braces match
-✅ /home/ubuntu/meai_redesign/css/responsive.css: No obvious missing semicolons
-✅ /home/ubuntu/meai_redesign/css/documentation.css: Braces match
-✅ /home/ubuntu/meai_redesign/css/documentation.css: No obvious missing semicolons
+Testing double heading prevention:
+-------------------------------
+✅ Double heading prevention code exists
 
-=== Testing for broken links ===
-✅ No broken internal links found
-
-=== Testing for responsive design meta tags ===
-✅ All HTML files have viewport meta tags
-
-=== Testing for robots meta tags ===
-✅ All HTML files have robots meta tags
-
-=== Testing for consistent navigation ===
-❌ Navigation mismatch between index.html and documentation.html
-❌ Navigation mismatch between index.html and architecture.html
-❌ 2 navigation inconsistencies found
-
-=== Testing SVG diagram ===
-✅ SVG diagram contains all required components
-
-=== Testing robots.txt ===
-❌ robots.txt file not found
-
-=== Testing documentation sidebar links ===
-✅ All documentation sidebar links have matching sections
-
-=== Test Summary ===
-❌ 11 issues found across all tests
-Testing completed at Sun Mar 30 14:13:36 EDT 2025
+All tests completed.
+-------------------
