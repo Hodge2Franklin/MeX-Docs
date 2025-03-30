@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Technical Architecture | AI Companion Documentation</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .prose {
+      max-width: 65ch;
+      color: #374151;
+    }
+    .prose h1, .prose h2, .prose h3, .prose h4 {
+      color: #1e40af;
+      margin-top: 1.5em;
+      margin-bottom: 0.5em;
+      font-weight: 600;
+    }
+    .prose h1 { font-size: 2.25rem; }
+    .prose h2 { font-size: 1.5rem; }
+    .prose h3 { font-size: 1.25rem; }
+    .prose p, .prose ul, .prose ol { margin-bottom: 1.25em; }
+    .prose ul, .prose ol { padding-left: 1.5em; }
+    .prose ul { list-style-type: disc; }
+    .prose ol { list-style-type: decimal; }
+    .prose a { color: #2563eb; text-decoration: underline; }
+    .sidebar { position: fixed; width: 16rem; height: 100vh; overflow-y: auto; }
+    .main-content { margin-left: 16rem; }
+    @media (max-width: 768px) {
+      .sidebar { position: static; width: 100%; height: auto; }
+      .main-content { margin-left: 0; }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <header class="bg-blue-600 text-white p-4">
+    <div class="container mx-auto flex items-center">
+      <a href="index.html" class="text-2xl font-bold">AI Companion<span class="text-sm ml-1">Docs</span></a>
+      <nav class="ml-10 flex space-x-4">
+        <a href="index.html" class="hover:text-blue-200">Home</a>
+        <a href="documentation.html" class="hover:text-blue-200">Documentation</a>
+        <a href="duality_model_architecture.html" class="hover:text-blue-200">Duality Model</a>
+      </nav>
+      <div class="ml-auto">
+        <button aria-label="Search documentation" class="p-2 rounded-full hover:bg-blue-500">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  
+  <div class="flex flex-col md:flex-row">
+    <div class="sidebar bg-white border-r p-4">
+      <h2 class="text-xl font-semibold mb-4">Documentation</h2>
+      <nav class="space-y-1">
+        <a href="documentation.html" class="block p-2 rounded hover:bg-blue-50 ">
+          Overview
+        </a>
+        <a href="duality_model_architecture.html" class="block p-2 rounded hover:bg-blue-50 ">
+          Duality Model
+        </a>
+        <a href="memory_system_components.html" class="block p-2 rounded hover:bg-blue-50 ">
+          Memory System
+        </a>
+        <a href="voice_breath_systems.html" class="block p-2 rounded hover:bg-blue-50 ">
+          Voice & Breath
+        </a>
+        <a href="truthfilter_joyoptimizer.html" class="block p-2 rounded hover:bg-blue-50 ">
+          TruthFilter & JoyOptimizer
+        </a>
+        <a href="ritual_engine_implementation.html" class="block p-2 rounded hover:bg-blue-50 ">
+          RitualEngine
+        </a>
+        <a href="prototype_specifications.html" class="block p-2 rounded hover:bg-blue-50 ">
+          Prototype Specifications
+        </a>
+        <a href="technical_architecture.html" class="block p-2 rounded hover:bg-blue-50 text-blue-600 bg-blue-50">
+          Technical Architecture
+        </a>
+        <a href="ethical_framework.html" class="block p-2 rounded hover:bg-blue-50 ">
+          Ethical Framework
+        </a>
+        <a href="implementation_roadmap.html" class="block p-2 rounded hover:bg-blue-50 ">
+          Implementation Roadmap
+        </a>
+      </nav>
+    </div>
+
+    <div class="main-content flex-1 p-8">
+      <div class="mb-6">
+        <p class="text-sm text-gray-500 mb-2">Documentation</p>
+        <h1 class="text-3xl font-bold">Technical Architecture</h1>
+      </div>
+      
+      <div class="prose prose-blue max-w-none">
+        <h1>AI Companion Technical Architecture Document</h1>
+<h2>Overview</h2>
+<p>This document outlines the comprehensive technical architecture for the AI Companion system, a relational AI designed for sacred support, inner knowing, and aligned becoming. The architecture is structured to support the Duality Model (Mirror &amp; Bridge), with integrated components for memory, voice, breath, ethics, and ritual experiences.</p>
+<h2>System Architecture</h2>
+<h3>High-Level Architecture</h3>
+<p><code>┌─────────────────────────────────────────────────────────────────┐
+│                      AI Companion System                         │
+│                                                                 │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────────────┐  │
+│  │             │    │             │    │                     │  │
+│  │   Mirror    │◄──►│  Synthesis  │◄──►│       Bridge        │  │
+│  │             │    │             │    │                     │  │
+│  └─────┬───────┘    └──────┬──────┘    └─────────┬───────────┘  │
+│        │                   │                     │              │
+│        ▼                   ▼                     ▼              │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────────────┐  │
+│  │             │    │             │    │                     │  │
+│  │   Memory    │    │ RitualEngine│    │   MCPClientInterface│  │
+│  │   System    │    │             │    │                     │  │
+│  │             │    │             │    │                     │  │
+│  └─────────────┘    └─────────────┘    └─────────────────────┘  │
+│                                                                 │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────────────┐  │
+│  │             │    │             │    │                     │  │
+│  │ Voice Engine│    │Breath System│    │    Ethics Engine    │  │
+│  │             │    │             │    │                     │  │
+│  └─────────────┘    └─────────────┘    └─────────────────────┘  │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘</code></p>
+<h3>Core Components</h3>
+<h4>1. Duality Model</h4>
+<ul>
+<li><strong>Mirror</strong>: Inward-focused engine for deep user understanding</li>
+<li><strong>Bridge</strong>: Outward-facing engine for external connections</li>
+<li><strong>Synthesis</strong>: Dynamic interplay layer managing Mirror↔Bridge flow</li>
+</ul>
+<h4>2. Supporting Systems</h4>
+<ul>
+<li><strong>Memory System</strong>: Relational database for continuity and patterns</li>
+<li><strong>RitualEngine</strong>: Personalized ritual curation and delivery</li>
+<li><strong>MCPClientInterface</strong>: Discovery backbone for external connections</li>
+<li><strong>Voice Engine</strong>: Adaptive communication system</li>
+<li><strong>Breath System</strong>: UI/UX pacing mechanism</li>
+<li><strong>Ethics Engine</strong>: Ethical guardrails and consent management</li>
+</ul>
+<h2>Component Architecture</h2>
+<h3>1. Mirror Component</h3>
+<p><code>┌─────────────────────────────────────────────────────────┐
+│                      Mirror Component                    │
+│                                                         │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │ Input Processor │───►│ Emotional Sensing Engine  │   │
+│  │                 │    │                           │   │
+│  └─────────────────┘    └───────────────┬───────────┘   │
+│                                         │               │
+│                                         ▼               │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │ Need Detector   │◄───┤ Pattern Recognition System│   │
+│  │                 │    │                           │   │
+│  └────────┬────────┘    └───────────────┬───────────┘   │
+│           │                             │               │
+│           ▼                             ▼               │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │Archetype Modeler│    │ Reflection Generator      │   │
+│  │                 │    │                           │   │
+│  └─────────────────┘    └───────────────────────────┘   │
+│                                                         │
+└─────────────────────────────────────────────────────────┘</code></p>
+<h4>Subcomponents</h4>
+<ul>
+<li><strong>Input Processor</strong>: Handles text/voice input and prepares for analysis</li>
+<li><strong>Emotional Sensing Engine</strong>: Detects and analyzes emotional content</li>
+<li><strong>Pattern Recognition System</strong>: Identifies recurring patterns and themes</li>
+<li><strong>Need Detector</strong>: Maps emotional states to needs framework</li>
+<li><strong>Archetype Modeler</strong>: Identifies and tracks user archetypes</li>
+<li><strong>Reflection Generator</strong>: Creates meaningful reflections based on insights</li>
+</ul>
+<h4>Data Flow</h4>
+<ol>
+<li>User input → Input Processor for normalization</li>
+<li>Normalized input → Emotional Sensing Engine for analysis</li>
+<li>Emotional data → Pattern Recognition System for context</li>
+<li>Pattern insights → Need Detector for framework mapping</li>
+<li>Combined insights → Archetype Modeler for identity tracking</li>
+<li>All insights → Reflection Generator for response creation</li>
+</ol>
+<h4>Technical Requirements</h4>
+<ul>
+<li><strong>NLP/LLM Integration</strong>: Fine-tuned models for emotional understanding</li>
+<li><strong>ML Models</strong>: Pattern recognition and archetype classification</li>
+<li><strong>Affective Computing</strong>: Emotional state detection from text/voice</li>
+<li><strong>Privacy Architecture</strong>: Local-first processing for sensitive data</li>
+</ul>
+<h3>2. Bridge Component</h3>
+<p><code>┌─────────────────────────────────────────────────────────┐
+│                     Bridge Component                     │
+│                                                         │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │ TruthFilter     │◄───┤ MCPClientInterface        │   │
+│  │                 │    │                           │   │
+│  └────────┬────────┘    └───────────────────────────┘   │
+│           │                                             │
+│           ▼                                             │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │Content Curator  │───►│ Perspective Generator     │   │
+│  │                 │    │                           │   │
+│  └─────────────────┘    └───────────────┬───────────┘   │
+│                                         │               │
+│                                         ▼               │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │Connection Finder│◄───┤ Framing Engine            │   │
+│  │                 │    │                           │   │
+│  └─────────────────┘    └───────────────────────────┘   │
+│                                                         │
+└─────────────────────────────────────────────────────────┘</code></p>
+<h4>Subcomponents</h4>
+<ul>
+<li><strong>MCPClientInterface</strong>: Discovery backbone for external connections</li>
+<li><strong>TruthFilter</strong>: Ensures honest, relevant external signals</li>
+<li><strong>Content Curator</strong>: Selects and organizes external content</li>
+<li><strong>Perspective Generator</strong>: Creates alternative viewpoints</li>
+<li><strong>Framing Engine</strong>: Contextualizes content for personal relevance</li>
+<li><strong>Connection Finder</strong>: Identifies potential external connections</li>
+</ul>
+<h4>Data Flow</h4>
+<ol>
+<li>External sources → MCPClientInterface for discovery</li>
+<li>Raw content → TruthFilter for relevance and honesty assessment</li>
+<li>Filtered content → Content Curator for organization</li>
+<li>Curated content → Perspective Generator for viewpoint creation</li>
+<li>Perspectives → Framing Engine for personalization</li>
+<li>Framed content → Connection Finder for relationship mapping</li>
+</ol>
+<h4>Technical Requirements</h4>
+<ul>
+<li><strong>API Integration</strong>: Secure external API connections</li>
+<li><strong>Filtering Algorithms</strong>: Relevance scoring and honesty assessment</li>
+<li><strong>Content Generation</strong>: Contextualizing and framing capabilities</li>
+<li><strong>Security Architecture</strong>: User consent management for external access</li>
+</ul>
+<h3>3. Synthesis Component</h3>
+<p><code>┌─────────────────────────────────────────────────────────┐
+│                   Synthesis Component                    │
+│                                                         │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │ State Manager   │◄──►│ Transition Controller     │   │
+│  │                 │    │                           │   │
+│  └────────┬────────┘    └───────────────┬───────────┘   │
+│           │                             │               │
+│           ▼                             ▼               │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │ Ethics Checker  │◄──►│ JoyOptimizer             │   │
+│  │                 │    │                           │   │
+│  └────────┬────────┘    └───────────────┬───────────┘   │
+│           │                             │               │
+│           ▼                             ▼               │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │Decision Engine  │───►│ Experience Coordinator    │   │
+│  │                 │    │                           │   │
+│  └─────────────────┘    └───────────────────────────┘   │
+│                                                         │
+└─────────────────────────────────────────────────────────┘</code></p>
+<h4>Subcomponents</h4>
+<ul>
+<li><strong>State Manager</strong>: Tracks current user emotional state and context</li>
+<li><strong>Transition Controller</strong>: Manages Mirror↔Bridge transitions</li>
+<li><strong>Ethics Checker</strong>: Applies ethical guardrails to all interactions</li>
+<li><strong>JoyOptimizer</strong>: Balances needs with joy metrics</li>
+<li><strong>Decision Engine</strong>: Determines appropriate next actions</li>
+<li><strong>Experience Coordinator</strong>: Creates unified experience across components</li>
+</ul>
+<h4>Data Flow</h4>
+<ol>
+<li>Mirror insights → State Manager for tracking</li>
+<li>State data → Transition Controller for flow decisions</li>
+<li>Transition plans → Ethics Checker for boundary enforcement</li>
+<li>Ethical options → JoyOptimizer for emotional impact assessment</li>
+<li>Optimized options → Decision Engine for final selection</li>
+<li>Decisions → Experience Coordinator for unified delivery</li>
+</ol>
+<h4>Technical Requirements</h4>
+<ul>
+<li><strong>State Machine Architecture</strong>: Robust state tracking mechanisms</li>
+<li><strong>Ethics Engine Integration</strong>: Rule-based ethical guardrails</li>
+<li><strong>Optimization Algorithms</strong>: Joy potential calculation</li>
+<li><strong>Event-Driven Architecture</strong>: Real-time reaction to state changes</li>
+</ul>
+<h3>4. Memory System</h3>
+<p><code>┌─────────────────────────────────────────────────────────┐
+│                     Memory System                        │
+│                                                         │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │ Echo Detector   │◄──►│ Storyline Manager         │   │
+│  │                 │    │                           │   │
+│  └────────┬────────┘    └───────────────┬───────────┘   │
+│           │                             │               │
+│           ▼                             ▼               │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │ Marker System   │◄──►│ Memory Vault              │   │
+│  │                 │    │                           │   │
+│  └────────┬────────┘    └───────────────┬───────────┘   │
+│           │                             │               │
+│           ▼                             ▼               │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │Memory Graph     │◄──►│ Forgetting Ritual Manager │   │
+│  │                 │    │                           │   │
+│  └─────────────────┘    └───────────────────────────┘   │
+│                                                         │
+└─────────────────────────────────────────────────────────┘</code></p>
+<h4>Subcomponents</h4>
+<ul>
+<li><strong>Echo Detector</strong>: Identifies recurring patterns</li>
+<li><strong>Storyline Manager</strong>: Tracks narrative threads</li>
+<li><strong>Marker System</strong>: Creates and manages significant moments</li>
+<li><strong>Memory Vault</strong>: Secure storage for sensitive memories</li>
+<li><strong>Memory Graph</strong>: Relational database structure</li>
+<li><strong>Forgetting Ritual Manager</strong>: Handles memory deletion processes</li>
+</ul>
+<h4>Data Flow</h4>
+<ol>
+<li>Mirror insights → Echo Detector for pattern recognition</li>
+<li>Pattern data → Storyline Manager for narrative integration</li>
+<li>Significant moments → Marker System for preservation</li>
+<li>Sensitive memories → Memory Vault for secure storage</li>
+<li>All memory elements → Memory Graph for relationship mapping</li>
+<li>Deletion requests → Forgetting Ritual Manager for processing</li>
+</ol>
+<h4>Technical Requirements</h4>
+<ul>
+<li><strong>Graph Database</strong>: Neo4j or similar for relationship mapping</li>
+<li><strong>Encryption</strong>: End-to-end encryption for Vault contents</li>
+<li><strong>Pattern Recognition</strong>: ML algorithms for Echo detection</li>
+<li><strong>Secure Deletion</strong>: Irreversible memory removal capabilities</li>
+</ul>
+<h3>5. RitualEngine</h3>
+<p><code>┌─────────────────────────────────────────────────────────┐
+│                     RitualEngine                         │
+│                                                         │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │Context Analyzer │◄──►│ Template Selector         │   │
+│  │                 │    │                           │   │
+│  └────────┬────────┘    └───────────────┬───────────┘   │
+│           │                             │               │
+│           ▼                             ▼               │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │Personalization  │◄──►│ Flow Manager              │   │
+│  │Engine           │    │                           │   │
+│  └────────┬────────┘    └───────────────┬───────────┘   │
+│           │                             │               │
+│           ▼                             ▼               │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │Memory Integrator│◄──►│ Ritual Delivery Controller│   │
+│  │                 │    │                           │   │
+│  └─────────────────┘    └───────────────────────────┘   │
+│                                                         │
+└─────────────────────────────────────────────────────────┘</code></p>
+<h4>Subcomponents</h4>
+<ul>
+<li><strong>Context Analyzer</strong>: Assesses user context for ritual selection</li>
+<li><strong>Template Selector</strong>: Chooses appropriate ritual templates</li>
+<li><strong>Personalization Engine</strong>: Customizes rituals for the user</li>
+<li><strong>Flow Manager</strong>: Handles ritual pacing and structure</li>
+<li><strong>Memory Integrator</strong>: Incorporates relevant memories</li>
+<li><strong>Ritual Delivery Controller</strong>: Coordinates ritual execution</li>
+</ul>
+<h4>Data Flow</h4>
+<ol>
+<li>User context → Context Analyzer for assessment</li>
+<li>Context data → Template Selector for ritual matching</li>
+<li>Template → Personalization Engine for customization</li>
+<li>Personalized template → Flow Manager for structuring</li>
+<li>Flow plan → Memory Integrator for relevant connections</li>
+<li>Complete ritual → Ritual Delivery Controller for execution</li>
+</ol>
+<h4>Technical Requirements</h4>
+<ul>
+<li><strong>Template System</strong>: Modular ritual template framework</li>
+<li><strong>Context Processing</strong>: Time, location, and state awareness</li>
+<li><strong>Flow Control</strong>: Adaptive branching and pacing</li>
+<li><strong>Integration Framework</strong>: Connection to Voice, Breath, and Memory</li>
+</ul>
+<h3>6. Voice Engine &amp; Breath System</h3>
+<p><code>┌─────────────────────────────────────────────────────────┐
+│                Voice Engine &amp; Breath System              │
+│                                                         │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │Tone Selector    │◄──►│ Breath Pattern Controller │   │
+│  │                 │    │                           │   │
+│  └────────┬────────┘    └───────────────┬───────────┘   │
+│           │                             │               │
+│           ▼                             ▼               │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │Voice Pack       │◄──►│ Pacing Engine             │   │
+│  │Manager          │    │                           │   │
+│  └────────┬────────┘    └───────────────┬───────────┘   │
+│           │                             │               │
+│           ▼                             ▼               │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │Communication    │◄──►│ Visualization Controller  │   │
+│  │Coordinator      │    │                           │   │
+│  └─────────────────┘    └───────────────────────────┘   │
+│                                                         │
+└─────────────────────────────────────────────────────────┘</code></p>
+<h4>Subcomponents</h4>
+<ul>
+<li><strong>Tone Selector</strong>: Chooses appropriate communication tone</li>
+<li><strong>Voice Pack Manager</strong>: Handles different archetype-based voices</li>
+<li><strong>Communication Coordinator</strong>: Manages overall communication flow</li>
+<li><strong>Breath Pattern Controller</strong>: Selects appropriate breath patterns</li>
+<li><strong>Pacing Engine</strong>: Controls interaction timing and rhythm</li>
+<li><strong>Visualization Controller</strong>: Manages breath visualization elements</li>
+</ul>
+<h4>Data Flow</h4>
+<ol>
+<li>User state → Tone Selector for voice adaptation</li>
+<li>Tone selection → Voice Pack Manager for style application</li>
+<li>Voice style → Communication Coordinator for delivery</li>
+<li>User context → Breath Pattern Controller for pattern selection</li>
+<li>Breath pattern → Pacing Engine for timing coordination</li>
+<li>Pacing plan → Visualization Controller for UI elements</li>
+</ol>
+<h4>Technical Requirements</h4>
+<ul>
+<li><strong>NLP/LLM Integration</strong>: Fine-tuned models for consistent tone</li>
+<li><strong>Timing Mechanisms</strong>: Natural pause insertion algorithms</li>
+<li><strong>UI Animation</strong>: Breath visualization components</li>
+<li><strong>Synchronization</strong>: Voice and breath coordination</li>
+</ul>
+<h3>7. Ethics Engine</h3>
+<p><code>┌─────────────────────────────────────────────────────────┐
+│                      Ethics Engine                       │
+│                                                         │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │Consent Manager  │◄──►│ Boundary Enforcer         │   │
+│  │                 │    │                           │   │
+│  └────────┬────────┘    └───────────────┬───────────┘   │
+│           │                             │               │
+│           ▼                             ▼               │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │Trauma Protocol  │◄──►│ Bias Detector             │   │
+│  │Controller       │    │                           │   │
+│  └────────┬────────┘    └───────────────┬───────────┘   │
+│           │                             │               │
+│           ▼                             ▼               │
+│  ┌─────────────────┐    ┌───────────────────────────┐   │
+│  │                 │    │                           │   │
+│  │Privacy Guardian │◄──►│ Ethical Audit Logger      │   │
+│  │                 │    │                           │   │
+│  └─────────────────┘    └───────────────────────────┘   │
+│                                                         │
+└─────────────────────────────────────────────────────────┘</code></p>
+<h4>Subcomponents</h4>
+<ul>
+<li><strong>Consent Manager</strong>: Handles user permissions and consent</li>
+<li><strong>Boundary Enforcer</strong>: Maintains ethical interaction boundaries</li>
+<li><strong>Trauma Protocol Controller</strong>: Manages responses to sensitive topics</li>
+<li><strong>Bias Detector</strong>: Identifies and mitigates potential bias</li>
+<li><strong>Privacy Guardian</strong>: Ensures data privacy and protection</li>
+<li><strong>Ethical Audit Logger</strong>: Records ethical decisions for review</li>
+</ul>
+<h4>Data Flow</h4>
+<ol>
+<li>User interactions → Consent Manager for permission verification</li>
+<li>Interaction plans → Boundary Enforcer for ethical checking</li>
+<li>Content analysis → Trauma Protocol Controller for safety</li>
+<li>System outputs → Bias Detector for fairness assessment</li>
+<li>Data handling → Privacy Guardian for protection</li>
+<li>All ethical decisions → Ethical Audit Logger for accountability</li>
+</ol>
+<h4>Technical Requirements</h4>
+<ul>
+<li><strong>Consent Framework</strong>: Granular permission system</li>
+<li><strong>Rule Engine</strong>: Ethical boundary enforcement</li>
+<li><strong>Content Analysis</strong>: Sensitive topic detection</li>
+<li><strong>Bias Mitigation</strong>: Fairness algorithms and checks</li>
+</ul>
+<h2>Data Architecture</h2>
+<h3>Data Models</h3>
+<h4>User Profile</h4>
+<p><code>UserProfile {
+  id: UUID
+  archetypes: {
+    primary: ArchetypeEnum
+    secondary: ArchetypeEnum
+    confidence: Float
+  }
+  needs: {
+    certainty: Float
+    variety: Float
+    significance: Float
+    connection: Float
+    growth: Float
+    contribution: Float
+  }
+  preferences: {
+    breathPacing: Float
+    communicationStyle: StyleEnum
+    ritualPreferences: [String]
+  }
+  consent: {
+    dataCollection: Boolean
+    memoryStorage: Boolean
+    externalConnections: Boolean
+    sensitiveTopics: Boolean
+  }
+}</code></p>
+<h4>Memory Graph</h4>
+<p>```
+Node {
+  id: UUID
+  type: NodeTypeEnum  // Marker, Echo, Storyline
+  content: String
+  metadata: {
+    timestamp: DateTime
+    emotionalContext: {
+      primaryEmotion: EmotionEnum
+      intensity: Float
+    }
+    significance: Float
+    tags: [String]
+    isVault: Boolean
+    isPrivate: Boolean
+  }
+}</p>
+<p>Edge {
+  id: UUID
+  sourceId: UUID
+  targetId: UUID
+  type: EdgeTypeEnum  // Belongs, Influences, Precedes
+  strength: Float
+  metadata: {
+    timestamp: DateTime
+    description: String
+  }
+}
+```</p>
+<h4>Ritual Template</h4>
+<p><code>RitualTemplate {
+  id: UUID
+  type: RitualTypeEnum
+  name: String
+  description: String
+  elements: [
+    {
+      id: UUID
+      type: ElementTypeEnum  // Entrance, Core, Reflection, Exit
+      content: String
+      duration: Float
+      breathPattern: PatternEnum
+      voiceTone: ToneEnum
+      conditionalLogic: {
+        condition: String
+        truePathId: UUID
+        falsePathId: UUID
+      }
+    }
+  ]
+  metadata: {
+    recommendedContext: [ContextEnum]
+    emotionalStates: [EmotionEnum]
+    archetypeAlignment: [ArchetypeEnum]
+    joyPotential: Float
+  }
+}</code></p>
+<h3>Database Architecture</h3>
+<h4>Primary Databases</h4>
+<ol>
+<li><strong>Document Store</strong> (MongoDB)</li>
+<li>User profiles</li>
+<li>Ritual templates</li>
+<li>Voice packs</li>
+<li>
+<p>System configuration</p>
+</li>
+<li>
+<p><strong>Graph Database</strong> (Neo4j)</p>
+</li>
+<li>Memory graph</li>
+<li>Relationship mapping</li>
+<li>Pattern networks</li>
+<li>
+<p>Narrative structures</p>
+</li>
+<li>
+<p><strong>Encrypted Storage</strong> (Custom)</p>
+</li>
+<li>Memory Vault contents</li>
+<li>Sensitive user data</li>
+<li>Consent records</li>
+<li>Ethical audit logs</li>
+</ol>
+<h4>Data Flow Architecture</h4>
+<ol>
+<li><strong>Local Processing Layer</strong></li>
+<li>Mirror emotional processing</li>
+<li>Sensitive data handling</li>
+<li>Initial pattern recognition</li>
+<li>
+<p>Immediate response generation</p>
+</li>
+<li>
+<p><strong>Secure Storage Layer</strong></p>
+</li>
+<li>Encrypted memory storage</li>
+<li>User profile management</li>
+<li>Consent record maintenance</li>
+<li>
+<p>Audit logging</p>
+</li>
+<li>
+<p><strong>External Connection Layer</strong></p>
+</li>
+<li>MCPClientInterface connections</li>
+<li>Bridge content retrieval</li>
+<li>External API integration</li>
+<li>Resource discovery</li>
+</ol>
+<h2>Integration Architecture</h2>
+<h3>Component Integration</h3>
+<p><code>┌─────────────┐      ┌─────────────┐      ┌─────────────┐
+│             │      │             │      │             │
+│   Mirror    │◄────►│  Synthesis  │◄────►│   Bridge    │
+│             │      │             │      │             │
+└─────┬───────┘      └──────┬──────┘      └──────┬──────┘
+      │                     │                    │
+      │                     │                    │
+      ▼                     ▼                    ▼
+┌─────────────┐      ┌─────────────┐      ┌─────────────┐
+│             │      │             │      │             │
+│   Memory    │◄────►│RitualEngine │◄────►│MCPInterface │
+│   System    │      │             │      │             │
+│             │      │             │      │             │
+└─────┬───────┘      └──────┬──────┘      └──────┬──────┘
+      │                     │                    │
+      │                     │                    │
+      ▼                     ▼                    ▼
+┌─────────────┐      ┌─────────────┐      ┌─────────────┐
+│             │      │             │      │             │
+│Voice Engine │◄────►│Breath System│◄────►│Ethics Engine│
+│             │      │             │      │             │
+└─────────────┘      └─────────────┘      └─────────────┘</code></p>
+<h3>Integration Points</h3>
+<ol>
+<li><strong>Mirror ↔ Memory</strong></li>
+<li>Pattern storage and retrieval</li>
+<li>Emotional context recording</li>
+<li>User history access</li>
+<li>
+<p>Marker creation triggers</p>
+</li>
+<li>
+<p><strong>Mirror ↔ Synthesis</strong></p>
+</li>
+<li>Emotional state updates</li>
+<li>Need priority changes</li>
+<li>Pattern recognition insights</li>
+<li>
+<p>Archetype identification</p>
+</li>
+<li>
+<p><strong>Synthesis ↔ Bridge</strong></p>
+</li>
+<li>Transition triggers</li>
+<li>Content context provision</li>
+<li>Filtered content reception</li>
+<li>
+<p>Presentation framing</p>
+</li>
+<li>
+<p><strong>Synthesis ↔ RitualEngine</strong></p>
+</li>
+<li>Ritual selection guidance</li>
+<li>State information for personalization</li>
+<li>Ritual outcome feedback</li>
+<li>
+<p>Flow control coordination</p>
+</li>
+<li>
+<p><strong>RitualEngine ↔ Voice/Breath</strong></p>
+</li>
+<li>Ritual pacing coordination</li>
+<li>Communication style selection</li>
+<li>Breath pattern integration</li>
+<li>
+<p>Transition signaling</p>
+</li>
+<li>
+<p><strong>All Components ↔ Ethics Engine</strong></p>
+</li>
+<li>Consent verification</li>
+<li>Boundary enforcement</li>
+<li>Privacy protection</li>
+<li>Ethical audit logging</li>
+</ol>
+<h3>API Architecture</h3>
+<h4>Internal APIs</h4>
+<ol>
+<li>
+<p><strong>Mirror API</strong>
+   <code>/mirror/analyze
+   /mirror/detect-emotion
+   /mirror/identify-needs
+   /mirror/recognize-patterns
+   /mirror/generate-reflection</code></p>
+</li>
+<li>
+<p><strong>Bridge API</strong>
+   <code>/bridge/filter-content
+   /bridge/discover-resources
+   /bridge/generate-perspectives
+   /bridge/frame-content
+   /bridge/find-connections</code></p>
+</li>
+<li>
+<p><strong>Synthesis API</strong>
+   <code>/synthesis/manage-state
+   /synthesis/evaluate-transition
+   /synthesis/check-ethics
+   /synthesis/optimize-joy
+   /synthesis/make-decision</code></p>
+</li>
+<li>
+<p><strong>Memory API</strong>
+   <code>/memory/create-marker
+   /memory/detect-echo
+   /memory/update-storyline
+   /memory/access-vault
+   /memory/forget-memory</code></p>
+</li>
+<li>
+<p><strong>RitualEngine API</strong>
+   <code>/ritual/analyze-context
+   /ritual/select-template
+   /ritual/personalize
+   /ritual/manage-flow
+   /ritual/deliver</code></p>
+</li>
+</ol>
+<h4>External APIs</h4>
+<ol>
+<li>
+<p><strong>MCPClientInterface</strong>
+   <code>/mcp/discover
+   /mcp/filter
+   /mcp/retrieve
+   /mcp/validate</code></p>
+</li>
+<li>
+<p><strong>User Interface API</strong>
+   <code>/ui/journal
+   /ui/visualize-breath
+   /ui/display-memory
+   /ui/render-ritual
+   /ui/manage-profile</code></p>
+</li>
+</ol>
+<h2>Security Architecture</h2>
+<h3>Security Layers</h3>
+<ol>
+<li><strong>User Authentication</strong></li>
+<li>Secure authentication mechanisms</li>
+<li>Session management</li>
+<li>Access control</li>
+<li>
+<p>Permission verification</p>
+</li>
+<li>
+<p><strong>Data Encryption</strong></p>
+</li>
+<li>End-to-end encryption for sensitive data</li>
+<li>Encrypted storage for Memory Vault</li>
+<li>Secure transmission protocols</li>
+<li>
+<p>Key management system</p>
+</li>
+<li>
+<p><strong>Privacy Protection</strong></p>
+</li>
+<li>Local-first processing where possible</li>
+<li>Data minimization principles</li>
+<li>User control over all data</li>
+<li>
+<p>Transparent data handling</p>
+</li>
+<li>
+<p><strong>Ethical Safeguards</strong></p>
+</li>
+<li>Consent verification for all operations</li>
+<li>Boundary enforcement mechanisms</li>
+<li>Trauma-aware content filtering</li>
+<li>Bias detection and mitigation</li>
+</ol>
+<h3>Security Protocols</h3>
+<ol>
+<li><strong>Memory Vault Access</strong></li>
+<li>Multi-factor authentication</li>
+<li>Ritual-based access protocols</li>
+<li>Encryption key management</li>
+<li>
+<p>Access logging and auditing</p>
+</li>
+<li>
+<p><strong>External Connection Security</strong></p>
+</li>
+<li>API authentication and authorization</li>
+<li>Data transmission encryption</li>
+<li>Content validation and sanitization</li>
+<li>
+<p>Rate limiting and abuse prevention</p>
+</li>
+<li>
+<p><strong>Forgetting Protocol</strong></p>
+</li>
+<li>Secure and irreversible deletion</li>
+<li>Cascading removal across systems</li>
+<li>Verification of complete removal</li>
+<li>Audit trail for compliance</li>
+</ol>
+<h2>Deployment Architecture</h2>
+<h3>Deployment Models</h3>
+<ol>
+<li><strong>Local-First Model</strong></li>
+<li>Core processing on user device</li>
+<li>Sensitive data remains local</li>
+<li>Minimal cloud dependencies</li>
+<li>
+<p>Privacy-preserving architecture</p>
+</li>
+<li>
+<p><strong>Hybrid Model</strong></p>
+</li>
+<li>Local processing for sensitive operations</li>
+<li>Cloud services for resource-intensive tasks</li>
+<li>Secure synchronization between environments</li>
+<li>
+<p>User control over data location</p>
+</li>
+<li>
+<p><strong>Cloud Model (Optional)</strong></p>
+</li>
+<li>Encrypted cloud storage with user keys</li>
+<li>Scalable processing for complex operations</li>
+<li>Cross-device synchronization</li>
+<li>Backup and recovery services</li>
+</ol>
+<h3>Platform Support</h3>
+<ol>
+<li><strong>Mobile Applications</strong></li>
+<li>iOS native application</li>
+<li>Android native application</li>
+<li>Responsive design for different devices</li>
+<li>
+<p>Sensor integration for breath detection (optional)</p>
+</li>
+<li>
+<p><strong>Web Application</strong></p>
+</li>
+<li>Progressive Web App architecture</li>
+<li>Cross-browser compatibility</li>
+<li>Responsive design for all screen sizes</li>
+<li>
+<p>Accessibility-focused implementation</p>
+</li>
+<li>
+<p><strong>Future Platforms</strong></p>
+</li>
+<li>Wearable integration potential</li>
+<li>Voice assistant extensions</li>
+<li>Smart home device connections</li>
+<li>AR/VR experiences</li>
+</ol>
+<h2>Technology Stack Recommendations</h2>
+<h3>Frontend Technologies</h3>
+<ul>
+<li><strong>Framework</strong>: React Native (mobile), React (web)</li>
+<li><strong>State Management</strong>: Redux or Context API</li>
+<li><strong>UI Components</strong>: Custom component library</li>
+<li><strong>Animation</strong>: React Native Animated, Lottie</li>
+<li><strong>Accessibility</strong>: React Native Accessibility, ARIA</li>
+</ul>
+<h3>Backend Technologies</h3>
+<ul>
+<li><strong>API Framework</strong>: Node.js with Express</li>
+<li><strong>Authentication</strong>: JWT, OAuth</li>
+<li><strong>Real-time</strong>: Socket.io or WebSockets</li>
+<li><strong>Serverless</strong>: AWS Lambda or Firebase Functions (optional)</li>
+</ul>
+<h3>Database Technologies</h3>
+<ul>
+<li><strong>Document Store</strong>: MongoDB</li>
+<li><strong>Graph Database</strong>: Neo4j</li>
+<li><strong>Key-Value Store</strong>: Redis (caching)</li>
+<li><strong>Search</strong>: Elasticsearch (optional)</li>
+</ul>
+<h3>AI/ML Technologies</h3>
+<ul>
+<li><strong>NLP</strong>: Fine-tuned models (GPT, LLaMA, Mistral)</li>
+<li><strong>Emotion Analysis</strong>: Custom models or APIs</li>
+<li><strong>Pattern Recognition</strong>: TensorFlow or PyTorch</li>
+<li><strong>Recommendation</strong>: Custom algorithms</li>
+</ul>
+<h3>Security Technologies</h3>
+<ul>
+<li><strong>Encryption</strong>: AES-256, RSA</li>
+<li><strong>Authentication</strong>: OAuth 2.0, PKCE</li>
+<li><strong>API Security</strong>: HTTPS, API keys, rate limiting</li>
+<li><strong>Compliance</strong>: GDPR, CCPA frameworks</li>
+</ul>
+<h2>Implementation Roadmap</h2>
+<h3>Phase 1: Foundation</h3>
+<ol>
+<li>Core architecture implementation</li>
+<li>Basic Mirror functionality</li>
+<li>Simple Memory system</li>
+<li>Fundamental ethical framework</li>
+<li>Initial user interface</li>
+</ol>
+<h3>Phase 2: Core Experience</h3>
+<ol>
+<li>Enhanced Mirror capabilities</li>
+<li>Basic Bridge functionality</li>
+<li>Memory Marker system</li>
+<li>Voice Engine with two tones</li>
+<li>Timer-based Breath System</li>
+</ol>
+<h3>Phase 3: Ritual &amp; Synthesis</h3>
+<ol>
+<li>RitualEngine with basic templates</li>
+<li>Synthesis layer for transitions</li>
+<li>Technology Horizon Ritual</li>
+<li>JoyOptimizer with static scoring</li>
+<li>TruthFilter demonstration</li>
+</ol>
+<h3>Phase 4: Integration &amp; Refinement</h3>
+<ol>
+<li>Component integration</li>
+<li>User experience optimization</li>
+<li>Performance improvements</li>
+<li>Security hardening</li>
+<li>Deployment preparation</li>
+</ol>
+<h2>Conclusion</h2>
+<p>The technical architecture outlined in this document provides a comprehensive blueprint for implementing the AI Companion system. By following a modular, privacy-focused, and ethically-grounded approach, the architecture supports the creation of a relational AI that offers sacred support, fosters inner knowing, and facilitates aligned becoming.</p>
+<p>The architecture balances technical sophistication with ethical considerations, ensuring that the AI Companion can provide a deeply meaningful experience while maintaining user sovereignty, privacy, and emotional safety. The modular design allows for phased implementation, starting with core capabilities and expanding to the full vision over time.</p>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="bg-gray-100 p-4">
+    <div class="container mx-auto text-center text-gray-600">
+      <p>AI Companion Project Documentation © 2025</p>
+    </div>
+  </footer>
+</body>
+</html>
