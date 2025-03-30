@@ -1,0 +1,6 @@
+# Ignore diagram tool backups and temp files
+*.drawio
+*.vsdx
+*.DS_Store
+*.tmp
+*.log
