@@ -65,209 +65,68 @@
     font-size: 1.8rem;
 }
 
-.diagram {
-    position: relative;
-    height: 600px; /* Increased height for better visibility */
-    margin: 0 auto;
+/* SVG Container Styles */
+.svg-container {
     width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: visible;
 }
 
-/* Nodes */
-.node {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10; /* Ensure nodes are above connections */
+#architecture-svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+}
+
+/* SVG Animation Effects */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: 0;
+    }
 }
 
 .node-circle {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background-color: #2d3748;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-weight: 600;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    animation: pulse 3s infinite ease-in-out;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
 }
 
-.user-node {
-    top: 100px;
-    left: 100px;
+.user-node .node-circle {
+    animation-delay: 0s;
 }
 
-.external-node {
-    top: 100px;
-    right: 100px;
+.external-node .node-circle {
+    animation-delay: 1.5s;
 }
 
-/* Components */
-.component {
-    position: absolute;
-    width: 200px;
-    height: 250px;
-    border-radius: 10px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-    z-index: 5; /* Ensure components are above connections but below nodes */
+.connection path {
+    stroke-dasharray: 5;
+    animation: dash 20s linear infinite;
 }
 
-.mirror-component {
-    bottom: 100px;
-    left: 200px;
-    background: linear-gradient(135deg, #0072ff 0%, #00c6ff 100%);
-}
-
-.bridge-component {
-    bottom: 100px;
-    right: 200px;
-    background: linear-gradient(135deg, #da22ff 0%, #9733ee 100%);
-}
-
-.component-header {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: white;
-    margin-bottom: 5px;
-}
-
-.component-subheader {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 20px;
-}
-
-.mcp-layers {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.mcp-layer {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 5px;
-    padding: 10px;
-    text-align: center;
-    color: white;
-    font-weight: 500;
+/* Component hover effects */
+.component rect:first-child {
     transition: all 0.3s ease;
 }
 
+.mirror-component:hover rect:first-child {
+    filter: brightness(1.1);
+    transform: translateY(-5px);
+}
+
+.bridge-component:hover rect:first-child {
+    filter: brightness(1.1);
+    transform: translateY(-5px);
+}
+
 .mcp-layer:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: scale(1.05);
-}
-
-/* Connections */
-.connections {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1; /* Ensure connections are below components and nodes */
-}
-
-.connection {
-    position: absolute;
-}
-
-.connection-label {
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 3px 8px;
-    border-radius: 10px;
-    font-size: 0.8rem;
-    white-space: nowrap;
-    z-index: 2; /* Ensure labels are above connection lines */
-}
-
-.connection-arrow {
-    position: absolute;
-    border-top: 2px dashed;
-    width: 150px; /* Increased width for better visibility */
-    height: 0;
-}
-
-/* User to Mirror connection */
-.user-mirror .connection-arrow {
-    top: 150px;
-    left: 140px;
-    width: 150px;
-    border-color: #00c6ff;
-    transform: rotate(45deg);
-}
-
-.input-label {
-    top: 130px;
-    left: 180px;
-}
-
-/* Mirror to User connection */
-.mirror-user .connection-arrow {
-    top: 200px;
-    left: 140px;
-    width: 150px;
-    border-color: #0072ff;
-    transform: rotate(-45deg);
-}
-
-.response-label {
-    top: 180px;
-    left: 180px;
-}
-
-/* Bridge to External connection */
-.bridge-external .connection-arrow {
-    top: 150px;
-    right: 140px;
-    width: 150px;
-    border-color: #da22ff;
-    transform: rotate(-45deg);
-}
-
-.request-label {
-    top: 130px;
-    right: 180px;
-}
-
-/* External to Bridge connection */
-.external-bridge .connection-arrow {
-    top: 200px;
-    right: 140px;
-    width: 150px;
-    border-color: #9733ee;
-    transform: rotate(45deg);
-}
-
-.data-label {
-    top: 180px;
-    right: 180px;
-}
-
-/* Mirror to Bridge connection */
-.mirror-bridge .connection-arrow {
-    bottom: 225px;
-    left: 400px;
-    width: 200px; /* Increased width to connect components */
-    border-color: #ffffff;
-}
-
-.internal-label {
-    bottom: 230px;
-    left: 450px;
+    filter: brightness(1.2);
 }
 
 /* Architecture details */
@@ -309,49 +168,14 @@
     line-height: 1.5;
 }
 
-/* Animation */
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.05); opacity: 0.8; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-.node-circle {
-    animation: pulse 3s infinite ease-in-out;
-}
-
-.user-node .node-circle {
-    animation-delay: 0s;
-}
-
-.external-node .node-circle {
-    animation-delay: 1.5s;
-}
-
-/* Add animation for connections */
-@keyframes dash {
-    to {
-        stroke-dashoffset: 0;
-    }
-}
-
-/* Add glow effect to components */
-.mirror-component, .bridge-component {
-    box-shadow: 0 0 25px rgba(0, 150, 255, 0.3);
-    transition: all 0.3s ease;
-}
-
-.mirror-component:hover, .bridge-component:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 35px rgba(0, 150, 255, 0.5);
-}
-
 /* Responsive styles */
 @media (max-width: 992px) {
-    .diagram {
-        transform: scale(0.9);
-        transform-origin: center center;
-        height: 650px; /* Adjusted height for scaling */
+    .architecture-header h1 {
+        font-size: 2.2rem;
+    }
+    
+    .svg-container {
+        max-width: 700px;
     }
 }
 
@@ -364,10 +188,8 @@
         font-size: 1rem;
     }
     
-    .diagram {
-        transform: scale(0.7);
-        transform-origin: center center;
-        height: 700px; /* Adjusted height for scaling */
+    .svg-container {
+        max-width: 600px;
     }
     
     .architecture-section h2 {
@@ -380,14 +202,12 @@
 }
 
 @media (max-width: 576px) {
-    .diagram {
-        transform: scale(0.5);
-        transform-origin: center center;
-        height: 750px; /* Adjusted height for scaling */
-    }
-    
     .architecture-header h1 {
         font-size: 1.8rem;
+    }
+    
+    .svg-container {
+        max-width: 450px;
     }
 }
 

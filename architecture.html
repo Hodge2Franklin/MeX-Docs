@@ -3,31 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex, nofollow">
     <title>MeAI - Duality Model Architecture</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/architecture.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
-        <div class="container">
-            <a href="index.html" class="logo">MeAI</a>
-            <nav>
-                <ul class="nav-menu">
-                    <li><a href="index.html#features" class="nav-link">Features</a></li>
-                    <li><a href="index.html#benefits" class="nav-link">Benefits</a></li>
-                    <li><a href="documentation.html" class="nav-link">Documentation</a></li>
-                    <li><a href="architecture.html" class="nav-link active">Architecture</a></li>
-                    <li><a href="index.html#about" class="nav-link">About</a></li>
-                </ul>
-            </nav>
-            <a href="index.html#contact" class="cta-button">Get Started</a>
-            <div class="mobile-menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+        <div class="logo">
+            <a href="index.html">MeAI</a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="benefits.html">Benefits</a></li>
+                <li><a href="documentation.html">Documentation</a></li>
+                <li><a href="architecture.html" class="active">Architecture</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+        <div class="cta-button">
+            <a href="#" class="button">Get Started</a>
         </div>
     </header>
 
@@ -40,7 +38,6 @@
         <div class="architecture-content">
             <div class="architecture-text">
                 <p>The MeAI system is built on a revolutionary Duality Model that consists of two primary components: the Mirror and the Bridge. These components work together to create a dynamic system that both reflects your inner world and connects you to external resources.</p>
-                
                 <p>Each component is implemented using the Model-Controller-Presenter (MCP) architecture pattern, which ensures separation of concerns, maintainability, and scalability of the system.</p>
             </div>
 
@@ -48,79 +45,122 @@
                 <div class="diagram-container">
                     <h2>MeAI Duality Model with MCP Architecture</h2>
                     
-                    <div class="diagram">
-                        <!-- User Node -->
-                        <div class="node user-node">
-                            <div class="node-circle">User</div>
-                        </div>
-                        
-                        <!-- External Node -->
-                        <div class="node external-node">
-                            <div class="node-circle">External</div>
-                        </div>
-                        
-                        <!-- Mirror Component -->
-                        <div class="component mirror-component">
-                            <div class="component-header">Mirror</div>
-                            <div class="component-subheader">Reflects Inner World</div>
+                    <!-- SVG Diagram replaces the previous HTML/CSS diagram -->
+                    <div class="svg-container">
+                        <svg id="architecture-svg" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background gradient -->
+                            <defs>
+                                <linearGradient id="mirror-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#0072ff" />
+                                    <stop offset="100%" stop-color="#00c6ff" />
+                                </linearGradient>
+                                <linearGradient id="bridge-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#da22ff" />
+                                    <stop offset="100%" stop-color="#9733ee" />
+                                </linearGradient>
+                                <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                                    <feGaussianBlur stdDeviation="5" result="blur" />
+                                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                                </filter>
+                                <marker id="arrowhead-blue" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#00c6ff" />
+                                </marker>
+                                <marker id="arrowhead-purple" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#da22ff" />
+                                </marker>
+                                <marker id="arrowhead-white" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#ffffff" />
+                                </marker>
+                            </defs>
                             
-                            <div class="mcp-layers">
-                                <div class="mcp-layer model-layer">Model</div>
-                                <div class="mcp-layer controller-layer">Controller</div>
-                                <div class="mcp-layer presenter-layer">Presenter</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Bridge Component -->
-                        <div class="component bridge-component">
-                            <div class="component-header">Bridge</div>
-                            <div class="component-subheader">Connects to External</div>
+                            <!-- User Node -->
+                            <g class="node user-node">
+                                <circle cx="150" cy="100" r="50" fill="#2d3748" class="node-circle" />
+                                <text x="150" y="105" text-anchor="middle" fill="white" font-weight="600">User</text>
+                            </g>
                             
-                            <div class="mcp-layers">
-                                <div class="mcp-layer model-layer">Model</div>
-                                <div class="mcp-layer controller-layer">Controller</div>
-                                <div class="mcp-layer presenter-layer">Presenter</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Connections -->
-                        <div class="connections">
-                            <!-- User to Mirror -->
-                            <div class="connection user-mirror">
-                                <div class="connection-label input-label">Input</div>
-                                <div class="connection-arrow input-arrow"></div>
-                            </div>
+                            <!-- External Node -->
+                            <g class="node external-node">
+                                <circle cx="650" cy="100" r="50" fill="#2d3748" class="node-circle" />
+                                <text x="650" y="105" text-anchor="middle" fill="white" font-weight="600">External</text>
+                            </g>
                             
-                            <!-- Mirror to User -->
-                            <div class="connection mirror-user">
-                                <div class="connection-label response-label">Response</div>
-                                <div class="connection-arrow response-arrow"></div>
-                            </div>
+                            <!-- Mirror Component -->
+                            <g class="component mirror-component">
+                                <rect x="100" y="300" width="200" height="250" rx="10" fill="url(#mirror-gradient)" />
+                                <text x="200" y="340" text-anchor="middle" fill="white" font-weight="700" font-size="24">Mirror</text>
+                                <text x="200" y="370" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="14">Reflects Inner World</text>
+                                
+                                <!-- MCP Layers -->
+                                <rect x="120" y="400" width="160" height="40" rx="5" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" />
+                                <text x="200" y="425" text-anchor="middle" fill="white" font-weight="500">Model</text>
+                                
+                                <rect x="120" y="450" width="160" height="40" rx="5" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" />
+                                <text x="200" y="475" text-anchor="middle" fill="white" font-weight="500">Controller</text>
+                                
+                                <rect x="120" y="500" width="160" height="40" rx="5" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" />
+                                <text x="200" y="525" text-anchor="middle" fill="white" font-weight="500">Presenter</text>
+                            </g>
                             
-                            <!-- Bridge to External -->
-                            <div class="connection bridge-external">
-                                <div class="connection-label request-label">Request</div>
-                                <div class="connection-arrow request-arrow"></div>
-                            </div>
+                            <!-- Bridge Component -->
+                            <g class="component bridge-component">
+                                <rect x="500" y="300" width="200" height="250" rx="10" fill="url(#bridge-gradient)" />
+                                <text x="600" y="340" text-anchor="middle" fill="white" font-weight="700" font-size="24">Bridge</text>
+                                <text x="600" y="370" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="14">Connects to External</text>
+                                
+                                <!-- MCP Layers -->
+                                <rect x="520" y="400" width="160" height="40" rx="5" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" />
+                                <text x="600" y="425" text-anchor="middle" fill="white" font-weight="500">Model</text>
+                                
+                                <rect x="520" y="450" width="160" height="40" rx="5" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" />
+                                <text x="600" y="475" text-anchor="middle" fill="white" font-weight="500">Controller</text>
+                                
+                                <rect x="520" y="500" width="160" height="40" rx="5" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" />
+                                <text x="600" y="525" text-anchor="middle" fill="white" font-weight="500">Presenter</text>
+                            </g>
                             
-                            <!-- External to Bridge -->
-                            <div class="connection external-bridge">
-                                <div class="connection-label data-label">Data</div>
-                                <div class="connection-arrow data-arrow"></div>
-                            </div>
+                            <!-- Connections -->
+                            <!-- User to Mirror (Input) -->
+                            <g class="connection user-mirror">
+                                <path d="M175,140 L190,280" stroke="#00c6ff" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead-blue)" />
+                                <rect x="160" y="200" width="60" height="25" rx="10" fill="rgba(0,0,0,0.7)" />
+                                <text x="190" y="217" text-anchor="middle" fill="white" font-size="12">Input</text>
+                            </g>
                             
-                            <!-- Mirror to Bridge -->
-                            <div class="connection mirror-bridge">
-                                <div class="connection-label internal-label">Internal Processing</div>
-                                <div class="connection-arrow internal-arrow"></div>
-                            </div>
-                        </div>
+                            <!-- Mirror to User (Response) -->
+                            <g class="connection mirror-user">
+                                <path d="M130,280 L125,140" stroke="#0072ff" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead-blue)" />
+                                <rect x="90" y="200" width="80" height="25" rx="10" fill="rgba(0,0,0,0.7)" />
+                                <text x="130" y="217" text-anchor="middle" fill="white" font-size="12">Response</text>
+                            </g>
+                            
+                            <!-- Bridge to External (Request) -->
+                            <g class="connection bridge-external">
+                                <path d="M625,280 L625,140" stroke="#da22ff" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead-purple)" />
+                                <rect x="590" y="200" width="80" height="25" rx="10" fill="rgba(0,0,0,0.7)" />
+                                <text x="630" y="217" text-anchor="middle" fill="white" font-size="12">Request</text>
+                            </g>
+                            
+                            <!-- External to Bridge (Data) -->
+                            <g class="connection external-bridge">
+                                <path d="M675,140 L675,280" stroke="#9733ee" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead-purple)" />
+                                <rect x="660" y="200" width="60" height="25" rx="10" fill="rgba(0,0,0,0.7)" />
+                                <text x="690" y="217" text-anchor="middle" fill="white" font-size="12">Data</text>
+                            </g>
+                            
+                            <!-- Mirror to Bridge (Internal) -->
+                            <g class="connection mirror-bridge">
+                                <path d="M300,425 L500,425" stroke="#ffffff" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead-white)" />
+                                <rect x="370" y="405" width="70" height="25" rx="10" fill="rgba(0,0,0,0.7)" />
+                                <text x="405" y="422" text-anchor="middle" fill="white" font-size="12">Internal</text>
+                            </g>
+                        </svg>
                     </div>
                 </div>
             </div>
 
             <div class="architecture-details">
-                <section class="architecture-section">
+                <div class="architecture-section">
                     <h2>Mirror Component</h2>
                     <p>The Mirror component serves as the inward-focused engine for deep user understanding, building a living model of the user through emotional sensing, need detection, and pattern recognition.</p>
                     
@@ -131,9 +171,9 @@
                         <li><strong>Pattern Recognition</strong> - Identifies recurring themes and behaviors in user interactions</li>
                         <li><strong>Self-Reflection Facilitation</strong> - Helps users gain insights about themselves</li>
                     </ul>
-                </section>
+                </div>
                 
-                <section class="architecture-section">
+                <div class="architecture-section">
                     <h2>Bridge Component</h2>
                     <p>The Bridge component connects users to external resources, knowledge, and possibilities, serving as the outward-facing engine of the system.</p>
                     
@@ -144,9 +184,9 @@
                         <li><strong>Possibility Expansion</strong> - Introduces new perspectives and potential paths</li>
                         <li><strong>External Feedback Processing</strong> - Gathers and integrates insights from outside sources</li>
                     </ul>
-                </section>
+                </div>
                 
-                <section class="architecture-section">
+                <div class="architecture-section">
                     <h2>MCP Architecture Pattern</h2>
                     <p>Each component implements the Model-Controller-Presenter pattern:</p>
                     
@@ -173,71 +213,56 @@
                         <li>Determines optimal timing for interactions</li>
                         <li>Coordinates across different communication channels</li>
                     </ul>
-                </section>
+                </div>
                 
-                <section class="architecture-section">
+                <div class="architecture-section">
                     <h2>System Integration</h2>
                     <p>The Duality Model components and MCP architecture layers work together through:</p>
-                    
                     <ul>
                         <li><strong>Bidirectional Data Flow</strong> - Information moves smoothly between components</li>
                         <li><strong>Shared Context Awareness</strong> - All parts maintain awareness of the overall interaction state</li>
                         <li><strong>Adaptive Prioritization</strong> - System dynamically adjusts focus based on user needs</li>
                         <li><strong>Continuous Learning Loop</strong> - Ongoing improvement based on interaction outcomes</li>
                     </ul>
-                </section>
+                </div>
                 
-                <section class="architecture-section">
+                <div class="architecture-section">
                     <h2>Technical Implementation</h2>
                     <p>The architecture is implemented using:</p>
-                    
                     <ul>
                         <li><strong>Modular Microservices</strong> - For flexibility and independent scaling</li>
                         <li><strong>Secure API Gateways</strong> - For protected data exchange</li>
                         <li><strong>Real-time Processing Pipelines</strong> - For responsive interactions</li>
                         <li><strong>Distributed Memory Systems</strong> - For resilient data storage and retrieval</li>
                     </ul>
-                </section>
+                </div>
             </div>
         </div>
     </div>
 
     <footer>
-        <div class="container">
-            <div class="footer-container">
-                <div class="footer-info">
-                    <div class="footer-logo">MeAI</div>
-                    <p>Your personal AI companion for sacred support, inner knowing, and aligned becoming.</p>
-                </div>
-                
-                <div class="footer-links">
-                    <h4>Product</h4>
-                    <a href="index.html#features" class="footer-link">Features</a>
-                    <a href="index.html#benefits" class="footer-link">Benefits</a>
-                    <a href="#" class="footer-link">Pricing</a>
-                    <a href="#" class="footer-link">FAQ</a>
-                </div>
-                
-                <div class="footer-links">
-                    <h4>Resources</h4>
-                    <a href="documentation.html" class="footer-link">Documentation</a>
-                    <a href="#" class="footer-link">Blog</a>
-                    <a href="#" class="footer-link">Community</a>
-                    <a href="#" class="footer-link">Support</a>
-                </div>
-                
-                <div class="footer-links">
-                    <h4>Company</h4>
-                    <a href="#" class="footer-link">About Us</a>
-                    <a href="#" class="footer-link">Careers</a>
-                    <a href="#" class="footer-link">Privacy Policy</a>
-                    <a href="#" class="footer-link">Terms of Service</a>
-                </div>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <a href="index.html">MeAI</a>
             </div>
-            
-            <div class="copyright">
-                <p>&copy; 2025 MeAI. All rights reserved.</p>
+            <div class="footer-links">
+                <ul>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="benefits.html">Benefits</a></li>
+                    <li><a href="documentation.html">Documentation</a></li>
+                    <li><a href="architecture.html">Architecture</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
             </div>
+            <div class="footer-social">
+                <a href="#" class="social-icon">Twitter</a>
+                <a href="#" class="social-icon">LinkedIn</a>
+                <a href="#" class="social-icon">GitHub</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 MeAI. All rights reserved.</p>
+            <p>Made with <a href="https://manus.ai" target="_blank">Manus</a></p>
         </div>
     </footer>
 

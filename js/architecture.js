@@ -1,125 +1,78 @@
-// Architecture page interactive functionality
+// Architecture page JavaScript
 document.addEventListener('DOMContentLoaded', function() {
-    // Add hover effects for components
-    const components = document.querySelectorAll('.component');
-    components.forEach(component => {
-        component.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.05)';
-            this.style.transition = 'transform 0.3s ease';
-            
-            // Highlight related connections
-            if (this.classList.contains('mirror-component')) {
-                document.querySelector('.user-mirror .connection-arrow').style.borderTopWidth = '3px';
-                document.querySelector('.mirror-user .connection-arrow').style.borderTopWidth = '3px';
-                document.querySelector('.mirror-bridge .connection-arrow').style.borderTopWidth = '3px';
-            } else if (this.classList.contains('bridge-component')) {
-                document.querySelector('.bridge-external .connection-arrow').style.borderTopWidth = '3px';
-                document.querySelector('.external-bridge .connection-arrow').style.borderTopWidth = '3px';
-                document.querySelector('.mirror-bridge .connection-arrow').style.borderTopWidth = '3px';
-            }
-        });
-        
-        component.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1)';
-            
-            // Reset connections
-            document.querySelectorAll('.connection-arrow').forEach(arrow => {
-                arrow.style.borderTopWidth = '2px';
-            });
-        });
-    });
-    
-    // Add hover effects for nodes
-    const nodes = document.querySelectorAll('.node');
-    nodes.forEach(node => {
-        node.addEventListener('mouseenter', function() {
-            this.querySelector('.node-circle').style.transform = 'scale(1.1)';
-            this.querySelector('.node-circle').style.transition = 'transform 0.3s ease';
-            
-            // Highlight related connections
-            if (this.classList.contains('user-node')) {
-                document.querySelector('.user-mirror .connection-arrow').style.borderTopWidth = '3px';
-                document.querySelector('.mirror-user .connection-arrow').style.borderTopWidth = '3px';
-            } else if (this.classList.contains('external-node')) {
-                document.querySelector('.bridge-external .connection-arrow').style.borderTopWidth = '3px';
-                document.querySelector('.external-bridge .connection-arrow').style.borderTopWidth = '3px';
-            }
-        });
-        
-        node.addEventListener('mouseleave', function() {
-            this.querySelector('.node-circle').style.transform = 'scale(1)';
-            
-            // Reset connections
-            document.querySelectorAll('.connection-arrow').forEach(arrow => {
-                arrow.style.borderTopWidth = '2px';
-            });
-        });
-    });
-    
-    // Add hover effects for MCP layers
+    // Add interactive hover effects for diagram components
+    const mirrorComponent = document.querySelector('.mirror-component');
+    const bridgeComponent = document.querySelector('.bridge-component');
     const mcpLayers = document.querySelectorAll('.mcp-layer');
-    mcpLayers.forEach(layer => {
-        layer.addEventListener('mouseenter', function() {
-            // Find all layers of the same type and highlight them
-            const className = this.className.split(' ')[0];
-            document.querySelectorAll('.' + className).forEach(similarLayer => {
-                similarLayer.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
-                similarLayer.style.transform = 'scale(1.05)';
+    
+    // Function to highlight connections when hovering over components
+    function setupComponentInteractions() {
+        // Mirror component interactions
+        if (mirrorComponent) {
+            mirrorComponent.addEventListener('mouseenter', function() {
+                document.querySelectorAll('.user-mirror path, .mirror-user path, .mirror-bridge path').forEach(path => {
+                    path.setAttribute('stroke-width', '3');
+                    path.setAttribute('stroke-dasharray', '8,3');
+                });
             });
-        });
+            
+            mirrorComponent.addEventListener('mouseleave', function() {
+                document.querySelectorAll('.user-mirror path, .mirror-user path, .mirror-bridge path').forEach(path => {
+                    path.setAttribute('stroke-width', '2');
+                    path.setAttribute('stroke-dasharray', '5,5');
+                });
+            });
+        }
         
-        layer.addEventListener('mouseleave', function() {
-            // Reset all layers
-            document.querySelectorAll('.mcp-layer').forEach(resetLayer => {
-                resetLayer.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                resetLayer.style.transform = 'scale(1)';
+        // Bridge component interactions
+        if (bridgeComponent) {
+            bridgeComponent.addEventListener('mouseenter', function() {
+                document.querySelectorAll('.bridge-external path, .external-bridge path, .mirror-bridge path').forEach(path => {
+                    path.setAttribute('stroke-width', '3');
+                    path.setAttribute('stroke-dasharray', '8,3');
+                });
             });
-        });
-    });
-    
-    // Mobile menu toggle
-    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-    
-    if (mobileMenuToggle && navMenu) {
-        mobileMenuToggle.addEventListener('click', function() {
-            this.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
-    }
-    
-    // Error handling for diagram loading
-    function checkDiagramLoaded() {
-        const diagram = document.querySelector('.diagram');
-        if (!diagram || diagram.offsetHeight < 100) {
-            console.error('Diagram failed to load properly');
-            // Create fallback text description
-            const diagramContainer = document.querySelector('.diagram-container');
-            if (diagramContainer) {
-                diagramContainer.innerHTML += `
-                    <div class="diagram-fallback">
-                        <p class="error-message">The interactive diagram could not be loaded properly.</p>
-                        <p>The MeAI Duality Model consists of two primary components:</p>
-                        <ul>
-                            <li><strong>Mirror Component:</strong> Reflects the user's inner world</li>
-                            <li><strong>Bridge Component:</strong> Connects to external resources</li>
-                        </ul>
-                        <p>Each component uses the Model-Controller-Presenter (MCP) architecture pattern.</p>
-                    </div>
-                `;
-            }
+            
+            bridgeComponent.addEventListener('mouseleave', function() {
+                document.querySelectorAll('.bridge-external path, .external-bridge path, .mirror-bridge path').forEach(path => {
+                    path.setAttribute('stroke-width', '2');
+                    path.setAttribute('stroke-dasharray', '5,5');
+                });
+            });
         }
     }
     
-    // Check diagram after a short delay to ensure all styles are applied
-    setTimeout(checkDiagramLoaded, 1000);
+    // Setup responsive behavior for SVG diagram
+    function setupResponsiveDiagram() {
+        const svg = document.getElementById('architecture-svg');
+        if (svg) {
+            // Ensure SVG is responsive
+            window.addEventListener('resize', function() {
+                // Adjust viewBox if needed for different screen sizes
+                if (window.innerWidth < 576) {
+                    svg.setAttribute('viewBox', '0 0 800 600');
+                } else {
+                    svg.setAttribute('viewBox', '0 0 800 600');
+                }
+            });
+            
+            // Trigger resize event to set initial state
+            window.dispatchEvent(new Event('resize'));
+        }
+    }
     
-    // Handle window resize for responsive diagram
-    let resizeTimeout;
-    window.addEventListener('resize', function() {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(function() {
-            checkDiagramLoaded();
-        }, 500);
-    });
+    // Initialize diagram interactions
+    function initDiagram() {
+        setupComponentInteractions();
+        setupResponsiveDiagram();
+        
+        // Add fallback for browsers that don't support SVG well
+        const svgContainer = document.querySelector('.svg-container');
+        if (svgContainer && !document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1")) {
+            svgContainer.innerHTML = '<div class="svg-fallback"><p>Your browser does not support SVG. Please use a modern browser to view the architecture diagram.</p></div>';
+        }
+    }
+    
+    // Initialize the diagram
+    initDiagram();
 });
