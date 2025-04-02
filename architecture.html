@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>MeAI - Duality Model Architecture</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/documentation.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">MeAI</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html#features" class="nav-link">Features</a></li>
+                    <li><a href="index.html#benefits" class="nav-link">Benefits</a></li>
+                    <li><a href="documentation.html" class="nav-link">Documentation</a></li>
+                    <li><a href="architecture.html" class="nav-link active">Architecture</a></li>
+                    <li><a href="index.html#about" class="nav-link">About</a></li>
+                </ul>
+            </nav>
+            <a href="index.html#contact" class="cta-button">Get Started</a>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="container">
+                <h1>Duality Model Architecture</h1>
+                <p>Explore the innovative Mirror and Bridge components with MCP architecture</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="container">
+                <div class="architecture-container">
+                    <h2>MeAI Duality Model with MCP Architecture</h2>
+                    
+                    <div class="architecture-description">
+                        <p>The MeAI system is built on a revolutionary Duality Model that consists of two primary components: the Mirror and the Bridge. These components work together to create a dynamic system that both reflects your inner world and connects you to external resources.</p>
+                        <p>Each component is implemented using the Model-Controller-Presenter (MCP) architecture pattern, which ensures separation of concerns, maintainability, and scalability of the system.</p>
+                    </div>
+                    
+                    <div id="architecture-diagram-container">
+                        <!-- New professional diagram will be inserted here -->
+                    </div>
+                    
+                    <div class="architecture-features">
+                        <div class="feature-card">
+                            <h3>Mirror Component</h3>
+                            <p>The Mirror component reflects your inner world, creating a personalized experience based on your interactions, preferences, and patterns.</p>
+                            <p>It implements the MCP architecture to separate data handling (Model), business logic (Controller), and user interface (Presenter).</p>
+                        </div>
+                        
+                        <div class="feature-card bridge">
+                            <h3>Bridge Component</h3>
+                            <p>The Bridge component connects you to external resources, information, and services, extending the capabilities of the AI companion.</p>
+                            <p>It also follows the MCP architecture pattern for consistent implementation across the system.</p>
+                        </div>
+                        
+                        <div class="feature-card mcp">
+                            <h3>MCP Architecture</h3>
+                            <p>The Model-Controller-Presenter architecture is a variation of MVC that provides clear separation of concerns:</p>
+                            <ul>
+                                <li>Model: Manages data and business rules</li>
+                                <li>Controller: Handles user input and system events</li>
+                                <li>Presenter: Prepares data for display and manages UI logic</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="architecture-description">
+                        <h3>Data Flow and Interactions</h3>
+                        <p>The Mirror and Bridge components interact through a sophisticated data flow system:</p>
+                        <ol>
+                            <li>User input is processed by the Mirror component, which reflects and interprets the user's inner world</li>
+                            <li>The Mirror communicates with the Bridge component for external information and resources</li>
+                            <li>The Bridge connects to external systems and retrieves relevant data</li>
+                            <li>Both components use their respective MCP implementations to process and present information</li>
+                            <li>The system creates a seamless experience that combines personal reflection with external connections</li>
+                        </ol>
+                        <p>This architecture enables MeAI to provide a deeply personalized experience while maintaining connections to the broader world of information and resources.</p>
+                    </div>
+                    
+                    <div class="cta-container">
+                        <a href="documentation.html" class="button">Explore Full Documentation</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="index.html">MeAI</a>
+                </div>
+                <div class="footer-links">
+                    <ul>
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="index.html#benefits">Benefits</a></li>
+                        <li><a href="documentation.html">Documentation</a></li>
+                        <li><a href="architecture.html">Architecture</a></li>
+                        <li><a href="index.html#about">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <p>&copy; 2025 MeAI. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+            });
+        }
+        
+        // Load the SVG diagram
+        document.addEventListener('DOMContentLoaded', function() {
+            const diagramContainer = document.getElementById('architecture-diagram-container');
+            
+            fetch('img/architecture_diagram.svg')
+                .then(response => response.text())
+                .then(svgContent => {
+                    diagramContainer.innerHTML = svgContent;
+                })
+                .catch(error => {
+                    console.error('Error loading architecture diagram:', error);
+                    diagramContainer.innerHTML = '<p>Error loading architecture diagram. Please try again later.</p>';
+                });
+        });
+    </script>
+</body>
+</html>

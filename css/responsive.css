@@ -1,0 +1,179 @@
+/* Responsive Styles for Documentation Explorer */
+
+/* Tablet and smaller desktop */
+@media (max-width: 1200px) {
+    .documentation-sidebar {
+        width: 250px;
+    }
+    
+    .documentation-content {
+        padding: 30px 25px;
+    }
+}
+
+/* Mobile landscape and tablet portrait */
+@media (max-width: 992px) {
+    .documentation-container {
+        flex-direction: column;
+    }
+    
+    .documentation-sidebar {
+        width: 100%;
+        position: fixed;
+        top: 80px;
+        left: -100%;
+        height: calc(100vh - 80px);
+        z-index: 100;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    }
+    
+    .documentation-sidebar.mobile-active {
+        left: 0;
+    }
+    
+    .documentation-content {
+        width: 100%;
+        padding: 20px 15px;
+    }
+    
+    .sidebar-toggle {
+        display: block;
+        background-color: #007aff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    
+    .sidebar-toggle.active {
+        background-color: #0056b3;
+    }
+    
+    .doc-section h1 {
+        font-size: 1.8rem;
+    }
+    
+    .doc-section h2 {
+        font-size: 1.4rem;
+    }
+}
+
+/* Mobile portrait */
+@media (max-width: 576px) {
+    .documentation-content {
+        padding: 15px 10px;
+    }
+    
+    .doc-section h1 {
+        font-size: 1.6rem;
+    }
+    
+    .doc-section h2 {
+        font-size: 1.3rem;
+    }
+    
+    .doc-section h3 {
+        font-size: 1.1rem;
+    }
+    
+    .documentation-nav a {
+        padding: 6px 8px;
+    }
+    
+    .documentation-search input {
+        padding: 8px 10px;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .footer-links ul {
+        justify-content: center;
+        margin: 15px 0;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+    
+    .documentation-sidebar {
+        background-color: #1e1e1e;
+        border-right: 1px solid #333;
+    }
+    
+    .documentation-nav a {
+        color: #bbb;
+    }
+    
+    .documentation-nav a:hover {
+        background-color: #2a2a2a;
+        color: #fff;
+    }
+    
+    .documentation-nav a.active {
+        background-color: #0056b3;
+        color: white;
+    }
+    
+    .nav-category {
+        color: #ddd;
+        border-bottom: 1px solid #444;
+    }
+    
+    .doc-section h1, .doc-section h2, .doc-section h3 {
+        color: #e0e0e0;
+    }
+    
+    .doc-section p, .doc-section li {
+        color: #bbb;
+    }
+    
+    .doc-section code {
+        background-color: #2a2a2a;
+    }
+    
+    .doc-section pre {
+        background-color: #2a2a2a;
+    }
+    
+    .search-results {
+        background: #1e1e1e;
+        border: 1px solid #444;
+    }
+    
+    .search-result-item {
+        border-bottom: 1px solid #333;
+    }
+    
+    .search-result-item:hover {
+        background-color: #2a2a2a;
+    }
+    
+    .search-result-title {
+        color: #e0e0e0;
+    }
+    
+    .search-result-snippet {
+        color: #aaa;
+    }
+    
+    .documentation-search input {
+        background-color: #2a2a2a;
+        border: 1px solid #444;
+        color: #e0e0e0;
+    }
+    
+    .documentation-search button {
+        color: #aaa;
+    }
+}

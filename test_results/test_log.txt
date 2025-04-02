@@ -1,0 +1,6 @@
+[PASS] File exists: index.html: File found
+[PASS] File exists: documentation.html: File found
+[PASS] File exists: css/styles.css: File found
+[PASS] File exists: css/responsive.css: File found
+[PASS] File exists: js/documentation.js: File found
+[PASS] Documentation files: Found 16 markdown files

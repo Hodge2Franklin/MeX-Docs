@@ -1,0 +1,34 @@
+Running documentation section tests...
+-------------------------------------
+Testing section file availability:
+--------------------------------
+✅ Section 'overview' file exists: overview.md
+✅ Section 'duality-model' file exists: duality_model_architecture.md
+✅ Section 'memory-system' file exists: memory_system_components.md
+✅ Section 'voice-breath' file exists: voice_breath_systems.md
+✅ Section 'truthfilter-joyoptimizer' file exists: truthfilter_joyoptimizer.md
+✅ Section 'ritual-engine' file exists: ritual_engine_implementation.md
+✅ Section 'prototype-specifications' file exists: prototype_specifications.md
+✅ Section 'technical-architecture' file exists: technical_architecture.md
+✅ Section 'ethical-framework' file exists: ethical_framework.md
+✅ Section 'implementation-roadmap' file exists: implementation_roadmap.md
+
+Testing file mapping in documentation.js:
+---------------------------------------
+✅ documentation.js exists
+✅ memory-system mapping found in documentation.js
+✅ voice-breath mapping found in documentation.js
+
+Testing HTML structure:
+---------------------
+✅ memory-system section link exists in HTML
+✅ voice-breath section link exists in HTML
+✅ memory-system section container exists in HTML
+✅ voice-breath section container exists in HTML
+
+Testing double heading prevention:
+-------------------------------
+✅ Double heading prevention code exists
+
+All tests completed.
+-------------------
