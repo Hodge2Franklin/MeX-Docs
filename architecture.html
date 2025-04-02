@@ -7,7 +7,7 @@
     <title>MeAI - Duality Model Architecture</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/documentation.css">
+    <link rel="stylesheet" href="css/architecture.css">
 </head>
 <body>
     <header>
@@ -31,131 +31,216 @@
         </div>
     </header>
 
-    <main>
-        <section class="hero-section">
-            <div class="container">
-                <h1>Duality Model Architecture</h1>
-                <p>Explore the innovative Mirror and Bridge components with MCP architecture</p>
-            </div>
-        </section>
+    <div class="architecture-container">
+        <div class="architecture-header">
+            <h1>MeAI Duality Model Architecture</h1>
+            <p>Explore the innovative Mirror and Bridge components with MCP architecture</p>
+        </div>
 
-        <section class="content-section">
-            <div class="container">
-                <div class="architecture-container">
+        <div class="architecture-content">
+            <div class="architecture-text">
+                <p>The MeAI system is built on a revolutionary Duality Model that consists of two primary components: the Mirror and the Bridge. These components work together to create a dynamic system that both reflects your inner world and connects you to external resources.</p>
+                
+                <p>Each component is implemented using the Model-Controller-Presenter (MCP) architecture pattern, which ensures separation of concerns, maintainability, and scalability of the system.</p>
+            </div>
+
+            <div class="architecture-diagram">
+                <div class="diagram-container">
                     <h2>MeAI Duality Model with MCP Architecture</h2>
                     
-                    <div class="architecture-description">
-                        <p>The MeAI system is built on a revolutionary Duality Model that consists of two primary components: the Mirror and the Bridge. These components work together to create a dynamic system that both reflects your inner world and connects you to external resources.</p>
-                        <p>Each component is implemented using the Model-Controller-Presenter (MCP) architecture pattern, which ensures separation of concerns, maintainability, and scalability of the system.</p>
-                    </div>
-                    
-                    <div id="architecture-diagram-container">
-                        <!-- New professional diagram will be inserted here -->
-                    </div>
-                    
-                    <div class="architecture-features">
-                        <div class="feature-card">
-                            <h3>Mirror Component</h3>
-                            <p>The Mirror component reflects your inner world, creating a personalized experience based on your interactions, preferences, and patterns.</p>
-                            <p>It implements the MCP architecture to separate data handling (Model), business logic (Controller), and user interface (Presenter).</p>
+                    <div class="diagram">
+                        <!-- User Node -->
+                        <div class="node user-node">
+                            <div class="node-circle">User</div>
                         </div>
                         
-                        <div class="feature-card bridge">
-                            <h3>Bridge Component</h3>
-                            <p>The Bridge component connects you to external resources, information, and services, extending the capabilities of the AI companion.</p>
-                            <p>It also follows the MCP architecture pattern for consistent implementation across the system.</p>
+                        <!-- External Node -->
+                        <div class="node external-node">
+                            <div class="node-circle">External</div>
                         </div>
                         
-                        <div class="feature-card mcp">
-                            <h3>MCP Architecture</h3>
-                            <p>The Model-Controller-Presenter architecture is a variation of MVC that provides clear separation of concerns:</p>
-                            <ul>
-                                <li>Model: Manages data and business rules</li>
-                                <li>Controller: Handles user input and system events</li>
-                                <li>Presenter: Prepares data for display and manages UI logic</li>
-                            </ul>
+                        <!-- Mirror Component -->
+                        <div class="component mirror-component">
+                            <div class="component-header">Mirror</div>
+                            <div class="component-subheader">Reflects Inner World</div>
+                            
+                            <div class="mcp-layers">
+                                <div class="mcp-layer model-layer">Model</div>
+                                <div class="mcp-layer controller-layer">Controller</div>
+                                <div class="mcp-layer presenter-layer">Presenter</div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="architecture-description">
-                        <h3>Data Flow and Interactions</h3>
-                        <p>The Mirror and Bridge components interact through a sophisticated data flow system:</p>
-                        <ol>
-                            <li>User input is processed by the Mirror component, which reflects and interprets the user's inner world</li>
-                            <li>The Mirror communicates with the Bridge component for external information and resources</li>
-                            <li>The Bridge connects to external systems and retrieves relevant data</li>
-                            <li>Both components use their respective MCP implementations to process and present information</li>
-                            <li>The system creates a seamless experience that combines personal reflection with external connections</li>
-                        </ol>
-                        <p>This architecture enables MeAI to provide a deeply personalized experience while maintaining connections to the broader world of information and resources.</p>
-                    </div>
-                    
-                    <div class="cta-container">
-                        <a href="documentation.html" class="button">Explore Full Documentation</a>
+                        
+                        <!-- Bridge Component -->
+                        <div class="component bridge-component">
+                            <div class="component-header">Bridge</div>
+                            <div class="component-subheader">Connects to External</div>
+                            
+                            <div class="mcp-layers">
+                                <div class="mcp-layer model-layer">Model</div>
+                                <div class="mcp-layer controller-layer">Controller</div>
+                                <div class="mcp-layer presenter-layer">Presenter</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Connections -->
+                        <div class="connections">
+                            <!-- User to Mirror -->
+                            <div class="connection user-mirror">
+                                <div class="connection-label input-label">Input</div>
+                                <div class="connection-arrow input-arrow"></div>
+                            </div>
+                            
+                            <!-- Mirror to User -->
+                            <div class="connection mirror-user">
+                                <div class="connection-label response-label">Response</div>
+                                <div class="connection-arrow response-arrow"></div>
+                            </div>
+                            
+                            <!-- Bridge to External -->
+                            <div class="connection bridge-external">
+                                <div class="connection-label request-label">Request</div>
+                                <div class="connection-arrow request-arrow"></div>
+                            </div>
+                            
+                            <!-- External to Bridge -->
+                            <div class="connection external-bridge">
+                                <div class="connection-label data-label">Data</div>
+                                <div class="connection-arrow data-arrow"></div>
+                            </div>
+                            
+                            <!-- Mirror to Bridge -->
+                            <div class="connection mirror-bridge">
+                                <div class="connection-label internal-label">Internal Processing</div>
+                                <div class="connection-arrow internal-arrow"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+
+            <div class="architecture-details">
+                <section class="architecture-section">
+                    <h2>Mirror Component</h2>
+                    <p>The Mirror component serves as the inward-focused engine for deep user understanding, building a living model of the user through emotional sensing, need detection, and pattern recognition.</p>
+                    
+                    <h3>Key Functions</h3>
+                    <ul>
+                        <li><strong>Emotional Sensing</strong> - Detects and analyzes user emotions through text/voice input</li>
+                        <li><strong>Need Detection</strong> - Identifies underlying needs using frameworks like Robbins' 6 Needs</li>
+                        <li><strong>Pattern Recognition</strong> - Identifies recurring themes and behaviors in user interactions</li>
+                        <li><strong>Self-Reflection Facilitation</strong> - Helps users gain insights about themselves</li>
+                    </ul>
+                </section>
+                
+                <section class="architecture-section">
+                    <h2>Bridge Component</h2>
+                    <p>The Bridge component connects users to external resources, knowledge, and possibilities, serving as the outward-facing engine of the system.</p>
+                    
+                    <h3>Key Functions</h3>
+                    <ul>
+                        <li><strong>Knowledge Integration</strong> - Connects relevant information to user context</li>
+                        <li><strong>Resource Connection</strong> - Links to tools, communities, and opportunities</li>
+                        <li><strong>Possibility Expansion</strong> - Introduces new perspectives and potential paths</li>
+                        <li><strong>External Feedback Processing</strong> - Gathers and integrates insights from outside sources</li>
+                    </ul>
+                </section>
+                
+                <section class="architecture-section">
+                    <h2>MCP Architecture Pattern</h2>
+                    <p>Each component implements the Model-Controller-Presenter pattern:</p>
+                    
+                    <h3>Model Layer</h3>
+                    <ul>
+                        <li>Manages data, logic, and rules</li>
+                        <li>Maintains user information and interaction history</li>
+                        <li>Identifies patterns across interactions</li>
+                        <li>Draws conclusions based on available data</li>
+                    </ul>
+                    
+                    <h3>Controller Layer</h3>
+                    <ul>
+                        <li>Handles user input and system events</li>
+                        <li>Maintains and transitions system states</li>
+                        <li>Responds to triggers and scheduled events</li>
+                        <li>Coordinates between different system components</li>
+                    </ul>
+                    
+                    <h3>Presenter Layer</h3>
+                    <ul>
+                        <li>Shapes information for communication</li>
+                        <li>Adapts presentation to user preferences</li>
+                        <li>Determines optimal timing for interactions</li>
+                        <li>Coordinates across different communication channels</li>
+                    </ul>
+                </section>
+                
+                <section class="architecture-section">
+                    <h2>System Integration</h2>
+                    <p>The Duality Model components and MCP architecture layers work together through:</p>
+                    
+                    <ul>
+                        <li><strong>Bidirectional Data Flow</strong> - Information moves smoothly between components</li>
+                        <li><strong>Shared Context Awareness</strong> - All parts maintain awareness of the overall interaction state</li>
+                        <li><strong>Adaptive Prioritization</strong> - System dynamically adjusts focus based on user needs</li>
+                        <li><strong>Continuous Learning Loop</strong> - Ongoing improvement based on interaction outcomes</li>
+                    </ul>
+                </section>
+                
+                <section class="architecture-section">
+                    <h2>Technical Implementation</h2>
+                    <p>The architecture is implemented using:</p>
+                    
+                    <ul>
+                        <li><strong>Modular Microservices</strong> - For flexibility and independent scaling</li>
+                        <li><strong>Secure API Gateways</strong> - For protected data exchange</li>
+                        <li><strong>Real-time Processing Pipelines</strong> - For responsive interactions</li>
+                        <li><strong>Distributed Memory Systems</strong> - For resilient data storage and retrieval</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </div>
 
     <footer>
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <a href="index.html">MeAI</a>
+            <div class="footer-container">
+                <div class="footer-info">
+                    <div class="footer-logo">MeAI</div>
+                    <p>Your personal AI companion for sacred support, inner knowing, and aligned becoming.</p>
                 </div>
+                
                 <div class="footer-links">
-                    <ul>
-                        <li><a href="index.html#features">Features</a></li>
-                        <li><a href="index.html#benefits">Benefits</a></li>
-                        <li><a href="documentation.html">Documentation</a></li>
-                        <li><a href="architecture.html">Architecture</a></li>
-                        <li><a href="index.html#about">About</a></li>
-                    </ul>
+                    <h4>Product</h4>
+                    <a href="index.html#features" class="footer-link">Features</a>
+                    <a href="index.html#benefits" class="footer-link">Benefits</a>
+                    <a href="#" class="footer-link">Pricing</a>
+                    <a href="#" class="footer-link">FAQ</a>
                 </div>
-                <div class="footer-social">
-                    <p>&copy; 2025 MeAI. All rights reserved.</p>
+                
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <a href="documentation.html" class="footer-link">Documentation</a>
+                    <a href="#" class="footer-link">Blog</a>
+                    <a href="#" class="footer-link">Community</a>
+                    <a href="#" class="footer-link">Support</a>
                 </div>
+                
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <a href="#" class="footer-link">About Us</a>
+                    <a href="#" class="footer-link">Careers</a>
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 MeAI. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript -->
-    <script>
-        // Header scroll effect
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-
-        // Mobile menu toggle
-        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-        const navMenu = document.querySelector('.nav-menu');
-        
-        if (mobileMenuToggle) {
-            mobileMenuToggle.addEventListener('click', function() {
-                navMenu.classList.toggle('active');
-            });
-        }
-        
-        // Load the SVG diagram
-        document.addEventListener('DOMContentLoaded', function() {
-            const diagramContainer = document.getElementById('architecture-diagram-container');
-            
-            fetch('img/architecture_diagram.svg')
-                .then(response => response.text())
-                .then(svgContent => {
-                    diagramContainer.innerHTML = svgContent;
-                })
-                .catch(error => {
-                    console.error('Error loading architecture diagram:', error);
-                    diagramContainer.innerHTML = '<p>Error loading architecture diagram. Please try again later.</p>';
-                });
-        });
-    </script>
+    <script src="js/architecture.js"></script>
 </body>
 </html>

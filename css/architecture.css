@@ -1,0 +1,383 @@
+/* Architecture page styles */
+.architecture-container {
+    margin-top: 80px;
+    padding: 40px 0;
+}
+
+.architecture-header {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: white;
+}
+
+.architecture-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.architecture-header p {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    opacity: 0.9;
+}
+
+.architecture-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.architecture-text {
+    max-width: 800px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
+}
+
+.architecture-text p {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.architecture-diagram {
+    background-color: #0d1117;
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 50px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.diagram-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.diagram-container h2 {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+}
+
+.diagram {
+    position: relative;
+    height: 500px;
+    margin: 0 auto;
+}
+
+/* Nodes */
+.node {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.node-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #2d3748;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.user-node {
+    top: 50px;
+    left: 50px;
+}
+
+.external-node {
+    top: 50px;
+    right: 50px;
+}
+
+/* Components */
+.component {
+    position: absolute;
+    width: 200px;
+    height: 250px;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.mirror-component {
+    bottom: 50px;
+    left: 150px;
+    background: linear-gradient(135deg, #0072ff 0%, #00c6ff 100%);
+}
+
+.bridge-component {
+    bottom: 50px;
+    right: 150px;
+    background: linear-gradient(135deg, #da22ff 0%, #9733ee 100%);
+}
+
+.component-header {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.component-subheader {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 20px;
+}
+
+.mcp-layers {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mcp-layer {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    color: white;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.mcp-layer:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+/* Connections */
+.connections {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.connection {
+    position: absolute;
+}
+
+.connection-label {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.connection-arrow {
+    position: absolute;
+    border-top: 2px dashed;
+    width: 100px;
+    height: 0;
+}
+
+/* User to Mirror connection */
+.user-mirror .connection-arrow {
+    top: 120px;
+    left: 90px;
+    width: 100px;
+    border-color: #00c6ff;
+    transform: rotate(45deg);
+}
+
+.input-label {
+    top: 100px;
+    left: 130px;
+}
+
+/* Mirror to User connection */
+.mirror-user .connection-arrow {
+    top: 170px;
+    left: 90px;
+    width: 100px;
+    border-color: #0072ff;
+    transform: rotate(-45deg);
+}
+
+.response-label {
+    top: 150px;
+    left: 130px;
+}
+
+/* Bridge to External connection */
+.bridge-external .connection-arrow {
+    top: 120px;
+    right: 90px;
+    width: 100px;
+    border-color: #da22ff;
+    transform: rotate(-45deg);
+}
+
+.request-label {
+    top: 100px;
+    right: 130px;
+}
+
+/* External to Bridge connection */
+.external-bridge .connection-arrow {
+    top: 170px;
+    right: 90px;
+    width: 100px;
+    border-color: #9733ee;
+    transform: rotate(45deg);
+}
+
+.data-label {
+    top: 150px;
+    right: 130px;
+}
+
+/* Mirror to Bridge connection */
+.mirror-bridge .connection-arrow {
+    bottom: 175px;
+    left: 350px;
+    width: 100px;
+    border-color: #ffffff;
+}
+
+.internal-label {
+    bottom: 180px;
+    left: 330px;
+}
+
+/* Architecture details */
+.architecture-details {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.architecture-section {
+    margin-bottom: 40px;
+}
+
+.architecture-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.architecture-section h3 {
+    font-size: 1.4rem;
+    margin: 25px 0 15px;
+    color: #444;
+}
+
+.architecture-section p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.architecture-section ul {
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+.architecture-section li {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+/* Animation */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.node-circle {
+    animation: pulse 3s infinite ease-in-out;
+}
+
+.user-node .node-circle {
+    animation-delay: 0s;
+}
+
+.external-node .node-circle {
+    animation-delay: 1.5s;
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+    .diagram {
+        transform: scale(0.8);
+        transform-origin: center center;
+    }
+}
+
+@media (max-width: 768px) {
+    .architecture-header h1 {
+        font-size: 2rem;
+    }
+    
+    .architecture-header p {
+        font-size: 1rem;
+    }
+    
+    .diagram {
+        transform: scale(0.6);
+        height: 400px;
+    }
+    
+    .architecture-section h2 {
+        font-size: 1.6rem;
+    }
+    
+    .architecture-section h3 {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .diagram {
+        transform: scale(0.4);
+        height: 300px;
+    }
+    
+    .architecture-header h1 {
+        font-size: 1.8rem;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .architecture-section h2,
+    .architecture-section h3 {
+        color: #e0e0e0;
+    }
+    
+    .architecture-section p,
+    .architecture-section li {
+        color: #ccc;
+    }
+    
+    .architecture-section h2 {
+        border-bottom-color: #333;
+    }
+}
