@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>MeX AI Companion Documentation</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/highlight.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="/">MeX AI Companion</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="architectureDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Architecture
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="architectureDropdown">
+                                <a class="dropdown-item" href="/architecture/overview">Overview</a>
+                                <a class="dropdown-item" href="/architecture/duality-model">Duality Model</a>
+                                <a class="dropdown-item" href="/architecture/supporting-systems">Supporting Systems</a>
+                                <a class="dropdown-item" href="/architecture/data-architecture">Data Architecture</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userInteractionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                User Interaction
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="userInteractionDropdown">
+                                <a class="dropdown-item" href="/user-interaction/overview">Overview</a>
+                                <a class="dropdown-item" href="/user-interaction/interfaces">Interfaces</a>
+                                <a class="dropdown-item" href="/user-interaction/haptic-feedback">Haptic Feedback</a>
+                                <a class="dropdown-item" href="/user-interaction/voice-communication">Voice Communication</a>
+                                <a class="dropdown-item" href="/user-interaction/user-flows">User Flows</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="ethicsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Ethics
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="ethicsDropdown">
+                                <a class="dropdown-item" href="/ethics/overview">Overview</a>
+                                <a class="dropdown-item" href="/ethics/principles">Core Principles</a>
+                                <a class="dropdown-item" href="/ethics/implementation">Implementation</a>
+                                <a class="dropdown-item" href="/ethics/guardrails">Ethical Guardrails</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="analysisDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Analysis
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="analysisDropdown">
+                                <a class="dropdown-item" href="/analysis/comprehensive">Comprehensive Analysis</a>
+                                <a class="dropdown-item" href="/analysis/improvements">Improvement Plan</a>
+                                <a class="dropdown-item" href="/analysis/validation">Validation Report</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/visualizations">Visualizations</a>
+                        </li>
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search documentation" aria-label="Search" name="q">
+                        <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mt-4">
+        <%- body %>
+    </main>
+
+    <footer class="bg-light py-4 mt-5">
+        <div class="container text-center">
+            <p>MeX AI Companion Documentation &copy; 2025</p>
+        </div>
+    </footer>
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/highlight.min.js"></script>
+    <script src="/js/d3.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

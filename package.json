@@ -1,0 +1,24 @@
+{
+  "name": "mex_website",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "d3": "^7.9.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-ejs-layouts": "^2.5.1",
+    "highlight.js": "^11.11.1",
+    "jquery": "^3.7.1",
+    "marked": "^15.0.7",
+    "popper.js": "^1.16.1",
+    "search-index": "^6.0.0"
+  }
+}
