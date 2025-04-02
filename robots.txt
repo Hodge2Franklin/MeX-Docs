@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /
+
+# Prevent all search engines from indexing this site
+# This site contains proprietary documentation for the MeX AI Companion project
+# and should only be accessible to those with the direct URL.

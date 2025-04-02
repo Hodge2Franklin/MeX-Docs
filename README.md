@@ -2,82 +2,112 @@
 
 ## Project Overview
 
-The MeX AI Companion Documentation Explorer is a comprehensive web-based documentation system for the MeX AI Companion project (also known as MeAI, pronounced "Mia"). This explorer provides an organized and searchable interface for accessing all documentation related to the project's architecture, features, technical implementation, and user guides.
+The MeX AI Companion Documentation Explorer is a comprehensive web-based platform for exploring and understanding the MeX AI Companion (MeAI) project. This documentation explorer provides detailed information about the architecture, features, benefits, and technical implementation of the MeAI system.
 
-## Features
+## Key Features
 
-- **Comprehensive Documentation**: Access to 40+ documentation files covering all aspects of the MeX AI Companion
-- **Interactive Architecture Diagram**: Visual representation of the Duality Model with MCP Architecture
-- **Searchable Content**: Full-text search across all documentation
+- **Interactive Architecture Diagram**: SVG-based visualization of the Duality Model with MCP Architecture
+- **Comprehensive Documentation**: Access to 40+ documentation files covering all aspects of the MeAI system
+- **Searchable Content**: Find specific information across all documentation files
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
-- **Organized Categories**: Documentation organized into logical sections for easy navigation
-
-## Live Demo
-
-The documentation explorer is deployed at:
-https://nghwervf.manus.space/
+- **Organized Navigation**: Documentation organized into logical categories for easy browsing
 
 ## Repository Structure
 
-- `/css/` - Stylesheet files for the documentation explorer
-- `/js/` - JavaScript files for interactive functionality
-- `/img/` - Images and assets including the Mia illustration
-- `/docs/` - Markdown documentation files
-- `*.html` - HTML pages for the documentation explorer
+```
+/
+├── css/                  # Stylesheet files
+│   ├── architecture.css  # Styles for architecture page and diagram
+│   ├── benefits.css      # Styles for benefits page
+│   ├── documentation.css # Styles for documentation explorer
+│   ├── features.css      # Styles for features page
+│   ├── mia.css           # Styles for Mia image integration
+│   ├── responsive.css    # Responsive design styles
+│   └── styles.css        # Global styles
+├── docs/                 # Documentation markdown files
+│   ├── overview.md       # Project overview
+│   ├── technical_architecture.md # Technical architecture details
+│   └── ...               # 40+ additional documentation files
+├── img/                  # Image assets
+│   ├── mia.png           # Original Mia image
+│   ├── mia_transparent.png # Processed Mia image with transparency
+│   └── ...               # Additional images
+├── js/                   # JavaScript files
+│   ├── architecture.js   # Interactive architecture diagram functionality
+│   ├── documentation.js  # Documentation explorer functionality
+│   └── search.js         # Search functionality
+├── about.html            # About page
+├── architecture.html     # Architecture visualization page
+├── benefits.html         # Benefits page
+├── documentation.html    # Documentation explorer page
+├── features.html         # Features page
+├── index.html            # Home page
+├── DEPLOYMENT.md         # Deployment instructions
+├── DEVELOPMENT_NOTES.md  # Development notes and issue tracking
+├── README.md             # Project readme (this file)
+├── RELEASE_NOTES.md      # Version history and release notes
+├── robots.txt            # Search engine directives
+└── TECHNICAL.md          # Technical implementation details
+```
 
-## Key Pages
+## Setup Instructions
 
-- `index.html` - Home page with Mia image and feature overview
-- `documentation.html` - Main documentation explorer interface
-- `architecture.html` - Interactive architecture diagram and explanation
-- `features.html` - Detailed feature descriptions
-- `benefits.html` - Benefits of the MeX AI Companion
-- `about.html` - About page with project information
-
-## Development Setup
+### Local Development
 
 1. Clone the repository:
-```
-git clone -b Rev04 https://github.com/Hodge2Franklin/MeX-Docs.git
-```
+   ```
+   git clone https://github.com/Hodge2Franklin/MeX-Docs.git
+   cd MeX-Docs
+   ```
 
-2. Navigate to the project directory:
-```
-cd MeX-Docs
-```
+2. If you're using a local development server like Python's built-in HTTP server:
+   ```
+   python3 -m http.server 8000
+   ```
 
-3. Open the project in your preferred code editor
+3. Open your browser and navigate to:
+   ```
+   http://localhost:8000/
+   ```
 
-4. For local testing, you can use Python's built-in HTTP server:
-```
-python3 -m http.server 8000
-```
+### Deployment
 
-5. Access the site at `http://localhost:8000/`
+1. For static site deployment, simply upload the contents of this repository to your web server.
 
-## Deployment
+2. For deployment to Manus platform:
+   - Follow the instructions in DEPLOYMENT.md
 
-The documentation explorer is designed to be deployed as a static website. The deployment process is as follows:
+## Development History
 
-1. Ensure all changes are committed to the repository
-2. Build the static files if necessary
-3. Deploy to a static hosting service
+The MeX AI Companion Documentation Explorer has gone through several iterations of development:
 
-## Project History and Maintenance
+1. **Initial Setup**: Basic documentation explorer with limited functionality
+2. **Content Integration**: Integration of 40+ documentation files
+3. **Navigation Improvements**: Enhanced navigation and search functionality
+4. **Architecture Visualization**: SVG-based architecture diagram implementation
+5. **Responsive Design**: Mobile-friendly layout and design
+6. **Mia Integration**: Addition of Mia image (the inspiration for MeAI) to the home page
 
-This documentation explorer was created to provide a comprehensive reference for the MeX AI Companion project. It has undergone several revisions to improve functionality and fix issues:
-
-- **Rev04** - Current version with comprehensive documentation and fixed architecture diagram
-- Previous revisions included initial setup and incremental improvements
+For a detailed development history, see DEVELOPMENT_NOTES.md.
 
 ## Troubleshooting
 
 If you encounter any issues with the documentation explorer:
 
-1. Check the browser console for JavaScript errors
-2. Verify that all files are properly loaded
-3. Ensure CSS and JavaScript files are correctly linked
-4. For content loading issues, check the file paths in the JavaScript code
+1. **Content Not Loading**: Check browser console for JavaScript errors
+2. **Architecture Diagram Not Displaying**: Ensure your browser supports SVG
+3. **Search Not Working**: Verify that all JavaScript files are properly loaded
+
+For more detailed troubleshooting information, see TECHNICAL.md.
+
+## Contributing
+
+To contribute to this project:
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
 ## License
 
@@ -85,4 +115,4 @@ This project is proprietary and confidential. All rights reserved.
 
 ## Contact
 
-For questions or support, please contact the repository owner.
+For questions or support, please contact the MeX AI Companion team.

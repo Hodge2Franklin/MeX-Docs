@@ -1,125 +1,250 @@
-# Deployment Guide - MeX AI Companion Documentation Explorer
+# Deployment Guide for MeX AI Companion Documentation Explorer
 
-This document provides detailed instructions for deploying the MeX AI Companion Documentation Explorer to various environments.
+This guide provides comprehensive instructions for setting up, deploying, and maintaining the MeX AI Companion Documentation Explorer.
 
-## Prerequisites
+## Local Development Setup
 
-- Web server with static file hosting capabilities
-- Git (for obtaining the source code)
-- Basic knowledge of web server configuration
+### Prerequisites
 
-## Deployment Options
+- Git
+- Web browser
+- Basic HTTP server (Python's built-in server, Node.js http-server, etc.)
 
-### 1. Standard Web Server Deployment
+### Setup Steps
 
-#### Step 1: Obtain the Source Code
-```bash
-git clone -b Rev04 https://github.com/Hodge2Franklin/MeX-Docs.git
-cd MeX-Docs
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/Hodge2Franklin/MeX-Docs.git
+   cd MeX-Docs
+   git checkout Rev04
+   ```
+
+2. **Local Testing**
+
+   Using Python's built-in HTTP server:
+   ```bash
+   python3 -m http.server 8000
+   ```
+
+   Or using Node.js http-server:
+   ```bash
+   npm install -g http-server
+   http-server -p 8000
+   ```
+
+3. **Access the Local Site**
+
+   Open your browser and navigate to:
+   ```
+   http://localhost:8000/
+   ```
+
+## Adding or Updating Documentation
+
+### Documentation File Structure
+
+Documentation files are stored in the `docs/` directory as Markdown (.md) files:
+
+```
+docs/
+├── overview.md
+├── technical_architecture.md
+├── user_interaction_features.md
+└── ...
 ```
 
-#### Step 2: Configure Web Server
-Configure your web server to serve the files from the cloned directory. The specific configuration depends on your web server:
+### Adding New Documentation
 
-**Apache**:
-- Ensure the DocumentRoot points to the cloned directory
-- Make sure .htaccess files are enabled if you need URL rewriting
+1. Create a new Markdown file in the `docs/` directory
+2. Update the documentation navigation in `js/documentation.js`:
 
-**Nginx**:
-- Configure the server block to point to the cloned directory
-- Example configuration:
-```
-server {
-    listen 80;
-    server_name your-domain.com;
-    root /path/to/MeX-Docs;
-    index index.html;
-    
-    location / {
-        try_files $uri $uri/ =404;
-    }
-}
-```
+   ```javascript
+   const documentationStructure = [
+     {
+       category: "Overview",
+       items: [
+         { title: "Project Overview", path: "docs/overview.md" },
+         { title: "Your New Document", path: "docs/your_new_document.md" }
+       ]
+     },
+     // Other categories...
+   ];
+   ```
 
-#### Step 3: Verify Deployment
-- Access your domain in a web browser
-- Verify that the documentation explorer loads correctly
-- Test navigation and search functionality
-- Check mobile responsiveness
+3. Test locally to ensure the new document appears and loads correctly
 
-### 2. GitHub Pages Deployment
+### Updating Existing Documentation
 
-#### Step 1: Fork the Repository
-- Fork the repository to your GitHub account
-- Ensure you're using the Rev04 branch
+1. Edit the corresponding Markdown file in the `docs/` directory
+2. Test locally to ensure the updated content displays correctly
 
-#### Step 2: Enable GitHub Pages
-- Go to repository Settings
-- Navigate to Pages section
-- Select the Rev04 branch as the source
-- Save the configuration
+## Deployment Process
 
-#### Step 3: Access the Deployed Site
-- GitHub will provide a URL for your deployed site
-- Typically in the format: https://username.github.io/MeX-Docs/
+### Deployment to Manus Platform
 
-### 3. Static Site Hosting Services
+1. **Prepare for Deployment**
 
-The documentation explorer can be deployed to various static site hosting services:
+   Ensure all files are committed to the repository:
+   ```bash
+   git add .
+   git commit -m "Prepare for deployment: [Description of changes]"
+   git push origin Rev04
+   ```
 
-#### Netlify
-1. Connect your GitHub repository to Netlify
-2. Configure the build settings (not required as this is a pre-built static site)
-3. Deploy the site
+2. **Deploy Using Manus Tools**
 
-#### Vercel
-1. Import your GitHub repository to Vercel
-2. Configure as a static site project
-3. Deploy the site
+   ```bash
+   # If using Manus CLI
+   manus deploy --type static --dir /path/to/MeX-Docs
+   
+   # If using deployment function in Manus environment
+   deploy_apply_deployment(type="static", local_dir="/path/to/MeX-Docs")
+   ```
 
-## Post-Deployment Tasks
+3. **Verify Deployment**
 
-After deploying the documentation explorer, perform these tasks:
+   Access the deployed site at the URL provided by the deployment tool and verify:
+   - All pages load correctly
+   - Documentation content displays properly
+   - Architecture diagram renders correctly
+   - Navigation works as expected
+   - Search functionality works
 
-1. **Test All Functionality**:
-   - Verify all documentation sections load correctly
-   - Test search functionality
-   - Check responsive design on various devices
+### Manual Deployment to Web Hosting
 
-2. **Update DNS Records** (if using a custom domain):
-   - Point your domain to the hosting service
-   - Configure SSL certificates if needed
+1. **Build Process (if needed)**
 
-3. **Monitor Performance**:
-   - Check page load times
-   - Verify all assets are loading correctly
+   The site is static HTML/CSS/JS and doesn't require a build process.
 
-## Troubleshooting
+2. **Upload Files**
 
-### Common Issues
+   Upload all files to your web hosting service using FTP, SFTP, or the hosting provider's file manager.
 
-1. **Missing Content**:
-   - Ensure all documentation files are in the `docs/` directory
-   - Check file paths in the JavaScript file mapping
+3. **Configure Web Server**
 
-2. **Styling Issues**:
-   - Verify all CSS files are properly loaded
-   - Check for console errors related to missing resources
+   Ensure the web server is configured to:
+   - Serve index.html as the default document
+   - Set proper MIME types for .css, .js, and .md files
+   - Configure CORS if accessing documentation from different domains
 
-3. **Search Not Working**:
-   - Ensure JavaScript is enabled in the browser
-   - Check console for JavaScript errors
-   - Verify the search.js file is being loaded
+## Maintenance and Updates
 
-## Maintenance
+### Regular Maintenance Tasks
 
-To update the deployed documentation explorer:
+1. **Documentation Updates**
 
-1. Make changes to the repository
-2. Push changes to the Rev04 branch
-3. If using a CI/CD pipeline, the site will update automatically
-4. Otherwise, redeploy manually following the steps above
+   Regularly review and update documentation files to ensure they remain accurate and current.
 
----
+2. **Link Verification**
 
-For additional support or questions, please contact the repository maintainer.
+   Periodically check all internal and external links to ensure they're still valid.
+
+3. **Browser Compatibility Testing**
+
+   Test the site in different browsers and devices to ensure consistent functionality.
+
+### Troubleshooting Common Issues
+
+1. **Documentation Not Loading**
+
+   - Check browser console for JavaScript errors
+   - Verify the path to the Markdown file is correct
+   - Ensure the Markdown file exists and has the correct permissions
+
+2. **Architecture Diagram Not Displaying**
+
+   - Verify SVG support in the browser
+   - Check for JavaScript errors in the console
+   - Ensure all CSS files are properly loaded
+
+3. **Search Not Working**
+
+   - Check browser console for JavaScript errors
+   - Verify that all documentation files are accessible
+   - Check for syntax errors in the search implementation
+
+## Backup and Recovery
+
+### Backup Procedures
+
+1. **Repository Backup**
+
+   The primary backup is the Git repository itself. Ensure regular pushes to the remote repository:
+   ```bash
+   git push origin Rev04
+   ```
+
+2. **Manual Backups**
+
+   Periodically create manual backups of the entire project:
+   ```bash
+   zip -r mex-docs-backup-$(date +%Y%m%d).zip /path/to/MeX-Docs
+   ```
+
+### Recovery Procedures
+
+1. **Repository Recovery**
+
+   If the local copy is corrupted or lost, clone from the remote repository:
+   ```bash
+   git clone https://github.com/Hodge2Franklin/MeX-Docs.git
+   git checkout Rev04
+   ```
+
+2. **Deployment Recovery**
+
+   If the deployed site is corrupted:
+   - Redeploy from the repository
+   - Restore from a backup if the repository is also affected
+
+## Version Control and Release Management
+
+### Branching Strategy
+
+- **Rev04**: Main development branch
+- Create feature branches for significant changes:
+  ```bash
+  git checkout -b feature/new-feature-name
+  ```
+
+### Release Process
+
+1. **Pre-Release Testing**
+
+   - Test all functionality locally
+   - Verify all documentation content
+   - Check responsive design on multiple devices
+
+2. **Release Tagging**
+
+   Tag releases for future reference:
+   ```bash
+   git tag -a v1.0.0 -m "Version 1.0.0 - Initial release"
+   git push origin v1.0.0
+   ```
+
+3. **Release Notes**
+
+   Update RELEASE_NOTES.md with:
+   - Version number and date
+   - New features and improvements
+   - Bug fixes
+   - Known issues
+
+## Security Considerations
+
+1. **Content Security**
+
+   - The site uses robots.txt and meta tags to prevent search engine indexing
+   - No sensitive information should be included in the documentation
+
+2. **Access Control**
+
+   - The site doesn't implement authentication
+   - Rely on the obscurity of the deployment URL for limited access
+   - Consider implementing basic authentication if stricter access control is needed
+
+## Conclusion
+
+This deployment guide provides comprehensive instructions for setting up, deploying, and maintaining the MeX AI Companion Documentation Explorer. By following these procedures, you can ensure the documentation platform remains accessible, up-to-date, and recoverable in case of any issues.
