@@ -155,6 +155,209 @@ nav ul li a:hover {
     }
 }
 
+/* Section styles */
+.section {
+    padding: 80px 0;
+}
+
+.section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--secondary-color);
+}
+
+.section p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 40px;
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Features section */
+.features {
+    background-color: var(--light-bg);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.feature-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-hover);
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    color: var(--white);
+    font-size: 24px;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--secondary-color);
+}
+
+.feature-card p {
+    font-size: 1rem;
+    color: var(--text-light);
+    text-align: left;
+    margin-bottom: 0;
+}
+
+/* Benefits section */
+.benefits {
+    background-color: var(--white);
+    position: relative;
+    overflow: hidden;
+}
+
+.benefits-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+.benefits-text {
+    flex: 1;
+}
+
+.benefits-text h2 {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.benefits-text p {
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+.benefits-text ul {
+    list-style: none;
+    margin-bottom: 30px;
+}
+
+.benefits-text ul li {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+}
+
+.benefits-text ul li::before {
+    content: "✓";
+    color: var(--primary-color);
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.benefits-image {
+    flex: 1;
+    position: relative;
+}
+
+/* CTA Section */
+.cta-section {
+    background: var(--background-gradient);
+    color: var(--white);
+    text-align: center;
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-section h2 {
+    color: var(--white);
+}
+
+.cta-section p {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 40px;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.secondary-button {
+    display: inline-block;
+    background: transparent;
+    color: var(--white);
+    padding: 10px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid var(--white);
+}
+
+.secondary-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
+}
+
+/* Gradient shapes */
+.gradient-shape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.5;
+    z-index: 0;
+}
+
+.shape-1 {
+    background: var(--primary-color);
+    width: 300px;
+    height: 300px;
+    top: -150px;
+    left: -150px;
+}
+
+.shape-2 {
+    background: #00f2fe;
+    width: 200px;
+    height: 200px;
+    bottom: -100px;
+    right: 10%;
+}
+
+.shape-3 {
+    background: var(--dark-color);
+    width: 250px;
+    height: 250px;
+    bottom: 10%;
+    left: 5%;
+}
+
 /* Footer styles */
 footer {
     background-color: var(--secondary-color);
@@ -162,66 +365,91 @@ footer {
     padding: 50px 0 20px;
 }
 
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-bottom: 30px;
+.footer-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
 }
 
-.footer-logo a {
+.footer-info {
+    max-width: 300px;
+}
+
+.footer-logo {
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.footer-info p {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 20px;
+}
+
+.footer-links h4 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: var(--white);
+}
+
+.footer-link {
+    display: block;
+    color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
-}
-
-.footer-links ul {
-    list-style: none;
-}
-
-.footer-links ul li {
     margin-bottom: 10px;
-}
-
-.footer-links ul li a {
-    color: rgba(255, 255, 255, 0.8);
-    text-decoration: none;
     transition: all 0.3s ease;
 }
 
-.footer-links ul li a:hover {
+.footer-link:hover {
     color: var(--primary-color);
 }
 
-.footer-social {
-    display: flex;
-    gap: 15px;
-}
-
-.social-icon {
-    color: rgba(255, 255, 255, 0.8);
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.social-icon:hover {
-    color: var(--primary-color);
-}
-
-.footer-bottom {
+.copyright {
     text-align: center;
     padding-top: 20px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.footer-bottom p {
+.copyright p {
     color: rgba(255, 255, 255, 0.6);
     font-size: 0.9rem;
 }
 
+/* Animation */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.delay-1 {
+    transition-delay: 0.2s;
+}
+
+.fade-in.delay-2 {
+    transition-delay: 0.4s;
+}
+
+.fade-in.delay-3 {
+    transition-delay: 0.6s;
+}
+
 /* Responsive styles */
 @media (max-width: 992px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .benefits-content {
+        flex-direction: column;
+    }
+    
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+    }
+    
     .hero h1 {
         font-size: 3rem;
     }
@@ -229,24 +457,13 @@ footer {
     .hero-image {
         max-width: 40%;
     }
-    
-    .footer-content {
-        flex-direction: column;
-        gap: 30px;
-    }
-    
-    .footer-links ul {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-    }
-    
-    .footer-links ul li {
-        margin-bottom: 0;
-    }
 }
 
 @media (max-width: 768px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
     header .container {
         flex-direction: column;
         gap: 20px;
@@ -282,6 +499,14 @@ footer {
         transform: none;
         max-width: 80%;
         margin: 40px auto 0;
+    }
+    
+    .footer-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .section h2 {
+        font-size: 2rem;
     }
 }
 
