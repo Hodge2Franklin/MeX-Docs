@@ -1,0 +1,232 @@
+.benefits-hero {
+    background: linear-gradient(135deg, #0a2a5e 0%, #1e0b4f 100%);
+    color: white;
+    padding: 100px 0 50px;
+    text-align: center;
+}
+
+.benefits-hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.benefits-hero p {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.benefits-grid {
+    padding: 80px 0;
+    background-color: #f9f9f9;
+}
+
+.benefits-grid .container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.benefit-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.benefit-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.benefit-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.personal-icon {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.meaning-icon {
+    background: linear-gradient(135deg, #7367f0 0%, #ce9ffc 100%);
+}
+
+.sacred-icon {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.ethical-icon {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.adaptive-icon {
+    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+}
+
+.integration-icon {
+    background: linear-gradient(135deg, #5ee7df 0%, #b490ca 100%);
+}
+
+.benefit-card h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.benefit-card p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.benefit-card ul {
+    margin-bottom: 20px;
+    padding-left: 20px;
+}
+
+.benefit-card li {
+    margin-bottom: 8px;
+    color: #666;
+}
+
+.testimonials {
+    padding: 80px 0;
+    background-color: #f0f8ff;
+}
+
+.testimonials h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+    color: #333;
+}
+
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.testimonial {
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.testimonial p {
+    font-size: 1.1rem;
+    color: #666;
+    font-style: italic;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.testimonial-author {
+    display: flex;
+    flex-direction: column;
+}
+
+.testimonial-author .name {
+    font-weight: 600;
+    color: #333;
+}
+
+.testimonial-author .title {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.cta-section {
+    background: linear-gradient(135deg, #0a2a5e 0%, #1e0b4f 100%);
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.cta-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.cta-section p {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto 30px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+    .benefits-grid .container,
+    .testimonial-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .benefits-hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .benefits-hero p {
+        font-size: 1rem;
+    }
+    
+    .benefit-card {
+        padding: 20px;
+    }
+    
+    .benefit-card h2 {
+        font-size: 1.5rem;
+    }
+    
+    .testimonials h2 {
+        font-size: 2rem;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .benefits-grid,
+    .testimonials {
+        background-color: #1a1a1a;
+    }
+    
+    .benefit-card,
+    .testimonial {
+        background-color: #2a2a2a;
+    }
+    
+    .benefit-card h2,
+    .testimonials h2,
+    .testimonial-author .name {
+        color: #f0f0f0;
+    }
+    
+    .benefit-card p,
+    .benefit-card li,
+    .testimonial p,
+    .testimonial-author .title {
+        color: #ccc;
+    }
+}
