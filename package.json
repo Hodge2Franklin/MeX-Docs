@@ -1,0 +1,46 @@
+{
+  "name": "mex-ai-companion",
+  "version": "1.0.1",
+  "description": "A relational AI system designed for meaningful connection rather than utility",
+  "main": "code/backend/server.js",
+  "scripts": {
+    "start": "node code/backend/server.js",
+    "dev": "nodemon code/backend/server.js",
+    "test": "jest",
+    "lint": "eslint .",
+    "build": "webpack --config webpack.config.js",
+    "docs": "jsdoc -c jsdoc.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hodge2Franklin/MeX-Docs.git"
+  },
+  "keywords": [
+    "ai",
+    "companion",
+    "relational",
+    "duality-model",
+    "ethics"
+  ],
+  "author": "Hodge2Franklin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Hodge2Franklin/MeX-Docs/issues"
+  },
+  "homepage": "https://github.com/Hodge2Franklin/MeX-Docs#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^4.1.0",
+    "neo4j-driver": "^4.3.1",
+    "redis": "^3.1.2",
+    "dotenv": "^10.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "jest": "^27.0.6",
+    "nodemon": "^2.0.12",
+    "webpack": "^5.50.0",
+    "webpack-cli": "^4.8.0",
+    "jsdoc": "^3.6.7"
+  }
+}
