@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeAI Prototype Demo</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #9b59b6;
+            --text-color: #333333;
+            --background-color: #f5f5f5;
+            --card-background: #ffffff;
+            --border-color: #e0e0e0;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin: 30px 0 15px;
+        }
+        
+        h3 {
+            color: var(--accent-color);
+            margin: 20px 0 10px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        .demo-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .demo-card {
+            background-color: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px var(--shadow-color);
+            padding: 25px;
+            transition: transform 0.3s ease;
+        }
+        
+        .demo-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .demo-link {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 24px;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .demo-link:hover {
+            background-color: #2980b9;
+        }
+        
+        .feature-list {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+        
+        .feature-list li {
+            margin-bottom: 8px;
+        }
+        
+        .screenshot {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+        
+        .code-block {
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: monospace;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            color: #777;
+        }
+        
+        @media (min-width: 768px) {
+            .demo-container {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .demo-card {
+                flex: 1 1 calc(50% - 15px);
+                min-width: 300px;
+            }
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --text-color: #f5f5f5;
+                --background-color: #121212;
+                --card-background: #1e1e1e;
+                --border-color: #333333;
+                --shadow-color: rgba(0, 0, 0, 0.3);
+            }
+            
+            .code-block {
+                background-color: #2a2a2a;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MeAI Prototype Demo</h1>
+        <p>A relational AI companion focused on meaningful connection rather than utility</p>
+    </header>
+    
+    <main>
+        <section>
+            <h2>About the Prototype</h2>
+            <p>The MeAI prototype implements the innovative "Single Pixel + Haptic" approach, creating a minimalist yet emotionally resonant interface that encourages presence rather than distraction. This prototype demonstrates the core concepts and interactions of the MeAI experience.</p>
+            
+            <div class="code-block">
+                "The MeAI concept represents a paradigm shift in AI companions—moving from utility-focused assistants to relationship-centered companions that enhance human capacity for presence and insight."
+            </div>
+        </section>
+        
+        <section>
+            <h2>Key Features</h2>
+            <ul class="feature-list">
+                <li><strong>Single Pixel Visualization:</strong> A minimalist interface element that changes based on AI state</li>
+                <li><strong>Conversation Interface:</strong> Natural, flowing conversation that feels like interacting with a thoughtful companion</li>
+                <li><strong>Guided Rituals:</strong> Simple, meaningful practices that help users cultivate presence and insight</li>
+                <li><strong>Memory Visualization:</strong> Visual representation of the user's shared history with MeAI</li>
+                <li><strong>Personalization:</strong> Customization options for pixel appearance, voice tone, and haptic feedback</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>Demo Access</h2>
+            <div class="demo-container">
+                <div class="demo-card">
+                    <h3>Live Demo</h3>
+                    <p>Experience the MeAI prototype directly in your browser. The live demo showcases all the key features and interactions of the MeAI concept.</p>
+                    <a href="https://hodge2franklin.github.io/MeX-Docs/meai-prototype/" class="demo-link" target="_blank">Launch Live Demo</a>
+                </div>
+                
+                <div class="demo-card">
+                    <h3>GitHub Repository</h3>
+                    <p>Access the source code and documentation for the MeAI prototype. The repository includes detailed implementation notes and deployment instructions.</p>
+                    <a href="https://github.com/Hodge2Franklin/MeX-Docs/tree/meai-prototype" class="demo-link" target="_blank">View on GitHub</a>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Implementation Details</h2>
+            <p>The MeAI prototype is built with a modular architecture consisting of the following components:</p>
+            <ul class="feature-list">
+                <li><strong>Core HTML/CSS Structure:</strong> Foundation for the user interface</li>
+                <li><strong>Single Pixel Visualization:</strong> Central "Single Pixel" element with different states</li>
+                <li><strong>Conversation Interface:</strong> Messaging between user and AI</li>
+                <li><strong>Ritual Flows:</strong> Guided practices for presence and insight</li>
+                <li><strong>Memory Visualization:</strong> Visual representation of shared history</li>
+                <li><strong>Settings Manager:</strong> Personalization options</li>
+                <li><strong>Main Application:</strong> Integration of all components</li>
+                <li><strong>Performance Optimizations:</strong> Improved responsiveness</li>
+            </ul>
+            <p>For more detailed information, please refer to the <a href="https://github.com/Hodge2Franklin/MeX-Docs/blob/meai-prototype/meai-prototype/IMPLEMENTATION_DETAILS.md" target="_blank">Implementation Details</a> document.</p>
+        </section>
+        
+        <section>
+            <h2>Deployment</h2>
+            <p>The MeAI prototype is a static web application that can be deployed to any web server or hosting service that supports static websites. For detailed deployment instructions, please refer to the <a href="https://github.com/Hodge2Franklin/MeX-Docs/blob/meai-prototype/meai-prototype/DEPLOYMENT.md" target="_blank">Deployment Guide</a>.</p>
+            
+            <div class="code-block">
+                # Quick Start
+                git clone https://github.com/Hodge2Franklin/MeX-Docs.git
+                cd MeX-Docs
+                git checkout meai-prototype
+                cd meai-prototype
+                npx http-server -p 8080
+                # Then visit http://localhost:8080
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>MeAI Prototype &copy; 2025 | A relational AI companion focused on meaningful connection</p>
+    </footer>
+</body>
+</html>
