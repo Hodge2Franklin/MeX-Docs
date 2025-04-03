@@ -1,0 +1,2103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeAI Prototype - Single Pixel + Haptic Interface</title>
+    <style>
+        /* Base Styles */
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #9b59b6;
+            --text-color: #333333;
+            --background-color: #f5f5f5;
+            --card-background: #ffffff;
+            --border-color: #e0e0e0;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --pixel-size: 30px;
+            --pixel-color: #3498db;
+            --transition-speed: 0.3s;
+            --border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            max-width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Main Interface Styles */
+        .main-interface {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            min-height: calc(100vh - 60px);
+        }
+
+        /* Single Pixel Visualization */
+        .single-pixel-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 0;
+            flex: 1;
+        }
+
+        .single-pixel {
+            width: var(--pixel-size);
+            height: var(--pixel-size);
+            background-color: var(--pixel-color);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--pixel-color);
+            transition: all var(--transition-speed) ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .single-pixel.active {
+            transform: scale(1.2);
+            box-shadow: 0 0 25px var(--pixel-color);
+        }
+
+        .single-pixel.listening {
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        .single-pixel.thinking {
+            animation: breathe 3s infinite;
+        }
+
+        .single-pixel.speaking {
+            animation: speak 0.5s infinite alternate;
+        }
+
+        /* Conversation Interface */
+        .conversation-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px var(--shadow-color);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .conversation-messages {
+            height: 300px;
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background-color: var(--primary-color);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+
+        .ai-message {
+            background-color: #f0f0f0;
+            color: var(--text-color);
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+        }
+
+        .conversation-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .conversation-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 24px;
+            background-color: #f0f0f0;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .conversation-input button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 12px 20px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color var(--transition-speed) ease;
+        }
+
+        .conversation-input button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Navigation */
+        .main-nav {
+            width: 100%;
+            background-color: var(--card-background);
+            box-shadow: 0 -2px 10px var(--shadow-color);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .main-nav ul {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+        }
+
+        .main-nav button {
+            background: none;
+            border: none;
+            padding: 15px;
+            font-size: 14px;
+            color: #777;
+            cursor: pointer;
+            transition: color var(--transition-speed) ease;
+            position: relative;
+        }
+
+        .main-nav button.active {
+            color: var(--primary-color);
+        }
+
+        .main-nav button.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+        }
+
+        /* Section Styles */
+        .section {
+            width: 100%;
+            min-height: calc(100vh - 60px);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Rituals Section */
+        .rituals-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .ritual-card {
+            background-color: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px var(--shadow-color);
+            padding: 20px;
+            transition: transform var(--transition-speed) ease;
+        }
+
+        .ritual-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .ritual-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .ritual-card p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+
+        .ritual-button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color var(--transition-speed) ease;
+            width: 100%;
+        }
+
+        .ritual-button:hover {
+            background-color: #27ae60;
+        }
+
+        /* Memory Section */
+        .memory-visualization {
+            flex: 1;
+            background-color: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px var(--shadow-color);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .memory-placeholder {
+            text-align: center;
+            color: #999;
+            max-width: 400px;
+        }
+
+        /* Settings Section */
+        .settings-container {
+            background-color: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px var(--shadow-color);
+            padding: 20px;
+        }
+
+        .setting-group {
+            margin-bottom: 30px;
+        }
+
+        .setting-group h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .setting-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .setting-option label {
+            flex: 1;
+            margin-right: 15px;
+        }
+
+        .setting-option input[type="range"],
+        .setting-option input[type="color"],
+        .setting-option select {
+            width: 150px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Ritual Flow Container */
+        .ritual-flow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--background-color);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ritual-header {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .ritual-header button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        .ritual-content {
+            flex: 1;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .ritual-step {
+            max-width: 600px;
+        }
+
+        .ritual-step h3 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .ritual-step p {
+            margin-bottom: 30px;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        .ritual-navigation {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background-color: var(--card-background);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .ritual-navigation button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color var(--transition-speed) ease;
+        }
+
+        .ritual-navigation button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .ritual-progress {
+            display: flex;
+            gap: 8px;
+        }
+
+        .progress-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ccc;
+        }
+
+        .progress-dot.active {
+            background-color: var(--primary-color);
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes breathe {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes speak {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .rituals-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .conversation-container {
+                max-width: 100%;
+            }
+            
+            .conversation-messages {
+                height: 250px;
+            }
+            
+            .setting-option {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .setting-option label {
+                margin-bottom: 5px;
+            }
+            
+            .setting-option input[type="range"],
+            .setting-option input[type="color"],
+            .setting-option select {
+                width: 100%;
+            }
+        }
+
+        /* Tablet */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .rituals-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --text-color: #f5f5f5;
+                --background-color: #121212;
+                --card-background: #1e1e1e;
+                --border-color: #333333;
+                --shadow-color: rgba(0, 0, 0, 0.3);
+            }
+            
+            .ai-message {
+                background-color: #2a2a2a;
+                color: var(--text-color);
+            }
+            
+            .conversation-input input {
+                background-color: #2a2a2a;
+                color: var(--text-color);
+            }
+            
+            .main-nav {
+                background-color: #1a1a1a;
+            }
+            
+            .main-nav button {
+                color: #aaa;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Main Interface Section -->
+        <div class="main-interface" id="main-interface">
+            <!-- Single Pixel Visualization -->
+            <div class="single-pixel-container" id="single-pixel-container">
+                <div class="single-pixel" id="single-pixel"></div>
+            </div>
+
+            <!-- Conversation Interface -->
+            <div class="conversation-container" id="conversation-container">
+                <div class="conversation-messages" id="conversation-messages">
+                    <!-- Messages will be dynamically added here -->
+                </div>
+                <div class="conversation-input">
+                    <input type="text" id="user-input" placeholder="Talk to MeAI...">
+                    <button id="send-button">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <ul>
+                <li><button class="nav-button active" data-section="main-interface">Conversation</button></li>
+                <li><button class="nav-button" data-section="rituals-section">Rituals</button></li>
+                <li><button class="nav-button" data-section="memory-section">Memory</button></li>
+                <li><button class="nav-button" data-section="settings-section">Settings</button></li>
+            </ul>
+        </nav>
+
+        <!-- Rituals Section -->
+        <div class="section hidden" id="rituals-section">
+            <h2>Guided Rituals</h2>
+            <div class="rituals-container">
+                <div class="ritual-card" data-ritual="morning-reflection">
+                    <h3>Morning Reflection</h3>
+                    <p>Start your day with presence and intention</p>
+                    <button class="ritual-button">Begin</button>
+                </div>
+                <div class="ritual-card" data-ritual="gratitude-practice">
+                    <h3>Gratitude Practice</h3>
+                    <p>Cultivate appreciation for life's gifts</p>
+                    <button class="ritual-button">Begin</button>
+                </div>
+                <div class="ritual-card" data-ritual="evening-release">
+                    <h3>Evening Release</h3>
+                    <p>Let go of the day and prepare for rest</p>
+                    <button class="ritual-button">Begin</button>
+                </div>
+                <div class="ritual-card" data-ritual="mindful-breathing">
+                    <h3>Mindful Breathing</h3>
+                    <p>Return to your breath and center yourself</p>
+                    <button class="ritual-button">Begin</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Memory Section -->
+        <div class="section hidden" id="memory-section">
+            <h2>Memory Space</h2>
+            <div class="memory-visualization" id="memory-visualization">
+                <!-- Memory visualization will be dynamically generated here -->
+                <div class="memory-placeholder">
+                    <p>Your shared journey with MeAI will be visualized here as you interact over time.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div class="section hidden" id="settings-section">
+            <h2>Personalization</h2>
+            <div class="settings-container">
+                <div class="setting-group">
+                    <h3>Presence</h3>
+                    <div class="setting-option">
+                        <label for="pixel-color">Pixel Color</label>
+                        <input type="color" id="pixel-color" value="#3498db">
+                    </div>
+                    <div class="setting-option">
+                        <label for="pixel-size">Pixel Size</label>
+                        <input type="range" id="pixel-size" min="10" max="50" value="30">
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <h3>Voice</h3>
+                    <div class="setting-option">
+                        <label for="voice-tone">Voice Tone</label>
+                        <select id="voice-tone">
+                            <option value="nurturing">Nurturing</option>
+                            <option value="curious">Curious</option>
+                            <option value="balanced">Balanced</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <h3>Haptic Feedback</h3>
+                    <div class="setting-option">
+                        <label for="haptic-intensity">Intensity</label>
+                        <input type="range" id="haptic-intensity" min="0" max="10" value="5">
+                    </div>
+                    <div class="setting-option">
+                        <label for="haptic-enabled">Enable Haptic Feedback</label>
+                        <input type="checkbox" id="haptic-enabled" checked>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ritual Flow Container (Hidden by default) -->
+    <div class="ritual-flow-container hidden" id="ritual-flow-container">
+        <div class="ritual-header">
+            <button id="close-ritual">×</button>
+            <h2 id="ritual-title">Ritual Name</h2>
+        </div>
+        <div class="ritual-content" id="ritual-content">
+            <!-- Ritual content will be dynamically generated here -->
+        </div>
+        <div class="ritual-navigation">
+            <button id="ritual-prev" disabled>Previous</button>
+            <div class="ritual-progress" id="ritual-progress">
+                <!-- Progress indicators will be dynamically generated here -->
+            </div>
+            <button id="ritual-next">Next</button>
+        </div>
+    </div>
+
+    <script>
+        // All JavaScript functionality combined into a single file
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize components
+            const singlePixel = new SinglePixelVisualization();
+            const conversation = new ConversationInterface();
+            const rituals = new RitualFlows();
+            const memory = new MemoryVisualization();
+            const settings = new SettingsManager();
+            const app = new MeAIApplication();
+            
+            // Make components globally accessible
+            window.singlePixel = singlePixel;
+            window.conversation = conversation;
+            window.rituals = rituals;
+            window.memory = memory;
+            window.settings = settings;
+            window.meaiApp = app;
+            
+            console.log('MeAI Prototype Application Initialized');
+        });
+
+        // SinglePixelVisualization Component
+        class SinglePixelVisualization {
+            constructor() {
+                this.pixel = document.getElementById('single-pixel');
+                this.container = document.getElementById('single-pixel-container');
+                this.state = 'idle'; // idle, listening, thinking, speaking
+                this.settings = {
+                    color: '#3498db',
+                    size: 30,
+                    hapticEnabled: true,
+                    hapticIntensity: 5
+                };
+                
+                this.initEventListeners();
+                this.loadSettings();
+            }
+            
+            initEventListeners() {
+                // Pixel click interaction
+                this.pixel.addEventListener('click', () => {
+                    this.activatePixel();
+                });
+                
+                // Listen for settings changes
+                document.addEventListener('settings-updated', (e) => {
+                    this.updateSettings(e.detail);
+                });
+            }
+            
+            loadSettings() {
+                const savedSettings = localStorage.getItem('meai-settings');
+                if (savedSettings) {
+                    try {
+                        const parsedSettings = JSON.parse(savedSettings);
+                        this.updateSettings(parsedSettings);
+                    } catch (e) {
+                        console.error('Error loading settings:', e);
+                    }
+                }
+            }
+            
+            updateSettings(newSettings) {
+                if (newSettings.pixelColor) {
+                    this.settings.color = newSettings.pixelColor;
+                    document.documentElement.style.setProperty('--pixel-color', newSettings.pixelColor);
+                }
+                
+                if (newSettings.pixelSize) {
+                    this.settings.size = newSettings.pixelSize;
+                    document.documentElement.style.setProperty('--pixel-size', `${newSettings.pixelSize}px`);
+                }
+                
+                if (newSettings.hapticEnabled !== undefined) {
+                    this.settings.hapticEnabled = newSettings.hapticEnabled;
+                }
+                
+                if (newSettings.hapticIntensity !== undefined) {
+                    this.settings.hapticIntensity = newSettings.hapticIntensity;
+                }
+            }
+            
+            activatePixel() {
+                this.setState('listening');
+                this.triggerHapticFeedback('short');
+                
+                // Notify the conversation component that the user has activated the pixel
+                const event = new CustomEvent('pixel-activated');
+                document.dispatchEvent(event);
+            }
+            
+            setState(newState) {
+                // Remove current state class
+                this.pixel.classList.remove(this.state);
+                
+                // Set new state
+                this.state = newState;
+                this.pixel.classList.add(newState);
+                
+                // Trigger appropriate haptic feedback based on state change
+                if (newState === 'listening') {
+                    this.triggerHapticFeedback('short');
+                } else if (newState === 'thinking') {
+                    this.triggerHapticFeedback('medium');
+                } else if (newState === 'speaking') {
+                    this.triggerHapticFeedback('pattern');
+                }
+                
+                // Notify other components about state change
+                const event = new CustomEvent('pixel-state-changed', {
+                    detail: { state: newState }
+                });
+                document.dispatchEvent(event);
+            }
+            
+            triggerHapticFeedback(pattern) {
+                if (!this.settings.hapticEnabled) return;
+                
+                // Use the Web Vibration API if available
+                if ('vibrate' in navigator) {
+                    switch (pattern) {
+                        case 'short':
+                            navigator.vibrate(50 * this.settings.hapticIntensity / 5);
+                            break;
+                        case 'medium':
+                            navigator.vibrate(100 * this.settings.hapticIntensity / 5);
+                            break;
+                        case 'long':
+                            navigator.vibrate(200 * this.settings.hapticIntensity / 5);
+                            break;
+                        case 'pattern':
+                            // Create a pattern based on intensity
+                            const duration = 30 * this.settings.hapticIntensity / 5;
+                            const gap = 50 - (this.settings.hapticIntensity * 3);
+                            navigator.vibrate([duration, gap, duration, gap, duration]);
+                            break;
+                        default:
+                            navigator.vibrate(50);
+                    }
+                }
+            }
+            
+            pulse(duration = 1000) {
+                const originalState = this.state;
+                
+                // Add pulse animation
+                this.pixel.classList.add('active');
+                this.triggerHapticFeedback('short');
+                
+                // Remove after duration
+                setTimeout(() => {
+                    this.pixel.classList.remove('active');
+                }, duration);
+            }
+            
+            createRipple() {
+                // Create ripple element
+                const ripple = document.createElement('div');
+                ripple.classList.add('pixel-ripple');
+                
+                // Position at the center of the pixel
+                const pixelRect = this.pixel.getBoundingClientRect();
+                const containerRect = this.container.getBoundingClientRect();
+                
+                ripple.style.left = `${pixelRect.left - containerRect.left + pixelRect.width / 2}px`;
+                ripple.style.top = `${pixelRect.top - containerRect.top + pixelRect.height / 2}px`;
+                
+                // Add to container and trigger animation
+                this.container.appendChild(ripple);
+                
+                // Trigger haptic feedback
+                this.triggerHapticFeedback('medium');
+                
+                // Remove after animation completes
+                setTimeout(() => {
+                    ripple.remove();
+                }, 1000);
+            }
+        }
+
+        // ConversationInterface Component
+        class ConversationInterface {
+            constructor() {
+                // DOM elements
+                this.messagesContainer = document.getElementById('conversation-messages');
+                this.userInput = document.getElementById('user-input');
+                this.sendButton = document.getElementById('send-button');
+                
+                // Conversation state
+                this.conversationHistory = [];
+                this.isProcessing = false;
+                
+                // Initialize
+                this.initEventListeners();
+                this.loadConversationHistory();
+                this.welcomeUser();
+            }
+            
+            initEventListeners() {
+                // Send button click
+                this.sendButton.addEventListener('click', () => {
+                    this.processUserInput();
+                });
+                
+                // Enter key press in input field
+                this.userInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.processUserInput();
+                    }
+                });
+                
+                // Listen for pixel activation
+                document.addEventListener('pixel-activated', () => {
+                    if (!this.isProcessing && this.userInput.value.trim() === '') {
+                        // If no text input, treat pixel activation as a prompt for MeAI to initiate
+                        this.generateAIResponse('initiate');
+                    }
+                });
+                
+                // Listen for pixel state changes
+                document.addEventListener('pixel-state-changed', (e) => {
+                    // Update UI based on pixel state if needed
+                });
+            }
+            
+            loadConversationHistory() {
+                const savedHistory = localStorage.getItem('meai-conversation-history');
+                if (savedHistory) {
+                    try {
+                        this.conversationHistory = JSON.parse(savedHistory);
+                        
+                        // Display last 5 messages from history
+                        const recentMessages = this.conversationHistory.slice(-5);
+                        recentMessages.forEach(message => {
+                            this.addMessageToUI(message.text, message.sender);
+                        });
+                    } catch (e) {
+                        console.error('Error loading conversation history:', e);
+                    }
+                }
+            }
+            
+            saveConversationHistory() {
+                // Limit history to last 50 messages to prevent localStorage overflow
+                const limitedHistory = this.conversationHistory.slice(-50);
+                localStorage.setItem('meai-conversation-history', JSON.stringify(limitedHistory));
+            }
+            
+            welcomeUser() {
+                // Only show welcome if no conversation history exists
+                if (this.conversationHistory.length === 0) {
+                    setTimeout(() => {
+                        this.addAIMessage("Hello, I'm MeAI. I'm here to connect with you in a meaningful way. How are you feeling today?");
+                        
+                        // Update pixel state
+                        if (window.singlePixel) {
+                            window.singlePixel.setState('speaking');
+                            setTimeout(() => {
+                                window.singlePixel.setState('idle');
+                            }, 2000);
+                        }
+                    }, 1000);
+                }
+            }
+            
+            processUserInput() {
+                const userText = this.userInput.value.trim();
+                if (userText === '' || this.isProcessing) return;
+                
+                // Add user message to UI
+                this.addUserMessage(userText);
+                
+                // Clear input field
+                this.userInput.value = '';
+                
+                // Generate AI response
+                this.generateAIResponse(userText);
+            }
+            
+            addUserMessage(text) {
+                // Add to UI
+                this.addMessageToUI(text, 'user');
+                
+                // Add to history
+                this.conversationHistory.push({
+                    text: text,
+                    sender: 'user',
+                    timestamp: new Date().toISOString()
+                });
+                
+                // Save updated history
+                this.saveConversationHistory();
+            }
+            
+            addAIMessage(text) {
+                // Add to UI
+                this.addMessageToUI(text, 'ai');
+                
+                // Add to history
+                this.conversationHistory.push({
+                    text: text,
+                    sender: 'ai',
+                    timestamp: new Date().toISOString()
+                });
+                
+                // Save updated history
+                this.saveConversationHistory();
+            }
+            
+            addMessageToUI(text, sender) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.classList.add(sender === 'user' ? 'user-message' : 'ai-message');
+                messageElement.textContent = text;
+                
+                this.messagesContainer.appendChild(messageElement);
+                
+                // Scroll to bottom
+                this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+            }
+            
+            generateAIResponse(userInput) {
+                // Set processing state
+                this.isProcessing = true;
+                
+                // Update pixel state to thinking
+                if (window.singlePixel) {
+                    window.singlePixel.setState('thinking');
+                }
+                
+                // Simulate AI processing time
+                setTimeout(() => {
+                    let response;
+                    
+                    // Generate response based on user input
+                    if (userInput === 'initiate') {
+                        // AI-initiated conversation starters
+                        const starters = [
+                            "I noticed you've been quiet. Is there something on your mind?",
+                            "Would this be a good time for a brief mindfulness practice?",
+                            "I'm sensing this might be a moment for reflection. How are you feeling right now?",
+                            "Sometimes silence speaks volumes. What's present for you in this moment?"
+                        ];
+                        response = starters[Math.floor(Math.random() * starters.length)];
+                    } else {
+                        // Process user input and generate appropriate response
+                        response = this.processUserMessage(userInput);
+                    }
+                    
+                    // Update pixel state to speaking
+                    if (window.singlePixel) {
+                        window.singlePixel.setState('speaking');
+                    }
+                    
+                    // Add AI response with typing effect
+                    this.typeAIResponse(response);
+                }, 1500);
+            }
+            
+            processUserMessage(message) {
+                // Convert to lowercase for easier matching
+                const lowerMessage = message.toLowerCase();
+                
+                // Check for ritual-related queries
+                if (lowerMessage.includes('ritual') || 
+                    lowerMessage.includes('practice') || 
+                    lowerMessage.includes('meditation') ||
+                    lowerMessage.includes('mindful')) {
+                    return "Would you like to explore one of our guided rituals? They're designed to help you cultivate presence and insight. You can access them from the Rituals tab.";
+                }
+                
+                // Check for stress or anxiety indicators
+                if (lowerMessage.includes('stress') || 
+                    lowerMessage.includes('anxious') || 
+                    lowerMessage.includes('anxiety') ||
+                    lowerMessage.includes('worried') ||
+                    lowerMessage.includes('overwhelm')) {
+                    return "I notice you're experiencing some stress. Would you like to try a brief breathing practice to help center yourself? Sometimes just three deep breaths can create a moment of spaciousness.";
+                }
+                
+                // Check for questions about MeAI
+                if (lowerMessage.includes('who are you') || 
+                    lowerMessage.includes('what are you') ||
+                    lowerMessage.includes('about you') ||
+                    lowerMessage.includes('tell me about yourself')) {
+                    return "I'm MeAI, a relational AI companion designed to support meaningful connection rather than just utility. I'm here to help you cultivate presence, insight, and well-being through conversation and guided practices.";
+                }
+                
+                // Check for gratitude or positive emotions
+                if (lowerMessage.includes('thank') || 
+                    lowerMessage.includes('grateful') || 
+                    lowerMessage.includes('appreciate') ||
+                    lowerMessage.includes('happy') ||
+                    lowerMessage.includes('good')) {
+                    return "I appreciate you sharing that positive energy. Moments of gratitude and joy are worth savoring. Is there something specific that's contributing to this feeling?";
+                }
+                
+                // Default responses for general conversation
+                const generalResponses = [
+                    "Thank you for sharing that with me. What feels most important about this for you right now?",
+                    "I'm here with you in this moment. Would you like to explore this further or would you prefer some space to reflect?",
+                    "I appreciate you trusting me with your thoughts. How does this relate to what matters most to you?",
+                    "I'm curious about how this is affecting you. Would you like to tell me more about what you're experiencing?",
+                    "That's really interesting. I wonder how this connects to other aspects of your life?"
+                ];
+                
+                return generalResponses[Math.floor(Math.random() * generalResponses.length)];
+            }
+            
+            typeAIResponse(text) {
+                // Create message element
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message', 'ai-message');
+                this.messagesContainer.appendChild(messageElement);
+                
+                // Scroll to bottom
+                this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+                
+                let i = 0;
+                const typingSpeed = 30; // ms per character
+                
+                // Typing effect
+                const typeNextChar = () => {
+                    if (i < text.length) {
+                        messageElement.textContent += text.charAt(i);
+                        i++;
+                        this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+                        setTimeout(typeNextChar, typingSpeed);
+                    } else {
+                        // Typing complete
+                        this.isProcessing = false;
+                        
+                        // Add to conversation history
+                        this.conversationHistory.push({
+                            text: text,
+                            sender: 'ai',
+                            timestamp: new Date().toISOString()
+                        });
+                        
+                        // Save updated history
+                        this.saveConversationHistory();
+                        
+                        // Reset pixel state
+                        if (window.singlePixel) {
+                            setTimeout(() => {
+                                window.singlePixel.setState('idle');
+                            }, 500);
+                        }
+                    }
+                };
+                
+                // Start typing effect
+                typeNextChar();
+            }
+            
+            clearConversation() {
+                // Clear UI
+                this.messagesContainer.innerHTML = '';
+                
+                // Clear history
+                this.conversationHistory = [];
+                localStorage.removeItem('meai-conversation-history');
+                
+                // Show welcome message again
+                this.welcomeUser();
+            }
+        }
+
+        // RitualFlows Component
+        class RitualFlows {
+            constructor() {
+                // DOM elements
+                this.ritualsSection = document.getElementById('rituals-section');
+                this.ritualCards = document.querySelectorAll('.ritual-card');
+                this.ritualFlowContainer = document.getElementById('ritual-flow-container');
+                this.ritualTitle = document.getElementById('ritual-title');
+                this.ritualContent = document.getElementById('ritual-content');
+                this.ritualProgress = document.getElementById('ritual-progress');
+                this.prevButton = document.getElementById('ritual-prev');
+                this.nextButton = document.getElementById('ritual-next');
+                this.closeButton = document.getElementById('close-ritual');
+                
+                // Ritual state
+                this.currentRitual = null;
+                this.currentStep = 0;
+                this.ritualData = this.initializeRitualData();
+                
+                // Initialize
+                this.initEventListeners();
+            }
+            
+            initEventListeners() {
+                // Ritual card selection
+                this.ritualCards.forEach(card => {
+                    card.addEventListener('click', () => {
+                        const ritualId = card.getAttribute('data-ritual');
+                        this.startRitual(ritualId);
+                    });
+                });
+                
+                // Navigation buttons
+                this.prevButton.addEventListener('click', () => {
+                    this.navigateRitualStep(-1);
+                });
+                
+                this.nextButton.addEventListener('click', () => {
+                    this.navigateRitualStep(1);
+                });
+                
+                // Close button
+                this.closeButton.addEventListener('click', () => {
+                    this.closeRitual();
+                });
+            }
+            
+            initializeRitualData() {
+                return {
+                    'morning-reflection': {
+                        title: 'Morning Reflection',
+                        description: 'Start your day with presence and intention',
+                        steps: [
+                            {
+                                title: 'Welcome',
+                                content: 'This morning reflection ritual will help you start your day with presence and intention. Find a comfortable position and take a moment to settle in. We\'ll begin with a few deep breaths to center yourself.'
+                            },
+                            {
+                                title: 'Breath Awareness',
+                                content: 'Take three deep breaths, inhaling slowly through your nose and exhaling fully through your mouth. Feel your body becoming more relaxed with each breath. Notice the sensations of breathing without trying to change anything.'
+                            },
+                            {
+                                title: 'Body Check-In',
+                                content: 'Bring your awareness to your body. Notice any areas of tension or comfort. There\'s no need to change anything—simply observe with curiosity and kindness. How does your body feel in this moment?'
+                            },
+                            {
+                                title: 'Emotional Weather',
+                                content: 'Now check in with your emotional state. What\'s the weather pattern of your emotions right now? Stormy, sunny, foggy, or something else? Just notice without judgment, acknowledging whatever is present.'
+                            },
+                            {
+                                title: 'Setting Intention',
+                                content: 'Consider what quality you\'d like to bring into your day. Perhaps it\'s patience, curiosity, courage, or compassion. Choose one quality and set an intention to embody it today.'
+                            },
+                            {
+                                title: 'Completion',
+                                content: 'Take one more deep breath, carrying your intention with you. As you move into your day, remember that you can return to this sense of presence at any time. Your morning reflection is complete.'
+                            }
+                        ]
+                    },
+                    'gratitude-practice': {
+                        title: 'Gratitude Practice',
+                        description: 'Cultivate appreciation for life\'s gifts',
+                        steps: [
+                            {
+                                title: 'Welcome',
+                                content: 'This gratitude practice will help you cultivate appreciation for the gifts in your life. Find a comfortable position where you can be alert yet relaxed. We\'ll begin with a few moments to settle in.'
+                            },
+                            {
+                                title: 'Centering',
+                                content: 'Take three deep breaths, allowing your body to relax and your mind to become more present. With each exhale, let go of any tension or preoccupations.'
+                            },
+                            {
+                                title: 'Simple Gratitude',
+                                content: 'Bring to mind something simple that you\'re grateful for today. It might be a basic comfort like clean water, a warm bed, or the taste of your morning coffee. Take a moment to really feel your appreciation for this simple gift.'
+                            },
+                            {
+                                title: 'Relationship Gratitude',
+                                content: 'Now consider a person in your life whom you appreciate. This could be someone who has supported you, taught you something valuable, or simply brings joy to your life. Feel your gratitude for their presence.'
+                            },
+                            {
+                                title: 'Unexpected Gratitude',
+                                content: 'Think of something challenging or difficult that ultimately led to growth or learning. Can you find gratitude even for the obstacles that have shaped you? This doesn\'t mean the difficulty was good, just that you can appreciate what came from it.'
+                            },
+                            {
+                                title: 'Embodied Gratitude',
+                                content: 'Notice how gratitude feels in your body. Perhaps there\'s warmth in your chest, relaxation in your shoulders, or a slight smile on your face. Let this feeling of appreciation permeate your entire being.'
+                            },
+                            {
+                                title: 'Completion',
+                                content: 'As we complete this practice, consider how you might carry this sense of gratitude with you throughout your day. Perhaps you could pause briefly at different moments to notice something you appreciate. Your gratitude practice is complete.'
+                            }
+                        ]
+                    },
+                    'evening-release': {
+                        title: 'Evening Release',
+                        description: 'Let go of the day and prepare for rest',
+                        steps: [
+                            {
+                                title: 'Welcome',
+                                content: 'This evening release ritual will help you let go of the day and prepare for restful sleep. Find a comfortable position, preferably sitting or lying down in a quiet space. We\'ll begin with a few moments to transition from the activities of your day.'
+                            },
+                            {
+                                title: 'Breath Awareness',
+                                content: 'Take three deep breaths, inhaling slowly through your nose and exhaling fully through your mouth. With each exhale, imagine releasing the energy of the day. Allow your breathing to find its natural rhythm.'
+                            },
+                            {
+                                title: 'Day Review',
+                                content: 'Gently review your day, as if watching a movie of the past 24 hours. Notice the events, interactions, and feelings without judgment or analysis. Simply observe what happened and how you experienced it.'
+                            },
+                            {
+                                title: 'Acknowledging Challenges',
+                                content: 'If there were any difficult moments or unresolved situations from your day, acknowledge them now. You might silently say, "I see you" to each challenge. Then imagine placing them in a container that you can set aside until tomorrow.'
+                            },
+                            {
+                                title: 'Recognizing Gifts',
+                                content: 'Bring to mind one or two positive moments from your day, however small they might be. Perhaps a kind interaction, a moment of beauty, or an accomplishment. Take a moment to savor these experiences.'
+                            },
+                            {
+                                title: 'Body Relaxation',
+                                content: 'Bring your awareness to your body, starting with your feet and moving upward. Notice any areas of tension and invite them to soften with each exhale. Allow your body to become increasingly heavy and relaxed.'
+                            },
+                            {
+                                title: 'Completion',
+                                content: 'As you prepare for sleep, imagine that you\'re complete with this day. There\'s nothing more to do or solve right now. Give yourself permission to rest fully, knowing that you can return to life\'s activities tomorrow with renewed energy. Your evening release is complete.'
+                            }
+                        ]
+                    },
+                    'mindful-breathing': {
+                        title: 'Mindful Breathing',
+                        description: 'Return to your breath and center yourself',
+                        steps: [
+                            {
+                                title: 'Welcome',
+                                content: 'This mindful breathing practice will help you center yourself and cultivate presence. You can do this practice anywhere, anytime you need a moment of calm. Find a comfortable position where your spine can be relatively straight.'
+                            },
+                            {
+                                title: 'Posture Check',
+                                content: 'Take a moment to check your posture. Sit with dignity, as if a string were gently pulling the crown of your head upward. Let your shoulders relax down and back. Place your hands in a comfortable position.'
+                            },
+                            {
+                                title: 'Finding Your Breath',
+                                content: 'Bring your attention to your breathing. You don\'t need to control or change your breath in any way—simply notice the natural rhythm of inhalation and exhalation. You might notice the sensation of air passing through your nostrils, the rise and fall of your chest, or the expansion and contraction of your abdomen.'
+                            },
+                            {
+                                title: 'Counting Breaths',
+                                content: 'To help focus your attention, try counting your breaths. Count "one" on the inhale, "two" on the exhale, "three" on the next inhale, and so on up to ten. Then start again at one. If you lose track, simply begin again with "one" on your next inhale.'
+                            },
+                            {
+                                title: 'Working with Wandering',
+                                content: 'You\'ll likely notice your mind wandering away from your breath. This is completely normal and part of the practice. When you notice your attention has wandered, gently acknowledge it, and then return your focus to your breathing. Each time you do this, you\'re strengthening your capacity for presence.'
+                            },
+                            {
+                                title: 'Expanding Awareness',
+                                content: 'Now, while maintaining awareness of your breath as an anchor, gently expand your attention to include your body as a whole. Notice the sensations of sitting, the points of contact with the floor or chair, and the overall feeling of being present in your body.'
+                            },
+                            {
+                                title: 'Completion',
+                                content: 'As we complete this practice, take a moment to appreciate the time you\'ve given yourself for mindful breathing. Remember that you can return to your breath as an anchor of presence at any time throughout your day. Your mindful breathing practice is complete.'
+                            }
+                        ]
+                    }
+                };
+            }
+            
+            startRitual(ritualId) {
+                // Get ritual data
+                const ritual = this.ritualData[ritualId];
+                if (!ritual) return;
+                
+                // Set current ritual
+                this.currentRitual = ritualId;
+                this.currentStep = 0;
+                
+                // Update UI
+                this.ritualTitle.textContent = ritual.title;
+                this.updateRitualContent();
+                this.updateProgressIndicators();
+                
+                // Show ritual flow container
+                this.ritualFlowContainer.classList.remove('hidden');
+                
+                // Update pixel state if available
+                if (window.singlePixel) {
+                    window.singlePixel.setState('thinking');
+                    setTimeout(() => {
+                        window.singlePixel.setState('idle');
+                    }, 1500);
+                }
+                
+                // Trigger haptic feedback if available
+                if (window.singlePixel) {
+                    window.singlePixel.triggerHapticFeedback('medium');
+                }
+            }
+            
+            closeRitual() {
+                // Hide ritual flow container
+                this.ritualFlowContainer.classList.add('hidden');
+                
+                // Reset current ritual
+                this.currentRitual = null;
+                this.currentStep = 0;
+                
+                // Update pixel state if available
+                if (window.singlePixel) {
+                    window.singlePixel.pulse(500);
+                }
+            }
+            
+            navigateRitualStep(direction) {
+                if (!this.currentRitual) return;
+                
+                const ritual = this.ritualData[this.currentRitual];
+                const newStep = this.currentStep + direction;
+                
+                // Check if step is valid
+                if (newStep < 0 || newStep >= ritual.steps.length) return;
+                
+                // Update current step
+                this.currentStep = newStep;
+                
+                // Update UI
+                this.updateRitualContent();
+                this.updateProgressIndicators();
+                
+                // Update button states
+                this.prevButton.disabled = (this.currentStep === 0);
+                this.nextButton.disabled = (this.currentStep === ritual.steps.length - 1);
+                
+                // Change next button text on last step
+                if (this.currentStep === ritual.steps.length - 1) {
+                    this.nextButton.textContent = 'Complete';
+                } else {
+                    this.nextButton.textContent = 'Next';
+                }
+                
+                // Trigger haptic feedback if available
+                if (window.singlePixel) {
+                    window.singlePixel.triggerHapticFeedback('short');
+                }
+            }
+            
+            updateRitualContent() {
+                if (!this.currentRitual) return;
+                
+                const ritual = this.ritualData[this.currentRitual];
+                const step = ritual.steps[this.currentStep];
+                
+                // Clear previous content
+                this.ritualContent.innerHTML = '';
+                
+                // Create step element
+                const stepElement = document.createElement('div');
+                stepElement.classList.add('ritual-step');
+                
+                // Add step title
+                const titleElement = document.createElement('h3');
+                titleElement.textContent = step.title;
+                stepElement.appendChild(titleElement);
+                
+                // Add step content
+                const contentElement = document.createElement('p');
+                contentElement.textContent = step.content;
+                stepElement.appendChild(contentElement);
+                
+                // Add to ritual content
+                this.ritualContent.appendChild(stepElement);
+            }
+            
+            updateProgressIndicators() {
+                if (!this.currentRitual) return;
+                
+                const ritual = this.ritualData[this.currentRitual];
+                
+                // Clear previous indicators
+                this.ritualProgress.innerHTML = '';
+                
+                // Create progress dots
+                for (let i = 0; i < ritual.steps.length; i++) {
+                    const dot = document.createElement('div');
+                    dot.classList.add('progress-dot');
+                    if (i === this.currentStep) {
+                        dot.classList.add('active');
+                    }
+                    this.ritualProgress.appendChild(dot);
+                }
+            }
+        }
+
+        // MemoryVisualization Component
+        class MemoryVisualization {
+            constructor() {
+                // DOM elements
+                this.memorySection = document.getElementById('memory-section');
+                this.memoryVisualization = document.getElementById('memory-visualization');
+                
+                // Memory state
+                this.memoryNodes = [];
+                this.connections = [];
+                this.categories = ['conversation', 'ritual', 'insight', 'emotion'];
+                this.colorMap = {
+                    conversation: '#3498db', // blue
+                    ritual: '#2ecc71',       // green
+                    insight: '#9b59b6',      // purple
+                    emotion: '#e74c3c'       // red
+                };
+                
+                // Initialize
+                this.loadMemoryData();
+                this.initEventListeners();
+            }
+            
+            initEventListeners() {
+                // Listen for new conversation entries
+                document.addEventListener('conversation-added', (e) => {
+                    if (e.detail && e.detail.text) {
+                        this.addMemoryNode('conversation', e.detail.text, new Date());
+                        this.renderMemoryVisualization();
+                    }
+                });
+                
+                // Listen for ritual completions
+                document.addEventListener('ritual-completed', (e) => {
+                    if (e.detail && e.detail.ritual) {
+                        this.addMemoryNode('ritual', `Completed ${e.detail.ritual} ritual`, new Date());
+                        this.renderMemoryVisualization();
+                    }
+                });
+                
+                // Window resize handler for responsive visualization
+                window.addEventListener('resize', () => {
+                    this.renderMemoryVisualization();
+                });
+            }
+            
+            loadMemoryData() {
+                const savedMemory = localStorage.getItem('meai-memory-data');
+                if (savedMemory) {
+                    try {
+                        const memoryData = JSON.parse(savedMemory);
+                        this.memoryNodes = memoryData.nodes || [];
+                        this.connections = memoryData.connections || [];
+                    } catch (e) {
+                        console.error('Error loading memory data:', e);
+                        this.initializeSampleMemory();
+                    }
+                } else {
+                    this.initializeSampleMemory();
+                }
+                
+                // Render the visualization
+                this.renderMemoryVisualization();
+            }
+            
+            initializeSampleMemory() {
+                // Create sample memory nodes
+                const now = new Date();
+                const dayInMs = 24 * 60 * 60 * 1000;
+                
+                this.memoryNodes = [
+                    {
+                        id: 1,
+                        type: 'conversation',
+                        content: 'First conversation with MeAI',
+                        timestamp: new Date(now - 7 * dayInMs),
+                        position: { x: 0.3, y: 0.2 },
+                        size: 1.0
+                    },
+                    {
+                        id: 2,
+                        type: 'emotion',
+                        content: 'Feeling curious about the potential of AI companions',
+                        timestamp: new Date(now - 6 * dayInMs),
+                        position: { x: 0.4, y: 0.3 },
+                        size: 0.8
+                    },
+                    {
+                        id: 3,
+                        type: 'ritual',
+                        content: 'Completed Morning Reflection ritual',
+                        timestamp: new Date(now - 5 * dayInMs),
+                        position: { x: 0.6, y: 0.4 },
+                        size: 1.2
+                    },
+                    {
+                        id: 4,
+                        type: 'insight',
+                        content: 'Realized the importance of daily mindfulness practice',
+                        timestamp: new Date(now - 3 * dayInMs),
+                        position: { x: 0.5, y: 0.6 },
+                        size: 1.1
+                    },
+                    {
+                        id: 5,
+                        type: 'conversation',
+                        content: 'Discussed challenges with maintaining focus',
+                        timestamp: new Date(now - 2 * dayInMs),
+                        position: { x: 0.7, y: 0.5 },
+                        size: 0.9
+                    },
+                    {
+                        id: 6,
+                        type: 'ritual',
+                        content: 'Completed Gratitude Practice ritual',
+                        timestamp: new Date(now - 1 * dayInMs),
+                        position: { x: 0.6, y: 0.7 },
+                        size: 1.0
+                    }
+                ];
+                
+                // Create sample connections
+                this.connections = [
+                    { source: 1, target: 2, strength: 0.7 },
+                    { source: 1, target: 3, strength: 0.5 },
+                    { source: 2, target: 3, strength: 0.6 },
+                    { source: 3, target: 4, strength: 0.9 },
+                    { source: 4, target: 5, strength: 0.8 },
+                    { source: 5, target: 6, strength: 0.7 },
+                    { source: 3, target: 6, strength: 0.6 }
+                ];
+                
+                // Save to localStorage
+                this.saveMemoryData();
+            }
+            
+            saveMemoryData() {
+                const memoryData = {
+                    nodes: this.memoryNodes,
+                    connections: this.connections
+                };
+                
+                localStorage.setItem('meai-memory-data', JSON.stringify(memoryData));
+            }
+            
+            addMemoryNode(type, content, timestamp) {
+                // Validate type
+                if (!this.categories.includes(type)) {
+                    type = 'conversation'; // Default type
+                }
+                
+                // Generate new ID
+                const newId = this.memoryNodes.length > 0 
+                    ? Math.max(...this.memoryNodes.map(node => node.id)) + 1 
+                    : 1;
+                
+                // Create random position (will be adjusted during rendering)
+                const position = {
+                    x: 0.3 + Math.random() * 0.4, // Between 0.3 and 0.7
+                    y: 0.3 + Math.random() * 0.4  // Between 0.3 and 0.7
+                };
+                
+                // Create new node
+                const newNode = {
+                    id: newId,
+                    type: type,
+                    content: content,
+                    timestamp: timestamp,
+                    position: position,
+                    size: 1.0
+                };
+                
+                // Add to memory nodes
+                this.memoryNodes.push(newNode);
+                
+                // Create connections to recent nodes
+                if (this.memoryNodes.length > 1) {
+                    // Connect to the most recent node
+                    const mostRecentNode = this.memoryNodes
+                        .filter(node => node.id !== newId)
+                        .sort((a, b) => b.timestamp - a.timestamp)[0];
+                    
+                    this.connections.push({
+                        source: mostRecentNode.id,
+                        target: newId,
+                        strength: 0.8
+                    });
+                    
+                    // Potentially connect to another related node
+                    const relatedNodes = this.memoryNodes
+                        .filter(node => node.id !== newId && node.id !== mostRecentNode.id && node.type === type)
+                        .sort((a, b) => b.timestamp - a.timestamp);
+                    
+                    if (relatedNodes.length > 0) {
+                        this.connections.push({
+                            source: relatedNodes[0].id,
+                            target: newId,
+                            strength: 0.6
+                        });
+                    }
+                }
+                
+                // Save updated memory data
+                this.saveMemoryData();
+            }
+            
+            renderMemoryVisualization() {
+                // Clear previous visualization
+                this.memoryVisualization.innerHTML = '';
+                
+                // Check if we have memory nodes
+                if (this.memoryNodes.length === 0) {
+                    const placeholder = document.createElement('div');
+                    placeholder.classList.add('memory-placeholder');
+                    placeholder.innerHTML = '<p>Your shared journey with MeAI will be visualized here as you interact over time.</p>';
+                    this.memoryVisualization.appendChild(placeholder);
+                    return;
+                }
+                
+                // Create SVG element for visualization
+                const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                svg.setAttribute('width', '100%');
+                svg.setAttribute('height', '100%');
+                svg.style.minHeight = '400px';
+                
+                // Get container dimensions
+                const containerRect = this.memoryVisualization.getBoundingClientRect();
+                const width = containerRect.width;
+                const height = containerRect.height;
+                
+                // Draw connections first (so they appear behind nodes)
+                this.connections.forEach(connection => {
+                    const sourceNode = this.memoryNodes.find(node => node.id === connection.source);
+                    const targetNode = this.memoryNodes.find(node => node.id === connection.target);
+                    
+                    if (sourceNode && targetNode) {
+                        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                        line.setAttribute('x1', sourceNode.position.x * width);
+                        line.setAttribute('y1', sourceNode.position.y * height);
+                        line.setAttribute('x2', targetNode.position.x * width);
+                        line.setAttribute('y2', targetNode.position.y * height);
+                        line.setAttribute('stroke', '#aaa');
+                        line.setAttribute('stroke-width', connection.strength * 3);
+                        line.setAttribute('stroke-opacity', 0.6);
+                        svg.appendChild(line);
+                    }
+                });
+                
+                // Draw nodes
+                this.memoryNodes.forEach(node => {
+                    const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                    
+                    // Create node circle
+                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    circle.setAttribute('cx', node.position.x * width);
+                    circle.setAttribute('cy', node.position.y * height);
+                    circle.setAttribute('r', 10 * node.size);
+                    circle.setAttribute('fill', this.colorMap[node.type]);
+                    
+                    // Add tooltip with node content
+                    circle.setAttribute('data-content', node.content);
+                    circle.setAttribute('data-date', node.timestamp.toLocaleDateString());
+                    
+                    // Add event listeners for interaction
+                    circle.addEventListener('mouseover', this.showNodeTooltip.bind(this));
+                    circle.addEventListener('mouseout', this.hideNodeTooltip.bind(this));
+                    
+                    group.appendChild(circle);
+                    svg.appendChild(group);
+                });
+                
+                // Add SVG to container
+                this.memoryVisualization.appendChild(svg);
+                
+                // Add legend
+                const legend = document.createElement('div');
+                legend.classList.add('memory-legend');
+                
+                this.categories.forEach(category => {
+                    const item = document.createElement('div');
+                    item.classList.add('legend-item');
+                    
+                    const colorBox = document.createElement('span');
+                    colorBox.classList.add('color-box');
+                    colorBox.style.backgroundColor = this.colorMap[category];
+                    
+                    const label = document.createElement('span');
+                    label.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+                    
+                    item.appendChild(colorBox);
+                    item.appendChild(label);
+                    legend.appendChild(item);
+                });
+                
+                this.memoryVisualization.appendChild(legend);
+            }
+            
+            showNodeTooltip(event) {
+                const circle = event.target;
+                const content = circle.getAttribute('data-content');
+                const date = circle.getAttribute('data-date');
+                
+                // Create tooltip
+                const tooltip = document.createElement('div');
+                tooltip.classList.add('memory-tooltip');
+                tooltip.innerHTML = `<p>${content}</p><small>${date}</small>`;
+                
+                // Position tooltip near the circle
+                const circleRect = circle.getBoundingClientRect();
+                const containerRect = this.memoryVisualization.getBoundingClientRect();
+                
+                tooltip.style.left = `${circleRect.left - containerRect.left + 20}px`;
+                tooltip.style.top = `${circleRect.top - containerRect.top - 10}px`;
+                
+                // Add to container
+                this.memoryVisualization.appendChild(tooltip);
+            }
+            
+            hideNodeTooltip() {
+                const tooltip = this.memoryVisualization.querySelector('.memory-tooltip');
+                if (tooltip) {
+                    tooltip.remove();
+                }
+            }
+            
+            addStyles() {
+                const styleElement = document.createElement('style');
+                styleElement.textContent = `
+                    .memory-legend {
+                        display: flex;
+                        justify-content: center;
+                        margin-top: 20px;
+                        flex-wrap: wrap;
+                    }
+                    
+                    .legend-item {
+                        display: flex;
+                        align-items: center;
+                        margin: 0 10px;
+                    }
+                    
+                    .color-box {
+                        width: 12px;
+                        height: 12px;
+                        border-radius: 50%;
+                        margin-right: 5px;
+                    }
+                    
+                    .memory-tooltip {
+                        position: absolute;
+                        background-color: rgba(0, 0, 0, 0.8);
+                        color: white;
+                        padding: 8px 12px;
+                        border-radius: 4px;
+                        font-size: 14px;
+                        max-width: 200px;
+                        z-index: 100;
+                        pointer-events: none;
+                    }
+                    
+                    .memory-tooltip p {
+                        margin: 0 0 5px 0;
+                    }
+                    
+                    .memory-tooltip small {
+                        opacity: 0.8;
+                    }
+                `;
+                
+                document.head.appendChild(styleElement);
+            }
+        }
+
+        // SettingsManager Component
+        class SettingsManager {
+            constructor() {
+                // DOM elements
+                this.settingsSection = document.getElementById('settings-section');
+                this.pixelColorInput = document.getElementById('pixel-color');
+                this.pixelSizeInput = document.getElementById('pixel-size');
+                this.voiceToneSelect = document.getElementById('voice-tone');
+                this.hapticIntensityInput = document.getElementById('haptic-intensity');
+                this.hapticEnabledInput = document.getElementById('haptic-enabled');
+                
+                // Settings state
+                this.settings = {
+                    pixelColor: '#3498db',
+                    pixelSize: 30,
+                    voiceTone: 'balanced',
+                    hapticIntensity: 5,
+                    hapticEnabled: true
+                };
+                
+                // Initialize
+                this.loadSettings();
+                this.initEventListeners();
+            }
+            
+            initEventListeners() {
+                // Pixel color change
+                this.pixelColorInput.addEventListener('change', () => {
+                    this.updateSetting('pixelColor', this.pixelColorInput.value);
+                });
+                
+                // Pixel size change
+                this.pixelSizeInput.addEventListener('input', () => {
+                    this.updateSetting('pixelSize', parseInt(this.pixelSizeInput.value));
+                });
+                
+                // Voice tone change
+                this.voiceToneSelect.addEventListener('change', () => {
+                    this.updateSetting('voiceTone', this.voiceToneSelect.value);
+                });
+                
+                // Haptic intensity change
+                this.hapticIntensityInput.addEventListener('input', () => {
+                    this.updateSetting('hapticIntensity', parseInt(this.hapticIntensityInput.value));
+                });
+                
+                // Haptic enabled change
+                this.hapticEnabledInput.addEventListener('change', () => {
+                    this.updateSetting('hapticEnabled', this.hapticEnabledInput.checked);
+                });
+            }
+            
+            loadSettings() {
+                const savedSettings = localStorage.getItem('meai-settings');
+                if (savedSettings) {
+                    try {
+                        this.settings = JSON.parse(savedSettings);
+                        this.updateUIFromSettings();
+                    } catch (e) {
+                        console.error('Error loading settings:', e);
+                    }
+                } else {
+                    // Apply default settings
+                    this.saveSettings();
+                }
+                
+                // Apply settings to the UI
+                this.applySettings();
+            }
+            
+            updateUIFromSettings() {
+                this.pixelColorInput.value = this.settings.pixelColor;
+                this.pixelSizeInput.value = this.settings.pixelSize;
+                this.voiceToneSelect.value = this.settings.voiceTone;
+                this.hapticIntensityInput.value = this.settings.hapticIntensity;
+                this.hapticEnabledInput.checked = this.settings.hapticEnabled;
+            }
+            
+            saveSettings() {
+                localStorage.setItem('meai-settings', JSON.stringify(this.settings));
+            }
+            
+            updateSetting(key, value) {
+                this.settings[key] = value;
+                this.saveSettings();
+                this.applySettings();
+                
+                // Notify other components about settings change
+                const event = new CustomEvent('settings-updated', {
+                    detail: this.settings
+                });
+                document.dispatchEvent(event);
+            }
+            
+            applySettings() {
+                // Apply pixel color
+                document.documentElement.style.setProperty('--pixel-color', this.settings.pixelColor);
+                
+                // Apply pixel size
+                document.documentElement.style.setProperty('--pixel-size', `${this.settings.pixelSize}px`);
+                
+                // Apply voice tone (will be used by conversation component)
+                // This would affect the language and tone used in AI responses
+                
+                // Haptic settings are used directly by the single pixel component
+            }
+            
+            resetSettings() {
+                this.settings = {
+                    pixelColor: '#3498db',
+                    pixelSize: 30,
+                    voiceTone: 'balanced',
+                    hapticIntensity: 5,
+                    hapticEnabled: true
+                };
+                
+                this.updateUIFromSettings();
+                this.saveSettings();
+                this.applySettings();
+                
+                // Notify other components
+                const event = new CustomEvent('settings-updated', {
+                    detail: this.settings
+                });
+                document.dispatchEvent(event);
+            }
+        }
+
+        // MeAIApplication Component
+        class MeAIApplication {
+            constructor() {
+                // DOM elements
+                this.navButtons = document.querySelectorAll('.nav-button');
+                this.sections = document.querySelectorAll('.section');
+                this.mainInterface = document.getElementById('main-interface');
+                
+                // Application state
+                this.currentSection = 'main-interface';
+                this.isInitialized = false;
+                
+                // Initialize
+                this.initEventListeners();
+                this.initializeComponents();
+            }
+            
+            initEventListeners() {
+                // Navigation buttons
+                this.navButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const sectionId = button.getAttribute('data-section');
+                        this.switchSection(sectionId);
+                    });
+                });
+                
+                // Handle URL hash for direct navigation
+                window.addEventListener('hashchange', () => {
+                    this.handleUrlHash();
+                });
+                
+                // Listen for component events
+                document.addEventListener('ritual-selected', (e) => {
+                    if (e.detail && e.detail.ritualId) {
+                        this.handleRitualSelection(e.detail.ritualId);
+                    }
+                });
+            }
+            
+            initializeComponents() {
+                // Components are initialized via their own DOMContentLoaded listeners
+                // This method is for any additional initialization needed
+                
+                // Handle URL hash on initial load
+                this.handleUrlHash();
+                
+                // Mark as initialized
+                this.isInitialized = true;
+                
+                // Trigger application ready event
+                const event = new CustomEvent('meai-application-ready');
+                document.dispatchEvent(event);
+            }
+            
+            handleUrlHash() {
+                const hash = window.location.hash.substring(1);
+                if (hash) {
+                    // Check if hash corresponds to a valid section
+                    const validSections = ['main-interface', 'rituals-section', 'memory-section', 'settings-section'];
+                    if (validSections.includes(hash)) {
+                        this.switchSection(hash);
+                    }
+                }
+            }
+            
+            switchSection(sectionId) {
+                // Update current section
+                this.currentSection = sectionId;
+                
+                // Update URL hash
+                window.location.hash = sectionId;
+                
+                // Update active nav button
+                this.navButtons.forEach(button => {
+                    const buttonSectionId = button.getAttribute('data-section');
+                    if (buttonSectionId === sectionId) {
+                        button.classList.add('active');
+                    } else {
+                        button.classList.remove('active');
+                    }
+                });
+                
+                // Show selected section, hide others
+                if (sectionId === 'main-interface') {
+                    this.mainInterface.classList.remove('hidden');
+                    this.sections.forEach(section => {
+                        section.classList.add('hidden');
+                    });
+                } else {
+                    this.mainInterface.classList.add('hidden');
+                    this.sections.forEach(section => {
+                        if (section.id === sectionId) {
+                            section.classList.remove('hidden');
+                        } else {
+                            section.classList.add('hidden');
+                        }
+                    });
+                }
+                
+                // Trigger section change event
+                const event = new CustomEvent('section-changed', {
+                    detail: { section: sectionId }
+                });
+                document.dispatchEvent(event);
+                
+                // Update pixel state if available
+                if (window.singlePixel) {
+                    window.singlePixel.pulse(500);
+                }
+            }
+            
+            handleRitualSelection(ritualId) {
+                // This would be called when a ritual is selected from the conversation
+                // Switch to rituals section
+                this.switchSection('rituals-section');
+                
+                // Start the ritual if rituals component is available
+                if (window.rituals) {
+                    setTimeout(() => {
+                        window.rituals.startRitual(ritualId);
+                    }, 500);
+                }
+            }
+            
+            createMemory(type, content) {
+                // Create a new memory if memory component is available
+                if (window.memory) {
+                    window.memory.addMemoryNode(type, content, new Date());
+                }
+            }
+        }
+
+        // Performance Optimizations
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function throttle(func, limit) {
+            let inThrottle;
+            return function(...args) {
+                if (!inThrottle) {
+                    func(...args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            };
+        }
+
+        // Optimize event listeners
+        window.addEventListener('resize', debounce(() => {
+            if (window.memory) {
+                window.memory.renderMemoryVisualization();
+            }
+        }, 250));
+
+        // Use passive event listeners for touch events
+        document.addEventListener('touchstart', () => {}, { passive: true });
+        document.addEventListener('touchmove', () => {}, { passive: true });
+        document.addEventListener('touchend', () => {}, { passive: true });
+    </script>
+</body>
+</html>
