@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeAI - Enhanced Version</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #1a1155;
+            color: white;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+        
+        .floating-shapes-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(5px);
+            opacity: 0.8;
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            25% {
+                transform: translateY(-20px) translateX(10px);
+            }
+            50% {
+                transform: translateY(10px) translateX(-15px);
+            }
+            75% {
+                transform: translateY(15px) translateX(5px);
+            }
+        }
+        
+        .conversation-container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 500px;
+            background-color: rgba(30, 20, 90, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .messages {
+            height: 350px;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 18px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .user-message {
+            background-color: #6c5ce7;
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .ai-message {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .input-area {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(30, 20, 90, 0.5);
+        }
+        
+        .input-area input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 30px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .input-area input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .input-area button {
+            background-color: #00d2d3;
+            color: #1a1155;
+            border: none;
+            border-radius: 30px;
+            padding: 15px 25px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .input-area button:hover {
+            background-color: #00a0a1;
+            transform: scale(1.05);
+        }
+        
+        .pixel-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            z-index: 2;
+        }
+        
+        .pixel {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #6c5ce7, #00d2d3);
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(108, 92, 231, 0.8);
+            transition: all 0.3s ease;
+        }
+        
+        .pixel:before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(108, 92, 231, 0.3) 0%, rgba(0, 210, 211, 0) 70%);
+            z-index: -1;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+        }
+        
+        .pixel.listening {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            box-shadow: 0 0 30px rgba(232, 67, 147, 0.8);
+            animation: listen 1.5s infinite alternate;
+        }
+        
+        @keyframes listen {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.1);
+            }
+        }
+        
+        .pixel.thinking {
+            background: linear-gradient(135deg, #fdcb6e, #e17055);
+            box-shadow: 0 0 30px rgba(225, 112, 85, 0.8);
+            animation: think 3s infinite;
+        }
+        
+        @keyframes think {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.9;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+        }
+        
+        .pixel.speaking {
+            background: linear-gradient(135deg, #00d2d3, #55efc4);
+            box-shadow: 0 0 30px rgba(0, 210, 211, 0.8);
+            animation: speak 0.5s infinite alternate;
+        }
+        
+        /* Mood-based pixel colors */
+        .pixel.mood-neutral {
+            background: linear-gradient(135deg, #6c5ce7, #00d2d3);
+            box-shadow: 0 0 30px rgba(108, 92, 231, 0.8);
+        }
+        
+        .pixel.mood-empathetic {
+            background: linear-gradient(135deg, #9c88ff, #fd79a8);
+            box-shadow: 0 0 30px rgba(156, 136, 255, 0.8);
+        }
+        
+        .pixel.mood-positive {
+            background: linear-gradient(135deg, #00d2d3, #55efc4);
+            box-shadow: 0 0 30px rgba(0, 210, 211, 0.8);
+        }
+        
+        .pixel.mood-reflective {
+            background: linear-gradient(135deg, #fdcb6e, #e17055);
+            box-shadow: 0 0 30px rgba(253, 203, 110, 0.8);
+        }
+        
+        @keyframes speak {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.08);
+            }
+        }
+        
+        .options-container {
+            display: none;
+            width: 100%;
+            max-width: 500px;
+            margin-top: 20px;
+            z-index: 2;
+        }
+        
+        .option-button {
+            background-color: rgba(108, 92, 231, 0.3);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        
+        .option-button:hover {
+            background-color: rgba(108, 92, 231, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        /* Options Menu Styles */
+        .options-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(26, 17, 85, 0.95);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .options-menu-container {
+            width: 100%;
+            max-width: 500px;
+            background-color: rgba(30, 20, 90, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .options-menu h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+        
+        .option-group {
+            margin-bottom: 25px;
+        }
+        
+        .option-group h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .toggle-label {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: #00d2d3;
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
+        .slider-container {
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .slider-container.active {
+            display: block;
+        }
+        
+        .volume-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+            margin-top: 10px;
+        }
+        
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #00d2d3;
+            cursor: pointer;
+        }
+        
+        .volume-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #00d2d3;
+            cursor: pointer;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .radio-option input[type="radio"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            outline: none;
+            cursor: pointer;
+        }
+        
+        .radio-option input[type="radio"]:checked {
+            border: 2px solid #00d2d3;
+            background-color: #00d2d3;
+            box-shadow: inset 0 0 0 4px rgba(30, 20, 90, 0.8);
+        }
+        
+        .radio-option label {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+        }
+        
+        .continue-button {
+            background-color: #00d2d3;
+            color: #1a1155;
+            border: none;
+            border-radius: 30px;
+            padding: 15px 25px;
+            width: 100%;
+            margin-top: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .continue-button:hover {
+            background-color: #00a0a1;
+            transform: scale(1.02);
+        }
+        
+        .continue-button:disabled {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.5);
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .name-input-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(26, 17, 85, 0.95);
+            z-index: 10;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .name-input-box {
+            width: 100%;
+            max-width: 500px;
+            background-color: rgba(30, 20, 90, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        .name-input-box h2 {
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+        
+        .name-input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 30px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            outline: none;
+            margin-bottom: 20px;
+        }
+        
+        .name-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .mic-button {
+            background-color: #fd79a8;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .mic-button:hover {
+            background-color: #e84393;
+            transform: scale(1.05);
+        }
+        
+        .mic-button.recording {
+            animation: pulse-recording 1.5s infinite;
+        }
+        
+        @keyframes pulse-recording {
+            0% {
+                transform: scale(1);
+                background-color: #fd79a8;
+            }
+            50% {
+                transform: scale(1.1);
+                background-color: #e84393;
+            }
+            100% {
+                transform: scale(1);
+                background-color: #fd79a8;
+            }
+        }
+        
+        .mic-icon {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+        
+        .mic-status {
+            margin-bottom: 20px;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .submit-name-button {
+            background-color: #00d2d3;
+            color: #1a1155;
+            border: none;
+            border-radius: 30px;
+            padding: 15px 25px;
+            width: 100%;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-name-button:hover {
+            background-color: #00a0a1;
+            transform: scale(1.02);
+        }
+        
+        .voice-input-button {
+            background-color: #fd79a8;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .voice-input-button:hover {
+            background-color: #e84393;
+            transform: scale(1.05);
+        }
+        
+        .voice-input-button.recording {
+            animation: pulse-recording 1.5s infinite;
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .conversation-container {
+                max-width: 100%;
+            }
+            
+            .messages {
+                height: 300px;
+            }
+            
+            .pixel {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .options-menu-container {
+                padding: 20px;
+            }
+            
+            .options-menu h2 {
+                font-size: 1.5rem;
+            }
+            
+            .option-group h3 {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="floating-shapes-container" id="floating-shapes"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>MeAI</h1>
+            <p>A meaningful connection</p>
+        </div>
+        
+        <div class="pixel-container">
+            <div class="pixel mood-neutral" id="pixel"></div>
+        </div>
+        
+        <div class="conversation-container">
+            <div class="messages" id="messages">
+                <!-- Messages will appear here -->
+            </div>
+            <div class="input-area">
+                <input type="text" id="user-input" placeholder="Type your message...">
+                <button id="send-button">Send</button>
+                <button id="voice-input-button" class="voice-input-button" style="display: none;">
+                    <svg class="mic-icon" viewBox="0 0 24 24">
+                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"></path>
+                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div class="options-container" id="options-container">
+            <!-- Option buttons will appear here when needed -->
+        </div>
+    </div>
+    
+    <!-- Options Menu -->
+    <div class="options-menu" id="options-menu">
+        <div class="options-menu-container">
+            <h2>Configure MeAI</h2>
+            
+            <div class="option-group">
+                <h3>Voice Output</h3>
+                <div class="toggle-container">
+                    <span class="toggle-label">Enable voice output</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="voice-output-toggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="slider-container" id="voice-volume-container">
+                    <span class="toggle-label">Voice Volume</span>
+                    <input type="range" min="0" max="1" step="0.1" value="0.7" class="volume-slider" id="voice-volume-slider">
+                </div>
+            </div>
+            
+            <div class="option-group">
+                <h3>Background Sound</h3>
+                <div class="toggle-container">
+                    <span class="toggle-label">Enable ambient sound</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="ambient-sound-toggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="slider-container" id="ambient-volume-container">
+                    <span class="toggle-label">Ambient Volume</span>
+                    <input type="range" min="0" max="1" step="0.1" value="0.5" class="volume-slider" id="ambient-volume-slider">
+                </div>
+            </div>
+            
+            <div class="option-group">
+                <h3>Microphone Input</h3>
+                <div class="toggle-container">
+                    <span class="toggle-label">Enable microphone</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="microphone-toggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="option-group">
+                <h3>Interaction Method</h3>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="type-interaction" name="interaction-method" value="type" checked>
+                        <label for="type-interaction">Type messages</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="voice-interaction" name="interaction-method" value="voice">
+                        <label for="voice-interaction">Speak messages</label>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="continue-button" id="continue-button">Continue</button>
+        </div>
+    </div>
+    
+    <!-- Name Input -->
+    <div class="name-input-container" id="name-input-container">
+        <div class="name-input-box">
+            <h2 id="name-prompt">Please enter your name</h2>
+            
+            <input type="text" id="name-input" class="name-input" placeholder="Your name">
+            
+            <button id="mic-button" class="mic-button" style="display: none;">
+                <svg class="mic-icon" viewBox="0 0 24 24">
+                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"></path>
+                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"></path>
+                </svg>
+            </button>
+            
+            <p id="mic-status" class="mic-status" style="display: none;">Click the microphone and say your name</p>
+            
+            <button class="submit-name-button" id="submit-name-button">Continue</button>
+        </div>
+    </div>
+    
+    <script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('MeAI Enhanced Version Initialized');
+            
+            // Create stars background
+            createStars();
+            
+            // Create floating shapes
+            createFloatingShapes();
+            
+            // DOM Elements
+            const pixel = document.getElementById('pixel');
+            const messagesContainer = document.getElementById('messages');
+            const userInput = document.getElementById('user-input');
+            const sendButton = document.getElementById('send-button');
+            const optionsContainer = document.getElementById('options-container');
+            const optionsMenu = document.getElementById('options-menu');
+            const continueButton = document.getElementById('continue-button');
+            const nameInputContainer = document.getElementById('name-input-container');
+            const nameInput = document.getElementById('name-input');
+            const namePrompt = document.getElementById('name-prompt');
+            const submitNameButton = document.getElementById('submit-name-button');
+            const micButton = document.getElementById('mic-button');
+            const micStatus = document.getElementById('mic-status');
+            const voiceInputButton = document.getElementById('voice-input-button');
+            
+            // Options elements
+            const voiceOutputToggle = document.getElementById('voice-output-toggle');
+            const voiceVolumeContainer = document.getElementById('voice-volume-container');
+            const voiceVolumeSlider = document.getElementById('voice-volume-slider');
+            const ambientSoundToggle = document.getElementById('ambient-sound-toggle');
+            const ambientVolumeContainer = document.getElementById('ambient-volume-container');
+            const ambientVolumeSlider = document.getElementById('ambient-volume-slider');
+            const microphoneToggle = document.getElementById('microphone-toggle');
+            const typeInteraction = document.getElementById('type-interaction');
+            const voiceInteraction = document.getElementById('voice-interaction');
+            
+            // State
+            let pixelState = 'idle'; // idle, listening, thinking, speaking
+            let pixelMood = 'neutral'; // neutral, empathetic, positive, reflective
+            let isProcessing = false;
+            let userName = '';
+            let options = {
+                voiceOutput: false,
+                voiceVolume: 0.7,
+                ambientSound: false,
+                ambientVolume: 0.5,
+                microphone: false,
+                interactionMethod: 'type'
+            };
+            
+            // Speech synthesis and recognition
+            const synth = window.speechSynthesis;
+            let recognition;
+            
+            // Audio elements
+            const ambientAudio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-forest-stream-ambience-loop-1231.mp3');
+            ambientAudio.loop = true;
+            
+            // Test sounds
+            const testVoiceAudio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-female-soft-hello-1317.mp3');
+            const testAmbientAudio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-forest-stream-ambience-loop-1231.mp3');
+            
+            // Initialize options menu event listeners
+            initOptionsMenu();
+            
+            // Functions
+            function createStars() {
+                const starsContainer = document.getElementById('stars');
+                const starCount = 100;
+                
+                for (let i = 0; i < starCount; i++) {
+                    const star = document.createElement('div');
+                    star.classList.add('star');
+                    
+                    // Random size between 1-3px
+                    const size = Math.random() * 2 + 1;
+                    star.style.width = `${size}px`;
+                    star.style.height = `${size}px`;
+                    
+                    // Random position
+                    const x = Math.random() * 100;
+                    const y = Math.random() * 100;
+                    star.style.left = `${x}%`;
+                    star.style.top = `${y}%`;
+                    
+                    // Random opacity
+                    star.style.opacity = Math.random() * 0.7 + 0.3;
+                    
+                    // Add twinkling animation with random delay
+                    star.style.animation = `twinkle 4s infinite ${Math.random() * 4}s`;
+                    
+                    starsContainer.appendChild(star);
+                }
+            }
+            
+            function createFloatingShapes() {
+                const shapesContainer = document.getElementById('floating-shapes');
+                const shapeCount = 20;
+                const colors = [
+                    'rgba(108, 92, 231, 0.4)',
+                    'rgba(0, 210, 211, 0.4)',
+                    'rgba(253, 121, 168, 0.4)',
+                    'rgba(85, 239, 196, 0.4)'
+                ];
+                
+                for (let i = 0; i < shapeCount; i++) {
+                    const shape = document.createElement('div');
+                    shape.classList.add('floating-shape');
+                    
+                    // Random size between 40-120px
+                    const size = Math.random() * 80 + 40;
+                    shape.style.width = `${size}px`;
+                    shape.style.height = `${size}px`;
+                    
+                    // Random position
+                    const x = Math.random() * 100;
+                    const y = Math.random() * 100;
+                    shape.style.left = `${x}%`;
+                    shape.style.top = `${y}%`;
+                    
+                    // Random color
+                    const colorIndex = Math.floor(Math.random() * colors.length);
+                    shape.style.backgroundColor = colors[colorIndex];
+                    
+                    // Random animation delay
+                    shape.style.animationDelay = `${Math.random() * 5}s`;
+                    
+                    shapesContainer.appendChild(shape);
+                }
+            }
+            
+            function initOptionsMenu() {
+                // Voice output toggle
+                voiceOutputToggle.addEventListener('change', function() {
+                    options.voiceOutput = this.checked;
+                    voiceVolumeContainer.style.display = this.checked ? 'block' : 'none';
+                    
+                    if (this.checked) {
+                        // Test voice output
+                        testVoiceAudio.volume = voiceVolumeSlider.value;
+                        testVoiceAudio.play();
+                    }
+                });
+                
+                // Voice volume slider
+                voiceVolumeSlider.addEventListener('input', function() {
+                    options.voiceVolume = this.value;
+                    testVoiceAudio.volume = this.value;
+                    testVoiceAudio.play();
+                });
+                
+                // Ambient sound toggle
+                ambientSoundToggle.addEventListener('change', function() {
+                    options.ambientSound = this.checked;
+                    ambientVolumeContainer.style.display = this.checked ? 'block' : 'none';
+                    
+                    if (this.checked) {
+                        // Test ambient sound
+                        testAmbientAudio.volume = ambientVolumeSlider.value;
+                        testAmbientAudio.play();
+                        setTimeout(() => {
+                            testAmbientAudio.pause();
+                            testAmbientAudio.currentTime = 0;
+                        }, 2000);
+                    } else {
+                        testAmbientAudio.pause();
+                        testAmbientAudio.currentTime = 0;
+                    }
+                });
+                
+                // Ambient volume slider
+                ambientVolumeSlider.addEventListener('input', function() {
+                    options.ambientVolume = this.value;
+                    testAmbientAudio.volume = this.value;
+                    
+                    if (!testAmbientAudio.paused) {
+                        // If already playing, just update volume
+                        testAmbientAudio.volume = this.value;
+                    } else {
+                        // If not playing, play a sample
+                        testAmbientAudio.play();
+                        setTimeout(() => {
+                            testAmbientAudio.pause();
+                            testAmbientAudio.currentTime = 0;
+                        }, 2000);
+                    }
+                });
+                
+                // Microphone toggle
+                microphoneToggle.addEventListener('change', function() {
+                    options.microphone = this.checked;
+                    
+                    if (this.checked) {
+                        // Request microphone permission
+                        initSpeechRecognition();
+                    }
+                });
+                
+                // Interaction method radio buttons
+                document.querySelectorAll('input[name="interaction-method"]').forEach(function(radio) {
+                    radio.addEventListener('change', function() {
+                        options.interactionMethod = this.value;
+                        
+                        if (this.value === 'voice' && !options.microphone) {
+                            // If voice interaction is selected but microphone is not enabled,
+                            // automatically enable microphone
+                            microphoneToggle.checked = true;
+                            options.microphone = true;
+                            initSpeechRecognition();
+                        }
+                    });
+                });
+                
+                // Continue button
+                continueButton.addEventListener('click', function() {
+                    // Hide options menu
+                    optionsMenu.style.display = 'none';
+                    
+                    // Show name input
+                    nameInputContainer.style.display = 'flex';
+                    
+                    // Update name prompt based on interaction method
+                    if (options.interactionMethod === 'type') {
+                        namePrompt.textContent = 'Please enter your name';
+                        nameInput.style.display = 'block';
+                        micButton.style.display = 'none';
+                        micStatus.style.display = 'none';
+                    } else {
+                        namePrompt.textContent = 'Please say your name';
+                        nameInput.style.display = 'none';
+                        micButton.style.display = 'block';
+                        micStatus.style.display = 'block';
+                    }
+                    
+                    // Start ambient sound if enabled
+                    if (options.ambientSound) {
+                        ambientAudio.volume = options.ambientVolume;
+                        ambientAudio.play();
+                    }
+                });
+                
+                // Submit name button
+                submitNameButton.addEventListener('click', function() {
+                    if (options.interactionMethod === 'type') {
+                        userName = nameInput.value.trim();
+                        if (userName) {
+                            startConversation();
+                        }
+                    } else if (userName) {
+                        startConversation();
+                    }
+                });
+                
+                // Mic button for name input
+                micButton.addEventListener('click', function() {
+                    if (options.microphone) {
+                        startSpeechRecognition('name');
+                    }
+                });
+                
+                // Voice input button
+                voiceInputButton.addEventListener('click', function() {
+                    if (options.microphone) {
+                        startSpeechRecognition('message');
+                    }
+                });
+            }
+            
+            function initSpeechRecognition() {
+                try {
+                    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    recognition = new SpeechRecognition();
+                    recognition.continuous = false;
+                    recognition.lang = 'en-US';
+                    recognition.interimResults = false;
+                    recognition.maxAlternatives = 1;
+                    
+                    recognition.onresult = function(event) {
+                        const speechResult = event.results[0][0].transcript;
+                        console.log('Speech recognized:', speechResult);
+                        
+                        if (recognition.recognitionMode === 'name') {
+                            userName = speechResult.trim();
+                            nameInput.value = userName;
+                            micButton.classList.remove('recording');
+                            micStatus.textContent = `Name recognized: ${userName}`;
+                        } else if (recognition.recognitionMode === 'message') {
+                            userInput.value = speechResult;
+                            voiceInputButton.classList.remove('recording');
+                            processUserInput();
+                        }
+                    };
+                    
+                    recognition.onerror = function(event) {
+                        console.error('Speech recognition error:', event.error);
+                        if (recognition.recognitionMode === 'name') {
+                            micButton.classList.remove('recording');
+                            micStatus.textContent = 'Error recognizing speech. Please try again.';
+                        } else {
+                            voiceInputButton.classList.remove('recording');
+                        }
+                    };
+                    
+                    recognition.onend = function() {
+                        if (recognition.recognitionMode === 'name') {
+                            micButton.classList.remove('recording');
+                        } else {
+                            voiceInputButton.classList.remove('recording');
+                        }
+                    };
+                    
+                    console.log('Speech recognition initialized');
+                } catch (error) {
+                    console.error('Speech recognition not supported:', error);
+                    options.microphone = false;
+                    microphoneToggle.checked = false;
+                    
+                    if (options.interactionMethod === 'voice') {
+                        // Fall back to typing if speech recognition is not available
+                        options.interactionMethod = 'type';
+                        typeInteraction.checked = true;
+                        voiceInteraction.checked = false;
+                    }
+                }
+            }
+            
+            function startSpeechRecognition(mode) {
+                if (!recognition) return;
+                
+                recognition.recognitionMode = mode;
+                
+                try {
+                    recognition.start();
+                    console.log(`Speech recognition started in ${mode} mode`);
+                    
+                    if (mode === 'name') {
+                        micButton.classList.add('recording');
+                        micStatus.textContent = 'Listening...';
+                    } else {
+                        voiceInputButton.classList.add('recording');
+                    }
+                } catch (error) {
+                    console.error('Error starting speech recognition:', error);
+                }
+            }
+            
+            function startConversation() {
+                // Hide name input
+                nameInputContainer.style.display = 'none';
+                
+                // Show voice input button if microphone is enabled
+                if (options.microphone) {
+                    voiceInputButton.style.display = 'flex';
+                }
+                
+                // Add welcome message
+                const welcomeMessage = `Hello, ${userName}! I'm MeAI. I'm here to connect with you in a meaningful way. How are you feeling today?`;
+                addAIMessage(welcomeMessage);
+                
+                // Set up event listeners for conversation
+                sendButton.addEventListener('click', processUserInput);
+                
+                userInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        processUserInput();
+                    }
+                });
+                
+                pixel.addEventListener('click', function() {
+                    setPixelState('listening');
+                    setTimeout(() => {
+                        if (userInput.value.trim() === '') {
+                            // If no input, AI initiates
+                            generateAIResponse('initiate');
+                        }
+                    }, 500);
+                });
+            }
+            
+            function processUserInput() {
+                const text = userInput.value.trim();
+                if (text === '' || isProcessing) return;
+                
+                // Add user message
+                addUserMessage(text);
+                
+                // Clear input
+                userInput.value = '';
+                
+                // Generate AI response
+                generateAIResponse(text);
+            }
+            
+            function addUserMessage(text) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message', 'user-message');
+                messageElement.textContent = text;
+                messagesContainer.appendChild(messageElement);
+                
+                // Scroll to bottom
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+            
+            function addAIMessage(text) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message', 'ai-message');
+                messageElement.textContent = text;
+                messagesContainer.appendChild(messageElement);
+                
+                // Scroll to bottom
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                
+                // Speak the message if voice output is enabled
+                if (options.voiceOutput) {
+                    speakText(text);
+                }
+            }
+            
+            function speakText(text) {
+                if (!synth) return;
+                
+                // Cancel any ongoing speech
+                synth.cancel();
+                
+                // Create a new utterance
+                const utterance = new SpeechSynthesisUtterance(text);
+                
+                // Set properties
+                utterance.volume = options.voiceVolume;
+                utterance.rate = 0.9; // Slightly slower for more natural sound
+                utterance.pitch = 1.1; // Slightly higher pitch for feminine voice
+                
+                // Try to find a feminine voice
+                let voices = synth.getVoices();
+                let femaleVoice = voices.find(voice => 
+                    voice.name.includes('female') || 
+                    voice.name.includes('Samantha') || 
+                    voice.name.includes('Victoria') ||
+                    voice.name.includes('Ava')
+                );
+                
+                if (femaleVoice) {
+                    utterance.voice = femaleVoice;
+                }
+                
+                // Speak
+                synth.speak(utterance);
+            }
+            
+            function generateAIResponse(userInput) {
+                // Set processing state
+                isProcessing = true;
+                
+                // Update pixel state
+                setPixelState('thinking');
+                
+                // Simulate AI processing time
+                setTimeout(() => {
+                    let response;
+                    
+                    // Generate response based on user input
+                    if (userInput === 'initiate') {
+                        // AI-initiated conversation starters
+                        const starters = [
+                            `${userName}, I noticed you've been quiet. Is there something on your mind?`,
+                            `Would this be a good time for a brief mindfulness practice, ${userName}?`,
+                            `I'm sensing this might be a moment for reflection. How are you feeling right now, ${userName}?`,
+                            `${userName}, sometimes silence speaks volumes. What's present for you in this moment?`
+                        ];
+                        response = starters[Math.floor(Math.random() * starters.length)];
+                        setPixelMood('reflective');
+                    } else {
+                        // Process user input and generate appropriate response
+                        const result = processUserMessage(userInput);
+                        response = result.response;
+                        setPixelMood(result.mood);
+                    }
+                    
+                    // Update pixel state to speaking
+                    setPixelState('speaking');
+                    
+                    // Add AI response with typing effect
+                    typeAIResponse(response);
+                    
+                    // Show options if appropriate
+                    if (Math.random() > 0.5) {
+                        setTimeout(() => {
+                            showResponseOptions(userInput);
+                        }, 1000);
+                    }
+                }, 1000);
+            }
+            
+            function processUserMessage(message) {
+                // Convert to lowercase for easier matching
+                const lowerMessage = message.toLowerCase();
+                let mood = 'neutral';
+                let response = '';
+                
+                // Check for ritual-related queries
+                if (lowerMessage.includes('ritual') || 
+                    lowerMessage.includes('practice') || 
+                    lowerMessage.includes('meditation') ||
+                    lowerMessage.includes('mindful')) {
+                    response = `I'd be happy to guide you through a mindfulness practice, ${userName}. Would you like to try a brief breathing exercise or a gratitude reflection?`;
+                    mood = 'reflective';
+                }
+                
+                // Check for stress or anxiety indicators
+                else if (lowerMessage.includes('stress') || 
+                    lowerMessage.includes('anxious') || 
+                    lowerMessage.includes('anxiety') ||
+                    lowerMessage.includes('worried') ||
+                    lowerMessage.includes('overwhelm')) {
+                    response = `I notice you're experiencing some stress, ${userName}. Would you like to try a brief breathing practice to help center yourself? Sometimes just three deep breaths can create a moment of spaciousness.`;
+                    mood = 'empathetic';
+                }
+                
+                // Check for questions about MeAI
+                else if (lowerMessage.includes('who are you') || 
+                    lowerMessage.includes('what are you') ||
+                    lowerMessage.includes('about you') ||
+                    lowerMessage.includes('tell me about yourself')) {
+                    response = `I'm MeAI, a relational AI companion designed to support meaningful connection rather than just utility. I'm here to help you cultivate presence, insight, and well-being through conversation and guided practices, ${userName}.`;
+                    mood = 'neutral';
+                }
+                
+                // Check for gratitude or positive emotions
+                else if (lowerMessage.includes('thank') || 
+                    lowerMessage.includes('grateful') || 
+                    lowerMessage.includes('appreciate') ||
+                    lowerMessage.includes('happy') ||
+                    lowerMessage.includes('good')) {
+                    response = `I appreciate you sharing that positive energy, ${userName}. Moments of gratitude and joy are worth savoring. Is there something specific that's contributing to this feeling?`;
+                    mood = 'positive';
+                }
+                
+                // Check for compliments about the interface
+                else if (lowerMessage.includes('beautiful') || 
+                    lowerMessage.includes('nice') || 
+                    lowerMessage.includes('cool') ||
+                    lowerMessage.includes('amazing') ||
+                    lowerMessage.includes('great')) {
+                    response = `Thank you for your kind words, ${userName}. This interface is designed to create a sense of calm and presence. I'm curious - what aspects of it resonate with you the most?`;
+                    mood = 'positive';
+                }
+                
+                // Default responses for general conversation
+                else {
+                    const generalResponses = [
+                        `Thank you for sharing that with me, ${userName}. What feels most important about this for you right now?`,
+                        `I'm here with you in this moment, ${userName}. Would you like to explore this further or would you prefer some space to reflect?`,
+                        `I appreciate you trusting me with your thoughts, ${userName}. How does this relate to what matters most to you?`,
+                        `I'm curious about how this is affecting you, ${userName}. Would you like to tell me more about what you're experiencing?`,
+                        `That's really interesting, ${userName}. I wonder how this connects to other aspects of your life?`
+                    ];
+                    
+                    response = generalResponses[Math.floor(Math.random() * generalResponses.length)];
+                    
+                    // Randomly assign mood for general conversation, with empathetic being more common
+                    const moodOptions = ['neutral', 'empathetic', 'empathetic', 'reflective'];
+                    mood = moodOptions[Math.floor(Math.random() * moodOptions.length)];
+                }
+                
+                return { response, mood };
+            }
+            
+            function typeAIResponse(text) {
+                // Create message element
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message', 'ai-message');
+                messagesContainer.appendChild(messageElement);
+                
+                // Scroll to bottom
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                
+                let i = 0;
+                const typingSpeed = 30; // ms per character
+                
+                // Typing effect
+                const typeNextChar = () => {
+                    if (i < text.length) {
+                        messageElement.textContent += text.charAt(i);
+                        i++;
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                        setTimeout(typeNextChar, typingSpeed);
+                    } else {
+                        // Typing complete
+                        isProcessing = false;
+                        
+                        // Speak the message if voice output is enabled
+                        if (options.voiceOutput) {
+                            speakText(text);
+                        }
+                        
+                        // Reset pixel state
+                        setTimeout(() => {
+                            setPixelState('idle');
+                        }, 500);
+                    }
+                };
+                
+                // Start typing effect
+                typeNextChar();
+            }
+            
+            function showResponseOptions(userInput) {
+                // Clear previous options
+                optionsContainer.innerHTML = '';
+                
+                let options = [];
+                
+                // Generate contextual options based on user input
+                const lowerInput = userInput.toLowerCase();
+                
+                if (lowerInput.includes('stress') || lowerInput.includes('anxious') || lowerInput.includes('worried')) {
+                    options = [
+                        "I'd like to try a breathing exercise",
+                        "Tell me more about managing stress",
+                        "I'd prefer to talk about something else"
+                    ];
+                } else if (lowerInput.includes('happy') || lowerInput.includes('good') || lowerInput.includes('great')) {
+                    options = [
+                        "Let's practice gratitude together",
+                        "I'd like to explore what contributes to this feeling",
+                        "Tell me about your approach to well-being"
+                    ];
+                } else if (lowerInput.includes('ritual') || lowerInput.includes('practice') || lowerInput.includes('meditation')) {
+                    options = [
+                        "Guide me through a morning reflection",
+                        "I'd like to try a gratitude practice",
+                        "Tell me more about mindful breathing"
+                    ];
+                } else {
+                    // Default options
+                    options = [
+                        "I'd like to try a mindfulness practice",
+                        "Tell me more about yourself",
+                        "How can you help me with daily well-being?"
+                    ];
+                }
+                
+                // Create and add option buttons
+                options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.classList.add('option-button');
+                    button.textContent = option;
+                    
+                    button.addEventListener('click', function() {
+                        // Add as user message
+                        addUserMessage(option);
+                        
+                        // Hide options
+                        optionsContainer.style.display = 'none';
+                        
+                        // Generate response
+                        generateAIResponse(option);
+                    });
+                    
+                    optionsContainer.appendChild(button);
+                });
+                
+                // Show options container
+                optionsContainer.style.display = 'block';
+            }
+            
+            function setPixelState(newState) {
+                // Remove current state class
+                pixel.classList.remove(pixelState);
+                
+                // Set new state
+                pixelState = newState;
+                pixel.classList.add(newState);
+                
+                console.log('Pixel state changed to:', newState);
+            }
+            
+            function setPixelMood(newMood) {
+                // Remove current mood classes
+                pixel.classList.remove('mood-neutral', 'mood-empathetic', 'mood-positive', 'mood-reflective');
+                
+                // Set new mood
+                pixelMood = newMood;
+                pixel.classList.add('mood-' + newMood);
+                
+                console.log('Pixel mood changed to:', newMood);
+            }
+            
+            // Add CSS for twinkling stars
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes twinkle {
+                    0%, 100% { opacity: 0.3; }
+                    50% { opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
