@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeAI Minimal Prototype</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        h1 {
+            color: #3498db;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .pixel-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+        }
+        
+        .pixel {
+            width: 30px;
+            height: 30px;
+            background-color: #3498db;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #3498db;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .pixel.active {
+            transform: scale(1.2);
+            box-shadow: 0 0 25px #3498db;
+        }
+        
+        .pixel.listening {
+            animation: pulse 1.5s infinite alternate;
+        }
+        
+        .pixel.thinking {
+            animation: breathe 3s infinite;
+        }
+        
+        .pixel.speaking {
+            animation: speak 0.5s infinite alternate;
+        }
+        
+        .conversation {
+            width: 100%;
+            max-width: 500px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .messages {
+            height: 300px;
+            overflow-y: auto;
+            padding: 15px;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        
+        .user-message {
+            background-color: #3498db;
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .ai-message {
+            background-color: #f0f0f0;
+            color: #333;
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .input-area {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .input-area input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 24px;
+            background-color: #f0f0f0;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .input-area button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 12px 20px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .input-area button:hover {
+            background-color: #2980b9;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes breathe {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+        }
+        
+        @keyframes speak {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.05);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>MeAI Minimal Prototype</h1>
+    
+    <div class="pixel-container">
+        <div class="pixel" id="pixel"></div>
+    </div>
+    
+    <div class="conversation">
+        <div class="messages" id="messages">
+            <!-- Messages will appear here -->
+        </div>
+        <div class="input-area">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+    
+    <script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('MeAI Minimal Prototype Initialized');
+            
+            // DOM Elements
+            const pixel = document.getElementById('pixel');
+            const messagesContainer = document.getElementById('messages');
+            const userInput = document.getElementById('user-input');
+            const sendButton = document.getElementById('send-button');
+            
+            // State
+            let pixelState = 'idle'; // idle, listening, thinking, speaking
+            let isProcessing = false;
+            
+            // Add welcome message
+            addAIMessage("Hello, I'm MeAI. I'm here to connect with you in a meaningful way. How are you feeling today?");
+            
+            // Event Listeners
+            pixel.addEventListener('click', function() {
+                setPixelState('listening');
+                setTimeout(() => {
+                    if (userInput.value.trim() === '') {
+                        // If no input, AI initiates
+                        generateAIResponse('initiate');
+                    }
+                }, 500);
+            });
+            
+            sendButton.addEventListener('click', processUserInput);
+            
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    processUserInput();
+                }
+            });
+            
+            // Functions
+            function processUserInput() {
+                const text = userInput.value.trim();
+                if (text === '' || isProcessing) return;
+                
+                // Add user message
+                addUserMessage(text);
+                
+                // Clear input
+                userInput.value = '';
+                
+                // Generate AI response
+                generateAIResponse(text);
+            }
+            
+            function addUserMessage(text) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message', 'user-message');
+                messageElement.textContent = text;
+                messagesContainer.appendChild(messageElement);
+                
+                // Scroll to bottom
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+            
+            function addAIMessage(text) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message', 'ai-message');
+                messageElement.textContent = text;
+                messagesContainer.appendChild(messageElement);
+                
+                // Scroll to bottom
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+            
+            function generateAIResponse(userInput) {
+                // Set processing state
+                isProcessing = true;
+                
+                // Update pixel state
+                setPixelState('thinking');
+                
+                // Simulate AI processing time
+                setTimeout(() => {
+                    let response;
+                    
+                    // Generate response based on user input
+                    if (userInput === 'initiate') {
+                        // AI-initiated conversation starters
+                        const starters = [
+                            "I noticed you've been quiet. Is there something on your mind?",
+                            "Would this be a good time for a brief mindfulness practice?",
+                            "I'm sensing this might be a moment for reflection. How are you feeling right now?",
+                            "Sometimes silence speaks volumes. What's present for you in this moment?"
+                        ];
+                        response = starters[Math.floor(Math.random() * starters.length)];
+                    } else {
+                        // Process user input and generate appropriate response
+                        response = processUserMessage(userInput);
+                    }
+                    
+                    // Update pixel state to speaking
+                    setPixelState('speaking');
+                    
+                    // Add AI response with typing effect
+                    typeAIResponse(response);
+                }, 1000);
+            }
+            
+            function processUserMessage(message) {
+                // Convert to lowercase for easier matching
+                const lowerMessage = message.toLowerCase();
+                
+                // Check for ritual-related queries
+                if (lowerMessage.includes('ritual') || 
+                    lowerMessage.includes('practice') || 
+                    lowerMessage.includes('meditation') ||
+                    lowerMessage.includes('mindful')) {
+                    return "I'd be happy to guide you through a mindfulness practice. Would you like to try a brief breathing exercise or a gratitude reflection?";
+                }
+                
+                // Check for stress or anxiety indicators
+                if (lowerMessage.includes('stress') || 
+                    lowerMessage.includes('anxious') || 
+                    lowerMessage.includes('anxiety') ||
+                    lowerMessage.includes('worried') ||
+                    lowerMessage.includes('overwhelm')) {
+                    return "I notice you're experiencing some stress. Would you like to try a brief breathing practice to help center yourself? Sometimes just three deep breaths can create a moment of spaciousness.";
+                }
+                
+                // Check for questions about MeAI
+                if (lowerMessage.includes('who are you') || 
+                    lowerMessage.includes('what are you') ||
+                    lowerMessage.includes('about you') ||
+                    lowerMessage.includes('tell me about yourself')) {
+                    return "I'm MeAI, a relational AI companion designed to support meaningful connection rather than just utility. I'm here to help you cultivate presence, insight, and well-being through conversation and guided practices.";
+                }
+                
+                // Check for gratitude or positive emotions
+                if (lowerMessage.includes('thank') || 
+                    lowerMessage.includes('grateful') || 
+                    lowerMessage.includes('appreciate') ||
+                    lowerMessage.includes('happy') ||
+                    lowerMessage.includes('good')) {
+                    return "I appreciate you sharing that positive energy. Moments of gratitude and joy are worth savoring. Is there something specific that's contributing to this feeling?";
+                }
+                
+                // Default responses for general conversation
+                const generalResponses = [
+                    "Thank you for sharing that with me. What feels most important about this for you right now?",
+                    "I'm here with you in this moment. Would you like to explore this further or would you prefer some space to reflect?",
+                    "I appreciate you trusting me with your thoughts. How does this relate to what matters most to you?",
+                    "I'm curious about how this is affecting you. Would you like to tell me more about what you're experiencing?",
+                    "That's really interesting. I wonder how this connects to other aspects of your life?"
+                ];
+                
+                return generalResponses[Math.floor(Math.random() * generalResponses.length)];
+            }
+            
+            function typeAIResponse(text) {
+                // Create message element
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message', 'ai-message');
+                messagesContainer.appendChild(messageElement);
+                
+                // Scroll to bottom
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                
+                let i = 0;
+                const typingSpeed = 30; // ms per character
+                
+                // Typing effect
+                const typeNextChar = () => {
+                    if (i < text.length) {
+                        messageElement.textContent += text.charAt(i);
+                        i++;
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                        setTimeout(typeNextChar, typingSpeed);
+                    } else {
+                        // Typing complete
+                        isProcessing = false;
+                        
+                        // Reset pixel state
+                        setTimeout(() => {
+                            setPixelState('idle');
+                        }, 500);
+                    }
+                };
+                
+                // Start typing effect
+                typeNextChar();
+            }
+            
+            function setPixelState(newState) {
+                // Remove current state class
+                pixel.classList.remove(pixelState);
+                
+                // Set new state
+                pixelState = newState;
+                pixel.classList.add(newState);
+                
+                console.log('Pixel state changed to:', newState);
+            }
+        });
+    </script>
+</body>
+</html>
