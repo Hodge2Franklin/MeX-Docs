@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeAI Prototype - Single Pixel + Haptic Interface</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <meta name="description" content="MeAI - A relational AI companion focused on meaningful connection">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Main Interface Section -->
+        <div class="main-interface" id="main-interface">
+            <!-- Single Pixel Visualization -->
+            <div class="single-pixel-container" id="single-pixel-container">
+                <div class="single-pixel" id="single-pixel"></div>
+            </div>
+
+            <!-- Conversation Interface -->
+            <div class="conversation-container" id="conversation-container">
+                <div class="conversation-messages" id="conversation-messages">
+                    <!-- Messages will be dynamically added here -->
+                </div>
+                <div class="conversation-input">
+                    <input type="text" id="user-input" placeholder="Talk to MeAI...">
+                    <button id="send-button">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <ul>
+                <li><button class="nav-button active" data-section="main-interface">Conversation</button></li>
+                <li><button class="nav-button" data-section="rituals-section">Rituals</button></li>
+                <li><button class="nav-button" data-section="memory-section">Memory</button></li>
+                <li><button class="nav-button" data-section="settings-section">Settings</button></li>
+            </ul>
+        </nav>
+
+        <!-- Rituals Section -->
+        <div class="section hidden" id="rituals-section">
+            <h2>Guided Rituals</h2>
+            <div class="rituals-container">
+                <div class="ritual-card" data-ritual="morning-reflection">
+                    <h3>Morning Reflection</h3>
+                    <p>Start your day with presence and intention</p>
+                    <button class="ritual-button">Begin</button>
+                </div>
+                <div class="ritual-card" data-ritual="gratitude-practice">
+                    <h3>Gratitude Practice</h3>
+                    <p>Cultivate appreciation for life's gifts</p>
+                    <button class="ritual-button">Begin</button>
+                </div>
+                <div class="ritual-card" data-ritual="evening-release">
+                    <h3>Evening Release</h3>
+                    <p>Let go of the day and prepare for rest</p>
+                    <button class="ritual-button">Begin</button>
+                </div>
+                <div class="ritual-card" data-ritual="mindful-breathing">
+                    <h3>Mindful Breathing</h3>
+                    <p>Return to your breath and center yourself</p>
+                    <button class="ritual-button">Begin</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Memory Section -->
+        <div class="section hidden" id="memory-section">
+            <h2>Memory Space</h2>
+            <div class="memory-visualization" id="memory-visualization">
+                <!-- Memory visualization will be dynamically generated here -->
+                <div class="memory-placeholder">
+                    <p>Your shared journey with MeAI will be visualized here as you interact over time.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div class="section hidden" id="settings-section">
+            <h2>Personalization</h2>
+            <div class="settings-container">
+                <div class="setting-group">
+                    <h3>Presence</h3>
+                    <div class="setting-option">
+                        <label for="pixel-color">Pixel Color</label>
+                        <input type="color" id="pixel-color" value="#3498db">
+                    </div>
+                    <div class="setting-option">
+                        <label for="pixel-size">Pixel Size</label>
+                        <input type="range" id="pixel-size" min="10" max="50" value="30">
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <h3>Voice</h3>
+                    <div class="setting-option">
+                        <label for="voice-tone">Voice Tone</label>
+                        <select id="voice-tone">
+                            <option value="nurturing">Nurturing</option>
+                            <option value="curious">Curious</option>
+                            <option value="balanced">Balanced</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <h3>Haptic Feedback</h3>
+                    <div class="setting-option">
+                        <label for="haptic-intensity">Intensity</label>
+                        <input type="range" id="haptic-intensity" min="0" max="10" value="5">
+                    </div>
+                    <div class="setting-option">
+                        <label for="haptic-enabled">Enable Haptic Feedback</label>
+                        <input type="checkbox" id="haptic-enabled" checked>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ritual Flow Container (Hidden by default) -->
+    <div class="ritual-flow-container hidden" id="ritual-flow-container">
+        <div class="ritual-header">
+            <button id="close-ritual">×</button>
+            <h2 id="ritual-title">Ritual Name</h2>
+        </div>
+        <div class="ritual-content" id="ritual-content">
+            <!-- Ritual content will be dynamically generated here -->
+        </div>
+        <div class="ritual-navigation">
+            <button id="ritual-prev" disabled>Previous</button>
+            <div class="ritual-progress" id="ritual-progress">
+                <!-- Progress indicators will be dynamically generated here -->
+            </div>
+            <button id="ritual-next">Next</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/single-pixel.js"></script>
+    <script src="js/conversation.js"></script>
+    <script src="js/rituals.js"></script>
+    <script src="js/memory.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,453 @@
+/* MeAI Prototype - Main Styles */
+
+/* Base Styles */
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --accent-color: #9b59b6;
+    --text-color: #333333;
+    --background-color: #f5f5f5;
+    --card-background: #ffffff;
+    --border-color: #e0e0e0;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --pixel-size: 30px;
+    --pixel-color: #3498db;
+    --transition-speed: 0.3s;
+    --border-radius: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.app-container {
+    max-width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Main Interface Styles */
+.main-interface {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    min-height: calc(100vh - 60px);
+}
+
+/* Single Pixel Visualization */
+.single-pixel-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+    flex: 1;
+}
+
+.single-pixel {
+    width: var(--pixel-size);
+    height: var(--pixel-size);
+    background-color: var(--pixel-color);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--pixel-color);
+    transition: all var(--transition-speed) ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.single-pixel.active {
+    transform: scale(1.2);
+    box-shadow: 0 0 25px var(--pixel-color);
+}
+
+.single-pixel.listening {
+    animation: pulse 1.5s infinite alternate;
+}
+
+.single-pixel.thinking {
+    animation: breathe 3s infinite;
+}
+
+.single-pixel.speaking {
+    animation: speak 0.5s infinite alternate;
+}
+
+/* Conversation Interface */
+.conversation-container {
+    width: 100%;
+    max-width: 600px;
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px var(--shadow-color);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.conversation-messages {
+    height: 300px;
+    overflow-y: auto;
+    padding: 15px;
+}
+
+.message {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 18px;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.user-message {
+    background-color: var(--primary-color);
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+}
+
+.ai-message {
+    background-color: #f0f0f0;
+    color: var(--text-color);
+    margin-right: auto;
+    border-bottom-left-radius: 4px;
+}
+
+.conversation-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid var(--border-color);
+}
+
+.conversation-input input {
+    flex: 1;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 24px;
+    background-color: #f0f0f0;
+    font-size: 16px;
+    outline: none;
+}
+
+.conversation-input button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 24px;
+    padding: 12px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease;
+}
+
+.conversation-input button:hover {
+    background-color: #2980b9;
+}
+
+/* Navigation */
+.main-nav {
+    width: 100%;
+    background-color: var(--card-background);
+    box-shadow: 0 -2px 10px var(--shadow-color);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.main-nav ul {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+}
+
+.main-nav button {
+    background: none;
+    border: none;
+    padding: 15px;
+    font-size: 14px;
+    color: #777;
+    cursor: pointer;
+    transition: color var(--transition-speed) ease;
+    position: relative;
+}
+
+.main-nav button.active {
+    color: var(--primary-color);
+}
+
+.main-nav button.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 3px;
+}
+
+/* Section Styles */
+.section {
+    width: 100%;
+    min-height: calc(100vh - 60px);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--primary-color);
+}
+
+.hidden {
+    display: none;
+}
+
+/* Rituals Section */
+.rituals-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.ritual-card {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px var(--shadow-color);
+    padding: 20px;
+    transition: transform var(--transition-speed) ease;
+}
+
+.ritual-card:hover {
+    transform: translateY(-5px);
+}
+
+.ritual-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.ritual-card p {
+    margin-bottom: 15px;
+    color: #666;
+}
+
+.ritual-button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 24px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease;
+    width: 100%;
+}
+
+.ritual-button:hover {
+    background-color: #27ae60;
+}
+
+/* Memory Section */
+.memory-visualization {
+    flex: 1;
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px var(--shadow-color);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.memory-placeholder {
+    text-align: center;
+    color: #999;
+    max-width: 400px;
+}
+
+/* Settings Section */
+.settings-container {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px var(--shadow-color);
+    padding: 20px;
+}
+
+.setting-group {
+    margin-bottom: 30px;
+}
+
+.setting-group h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.setting-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.setting-option label {
+    flex: 1;
+    margin-right: 15px;
+}
+
+.setting-option input[type="range"],
+.setting-option input[type="color"],
+.setting-option select {
+    width: 150px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+}
+
+/* Ritual Flow Container */
+.ritual-flow-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--background-color);
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+}
+
+.ritual-header {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.ritual-header button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 15px;
+}
+
+.ritual-content {
+    flex: 1;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.ritual-step {
+    max-width: 600px;
+}
+
+.ritual-step h3 {
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.ritual-step p {
+    margin-bottom: 30px;
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+.ritual-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background-color: var(--card-background);
+    border-top: 1px solid var(--border-color);
+}
+
+.ritual-navigation button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 24px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease;
+}
+
+.ritual-navigation button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.ritual-progress {
+    display: flex;
+    gap: 8px;
+}
+
+.progress-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ccc;
+}
+
+.progress-dot.active {
+    background-color: var(--primary-color);
+}
+
+/* Animations */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+@keyframes breathe {
+    0% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+}
+
+@keyframes speak {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.05);
+    }
+}

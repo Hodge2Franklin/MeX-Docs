@@ -1,0 +1,67 @@
+/* MeAI Prototype - Responsive Styles */
+
+/* Mobile First Approach */
+@media (max-width: 768px) {
+    .rituals-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .conversation-container {
+        max-width: 100%;
+    }
+    
+    .conversation-messages {
+        height: 250px;
+    }
+    
+    .setting-option {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .setting-option label {
+        margin-bottom: 5px;
+    }
+    
+    .setting-option input[type="range"],
+    .setting-option input[type="color"],
+    .setting-option select {
+        width: 100%;
+    }
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .rituals-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-color: #f5f5f5;
+        --background-color: #121212;
+        --card-background: #1e1e1e;
+        --border-color: #333333;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+    }
+    
+    .ai-message {
+        background-color: #2a2a2a;
+        color: var(--text-color);
+    }
+    
+    .conversation-input input {
+        background-color: #2a2a2a;
+        color: var(--text-color);
+    }
+    
+    .main-nav {
+        background-color: #1a1a1a;
+    }
+    
+    .main-nav button {
+        color: #aaa;
+    }
+}
