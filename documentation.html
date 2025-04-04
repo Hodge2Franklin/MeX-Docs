@@ -126,6 +126,7 @@
     </footer>
 
     <!-- JavaScript -->
+    <script src="js/documentation.js"></script>
     <script>
         // Header scroll effect
         window.addEventListener('scroll', function() {
@@ -160,8 +161,11 @@
                 // Show loading state
                 contentPlaceholder.innerHTML = '<p>Loading content...</p>';
                 
+                // Get the correct filename from the mapping
+                const filename = fileMapping[sectionId] || `${sectionId.replace(/-/g, '_')}.md`;
+                
                 // Fetch the markdown file
-                fetch(`docs/${sectionId.replace('-', '_')}.md`)
+                fetch(`docs/${filename}`)
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok');
@@ -183,6 +187,14 @@
             function convertMarkdownToHTML(markdown) {
                 // This is a simplified version - in production, use a proper markdown parser
                 let html = markdown;
+                
+                // Remove the first heading if it matches the section title to avoid double headings
+                const sectionId = window.location.hash ? window.location.hash.substring(1) : 'overview';
+                const sectionTitle = document.querySelector(`#${sectionId} h1`)?.textContent || '';
+                
+                // Create a regex to match the first heading if it's similar to the section title
+                const firstHeadingRegex = new RegExp(`^# ${sectionTitle}\\s*$`, 'im');
+                html = html.replace(firstHeadingRegex, '');
                 
                 // Format headings
                 html = html.replace(/^# (.*$)/gm, '<h1>$1</h1>');
