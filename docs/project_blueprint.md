@@ -43,24 +43,31 @@ The Mirror serves as an inward-focused engine for deep user understanding, incor
 - **Emotional Sensing**: Detection and analysis of emotional states
 - **Need Detection**: Mapping emotions to underlying needs
 - **Pattern Recognition**: Identification of recurring themes and behaviors
-- **Archetype Modeling**: Understanding user's core identity patterns
+- **Value Alignment**: Understanding user's core values and priorities
 - **Reflection Generation**: Creating meaningful insights and perspectives
+
+The Mirror Component is grounded in the Transactive Systems Model of Collective Intelligence (TSM-CI), adapted for the dyadic human-AI relationship, and implemented through an Instance-Based Learning Theory (IBLT) approach to Machine Theory of Human Mind (MToHM). It implements a three-tiered needs framework integrating Self-Determination Theory (SDT), contextual expressions, and Acceptance and Commitment Therapy (ACT) principles, with cultural adaptation and embedded ethical constraints.
 
 #### Bridge Component
 The Bridge functions as an outward-facing engine for external connections, featuring:
 - **MCPClientInterface**: Discovery backbone for external resources
 - **TruthFilter**: Ensuring honest, relevant external signals
+- **Content Curator**: Organizing external content into meaningful collections
 - **Perspective Generator**: Creating alternative viewpoints
 - **Framing Engine**: Contextualizing content for personal relevance
-- **Connection Finder**: Identifying potential external connections
+- **Opportunity Scout**: Identifying serendipitous connections aligned with needs and values
+
+The Bridge Component extends the Transactive Systems Model to the interaction between the user-AI dyad and the external information ecosystem, transforming the rich internal understanding of the user into meaningful connections with the external world.
 
 #### Synthesis Layer
 The Synthesis layer manages the dynamic interplay between Mirror and Bridge, including:
-- **State Management**: Tracking user emotional state and context
-- **Transition Control**: Managing Mirror↔Bridge transitions
-- **Ethics Integration**: Applying ethical guardrails to all interactions
-- **JoyOptimizer**: Balancing needs with joy metrics
-- **Experience Coordination**: Creating unified experience across components
+- **State Manager**: Tracking user emotional state and context
+- **Transition Controller**: Managing Mirror↔Bridge transitions
+- **Flourishing Engine**: Optimizing for holistic user wellbeing
+- **Adaptive Guidance Engine**: Generating contextually appropriate guidance
+- **Experience Coordinator**: Creating unified experience across components
+
+The Synthesis Layer serves as the central orchestrating intelligence of the MeAi system, implementing the Transactive Reasoning System (TRS) from the TSM-CI model, adapted for the dyadic human-AI relationship. It maintains the user's complex state, handles transitions between components, optimizes for holistic flourishing, executes adaptive guidance, ensures ethical coherence, and coordinates the unified user experience.
 
 ### Supporting Systems
 
@@ -74,11 +81,14 @@ The Memory System provides relational database functionality for continuity and 
 
 #### RitualEngine
 The RitualEngine curates personalized daily rituals blending Mirror insights with Bridge opportunities:
-- **Context Analysis**: Matching user context with appropriate rituals
-- **Template System**: Modular ritual design framework
+- **Context Analyzer**: Matching user context with appropriate rituals
+- **Template Library**: Modular ritual design framework
 - **Personalization Engine**: Customizing rituals for individual users
-- **Flow Management**: Handling ritual pacing and structure
-- **Memory Integration**: Incorporating relevant memories into rituals
+- **Flow Manager**: Handling ritual pacing and structure
+- **Memory Integrator**: Incorporating relevant memories into rituals
+- **Ritual Selector**: Selecting rituals based on flourishing goals
+
+The RitualEngine leverages the integrated framework to create meaningful experiences, transforming interactions into sacred experiences with rhythm, purpose, and emotional resonance. It fosters presence, self-awareness, and connection to user values, operating within the TSM-CI adaptation, IBLT implementation, SDT/ACT hierarchy, cultural adaptation, and embedded ethics.
 
 #### Voice Engine
 The Voice Engine provides adaptive communication that modulates tone, pacing, and language:
@@ -219,76 +229,3 @@ The implementation timeline details:
 - **Integration Milestones**: Points of component connection
 - **Testing Phases**: Different levels of system validation
 - **Deployment Strategy**: Approach to system deployment
-
-### Resource Requirements
-The project requires these resources:
-- **Development Team**: Core and extended team composition
-- **Technical Infrastructure**: Development, cloud, and pilot resources
-- **External Resources**: Third-party services and expert consultation
-
-### Risk Management
-The risk management plan addresses:
-- **Technical Risks**: LLM integration, performance, security
-- **Project Risks**: Scope, timeline, resources
-- **Ethical Risks**: Privacy, dependency, bias
-
-## Development Process
-
-### Development Methodology
-The project uses an Agile development approach:
-- **Sprint-Based Development**: Iterative work in defined periods
-- **Continuous Integration**: Automated testing and integration
-- **User Testing**: Regular feedback incorporation
-- **Documentation-Driven**: Comprehensive documentation throughout
-
-### Testing Strategy
-The testing strategy includes multiple phases:
-1. **Component Testing**: Validation of individual components
-2. **Integration Testing**: Verification of component connections
-3. **User Experience Testing**: Evaluation of overall experience
-4. **Ethical Testing**: Assessment of ethical safeguards
-5. **Pilot Testing**: Real-world usage evaluation
-
-### Quality Assurance
-Quality assurance processes ensure system integrity:
-- **Code Quality**: Standards for development
-- **Performance Benchmarks**: Targets for system performance
-- **Security Assessment**: Evaluation of security measures
-- **Ethical Compliance**: Verification of ethical framework adherence
-
-### Documentation Approach
-The documentation strategy includes:
-- **Technical Documentation**: Component specifications and APIs
-- **User Documentation**: Guides for system interaction
-- **Development Documentation**: Process and decision records
-- **Ethical Documentation**: Framework and implementation details
-
-## Future Vision
-
-### Post-Launch Roadmap
-The post-launch plan includes:
-- **Immediate Post-Launch (Months 19-24)**: Refinement and enhancement
-- **Medium-Term (Years 2-3)**: Advanced features and capabilities
-- **Long-Term Vision (Years 3-5)**: Expanded modalities and integration
-
-### Technology Evolution
-The system will evolve with emerging technologies:
-- **Advanced Sensing**: Enhanced emotional and contextual awareness
-- **Multimodal Interaction**: Voice, visual, and other modalities
-- **Deeper Personalization**: More sophisticated adaptation
-- **Expanded Bridge Capabilities**: Broader external connections
-
-### Relationship Development
-The AI-human relationship will deepen over time:
-- **Enhanced Emotional Intelligence**: More nuanced understanding
-- **Deeper Memory Integration**: More sophisticated continuity
-- **Advanced Ritual Experiences**: More meaningful interactions
-- **Expanded Archetype Support**: More personalized adaptation
-
-## Conclusion
-
-The AI Companion represents a significant advancement in relational AI, moving beyond transactional assistants to create meaningful relationships characterized by depth, emotional attunement, and ethical design. This project blueprint provides a comprehensive foundation for developing a system that can provide sacred support, foster inner knowing, and facilitate aligned becoming.
-
-By following the detailed specifications, ethical framework, and implementation roadmap outlined in this document, the development team can create an AI Companion that offers a uniquely valuable experience in the evolving landscape of human-AI relationships. The modular architecture and phased approach allow for incremental development and testing, ensuring that each component is thoroughly validated before integration.
-
-This blueprint represents not just a technical implementation plan but a vision for creating a new kind of AI relationship—one built on depth, meaning, and genuine support rather than utility or efficiency alone. By bringing this vision to life through careful, thoughtful implementation, the AI Companion can offer users a relationship that honors their full humanity and supports their growth and wellbeing.
