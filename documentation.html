@@ -41,6 +41,7 @@
             </div>
             <ul class="documentation-nav">
                 <li><a href="#overview" class="active" data-section="overview">Overview</a></li>
+                <li><a href="#vision" data-section="vision">Vision & Purpose</a></li>
                 <li><a href="#project-overview" data-section="project-overview">Project Overview</a></li>
                 <li><a href="#user-guide" data-section="user-guide">User Guide</a></li>
                 
@@ -92,6 +93,11 @@
                 <h1>MeAI Documentation</h1>
                 <p>Comprehensive documentation for the MeAI AI Companion system. Explore the technical specifications, architectural designs, and implementation plans.</p>
                 
+                <div class="content-placeholder"></div>
+            </section>
+            
+            <section id="vision" class="doc-section">
+                <h1>Vision & Purpose</h1>
                 <div class="content-placeholder"></div>
             </section>
             
@@ -231,7 +237,7 @@
             </section>
             
             <section id="project-status" class="doc-section">
-                <h1>Project Status Report</h1>
+                <h1>Project Status</h1>
                 <div class="content-placeholder"></div>
             </section>
             
@@ -241,7 +247,7 @@
             </section>
             
             <section id="advanced-enhancement" class="doc-section">
-                <h1>Advanced Enhancement Analysis</h1>
+                <h1>Advanced Enhancement</h1>
                 <div class="content-placeholder"></div>
             </section>
             
@@ -258,195 +264,126 @@
         </main>
     </div>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <a href="index.html">MeAI</a>
-                </div>
-                <div class="footer-links">
-                    <ul>
-                        <li><a href="index.html#features">Features</a></li>
-                        <li><a href="index.html#benefits">Benefits</a></li>
-                        <li><a href="documentation.html">Documentation</a></li>
-                        <li><a href="architecture.html">Architecture</a></li>
-                        <li><a href="index.html#about">About</a></li>
-                    </ul>
-                </div>
-                <div class="footer-social">
-                    <p>&copy; 2025 MeAI. All rights reserved.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- JavaScript -->
-    <script src="js/documentation.js"></script>
-    <script src="js/search.js"></script>
     <script>
-        // Header scroll effect
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-
-        // Mobile menu toggle
-        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-        const navMenu = document.querySelector('.nav-menu');
-        
-        if (mobileMenuToggle) {
-            mobileMenuToggle.addEventListener('click', function() {
-                navMenu.classList.toggle('active');
-            });
-        }
-        
-        // Sidebar toggle for mobile
-        const sidebarToggle = document.createElement('button');
-        sidebarToggle.className = 'sidebar-toggle';
-        sidebarToggle.innerHTML = '☰ Menu';
-        document.querySelector('.documentation-content').prepend(sidebarToggle);
-        
-        sidebarToggle.addEventListener('click', function() {
-            document.querySelector('.documentation-sidebar').classList.toggle('mobile-active');
-            this.classList.toggle('active');
-        });
-
-        // Documentation navigation
         document.addEventListener('DOMContentLoaded', function() {
-            const sidebarLinks = document.querySelectorAll('.documentation-nav a');
+            // Toggle mobile menu
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                });
+            }
+            
+            // Documentation navigation
+            const docLinks = document.querySelectorAll('.documentation-nav a');
             const docSections = document.querySelectorAll('.doc-section');
             
-            // Function to load content
-            function loadContent(sectionId) {
-                const contentPlaceholder = document.querySelector(`#${sectionId} .content-placeholder`);
-                if (!contentPlaceholder) return;
-                
-                // Show loading state
-                contentPlaceholder.innerHTML = '<p>Loading content...</p>';
-                
-                // Get the correct filename from the mapping
-                const filename = fileMapping[sectionId] || `${sectionId.replace(/-/g, '_')}.md`;
-                
-                // Fetch the markdown file
-                fetch(`docs/${filename}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.text();
-                    })
-                    .then(markdown => {
-                        // Convert markdown to HTML (simplified version)
-                        const html = convertMarkdownToHTML(markdown);
-                        contentPlaceholder.innerHTML = html;
-                    })
-                    .catch(error => {
-                        console.error('Error loading documentation:', error);
-                        contentPlaceholder.innerHTML = '<p>Error loading content. Please try again later.</p>';
-                    });
-            }
-            
-            // Simple markdown to HTML converter
-            function convertMarkdownToHTML(markdown) {
-                // This is a simplified version - in production, use a proper markdown parser
-                let html = markdown;
-                
-                // Remove the first heading if it matches the section title to avoid double headings
-                const sectionId = window.location.hash ? window.location.hash.substring(1) : 'overview';
-                const sectionTitle = document.querySelector(`#${sectionId} h1`)?.textContent || '';
-                
-                // Create a regex to match the first heading if it's similar to the section title
-                const firstHeadingRegex = new RegExp(`^# ${sectionTitle}\\s*$`, 'im');
-                html = html.replace(firstHeadingRegex, '');
-                
-                // Format headings
-                html = html.replace(/^# (.*$)/gm, '<h1>$1</h1>');
-                html = html.replace(/^## (.*$)/gm, '<h2>$1</h2>');
-                html = html.replace(/^### (.*$)/gm, '<h3>$1</h3>');
-                
-                // Format paragraphs
-                html = html.replace(/^(?!<h[1-6]>)(.*$)/gm, function(match) {
-                    if (match.trim() === '') return '';
-                    return '<p>' + match + '</p>';
-                });
-                
-                // Format lists
-                html = html.replace(/^\* (.*$)/gm, '<li>$1</li>');
-                html = html.replace(/(<li>.*<\/li>\n)+/g, '<ul>$&</ul>');
-                
-                // Format code blocks
-                html = html.replace(/```([^`]+)```/g, '<pre><code>$1</code></pre>');
-                
-                // Format inline code
-                html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
-                
-                // Format bold text
-                html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-                
-                // Format italic text
-                html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-                
-                return html;
-            }
-            
-            // Set up click handlers for sidebar links
-            sidebarLinks.forEach(link => {
+            docLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     
                     // Remove active class from all links and sections
-                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                    docLinks.forEach(l => l.classList.remove('active'));
                     docSections.forEach(s => s.classList.remove('active'));
                     
                     // Add active class to clicked link
                     this.classList.add('active');
                     
-                    // Get the target section and make it active
+                    // Show corresponding section
                     const sectionId = this.getAttribute('data-section');
-                    const targetSection = document.getElementById(sectionId);
-                    
-                    if (targetSection) {
-                        targetSection.classList.add('active');
-                        
-                        // Load content if not already loaded
-                        loadContent(sectionId);
-                    }
+                    document.getElementById(sectionId).classList.add('active');
                     
                     // Update URL hash
                     window.location.hash = sectionId;
                 });
             });
             
-            // Load initial content based on hash or default to overview
-            const initialSection = window.location.hash ? 
-                window.location.hash.substring(1) : 'overview';
-            
-            // Set active class on initial section link
-            const initialLink = document.querySelector(`.documentation-nav a[data-section="${initialSection}"]`);
-            if (initialLink) {
-                initialLink.classList.add('active');
+            // Handle URL hash on page load
+            if (window.location.hash) {
+                const hash = window.location.hash.substring(1);
+                const link = document.querySelector(`.documentation-nav a[data-section="${hash}"]`);
                 
-                // Show initial section
-                const targetSection = document.getElementById(initialSection);
-                if (targetSection) {
-                    docSections.forEach(s => s.classList.remove('active'));
-                    targetSection.classList.add('active');
-                    
-                    // Load content
-                    loadContent(initialSection);
-                }
-            } else {
-                // Default to overview if hash doesn't match any section
-                const overviewLink = document.querySelector('.documentation-nav a[data-section="overview"]');
-                if (overviewLink) {
-                    overviewLink.classList.add('active');
-                    loadContent('overview');
+                if (link) {
+                    link.click();
                 }
             }
+            
+            // Simple search functionality
+            const searchInput = document.getElementById('doc-search');
+            const searchButton = document.getElementById('search-button');
+            const searchResults = document.getElementById('search-results');
+            
+            if (searchButton && searchInput) {
+                searchButton.addEventListener('click', performSearch);
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.toLowerCase();
+                
+                if (query.length < 2) {
+                    searchResults.innerHTML = '<p>Please enter at least 2 characters</p>';
+                    searchResults.style.display = 'block';
+                    return;
+                }
+                
+                // Clear previous results
+                searchResults.innerHTML = '';
+                
+                // Search in section titles and content
+                let results = [];
+                docSections.forEach(section => {
+                    const title = section.querySelector('h1').textContent.toLowerCase();
+                    const content = section.textContent.toLowerCase();
+                    
+                    if (title.includes(query) || content.includes(query)) {
+                        const id = section.getAttribute('id');
+                        results.push({
+                            id: id,
+                            title: section.querySelector('h1').textContent
+                        });
+                    }
+                });
+                
+                // Display results
+                if (results.length > 0) {
+                    const resultsList = document.createElement('ul');
+                    
+                    results.forEach(result => {
+                        const listItem = document.createElement('li');
+                        const link = document.createElement('a');
+                        link.href = '#' + result.id;
+                        link.textContent = result.title;
+                        link.addEventListener('click', function() {
+                            document.querySelector(`.documentation-nav a[data-section="${result.id}"]`).click();
+                            searchResults.style.display = 'none';
+                        });
+                        
+                        listItem.appendChild(link);
+                        resultsList.appendChild(listItem);
+                    });
+                    
+                    searchResults.appendChild(resultsList);
+                } else {
+                    searchResults.innerHTML = '<p>No results found</p>';
+                }
+                
+                searchResults.style.display = 'block';
+            }
+            
+            // Hide search results when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.documentation-search')) {
+                    searchResults.style.display = 'none';
+                }
+            });
         });
     </script>
 </body>
